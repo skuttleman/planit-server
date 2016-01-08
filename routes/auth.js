@@ -34,10 +34,7 @@ passport.use(new LinkedIn({
 
 
 route.get('/auth/linkedin',
-  passport.authenticate('linkedin')//,
-  // function(req, res) {
-  //
-  // }
+  passport.authenticate('linkedin')
 );
 
 route.get('/auth/linkedin/callback', passport.authenticate('linkedin'), function(request, response, next) {
