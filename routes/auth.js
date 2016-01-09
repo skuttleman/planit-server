@@ -53,16 +53,15 @@ route.get('/logout', function(request, response, next) {
 
 function incorporateUser(profile, done) {
   getOrCreateUser(profile).then(function(user) {
-    var newProfile = {
+    done(null, {
       id: user.id,
       is_banned: user.is_banned,
       role_id: user.role_id,
-      role: user.role,
+      role_name: user.role_name,
       social_id: profile.id,
       displayName: profile.displayName,
       photos: profile.photos
-    };
-    done(null, newProfile)
+    });
   });
 }
 
@@ -70,21 +69,30 @@ function getOrCreateUser(profile) {
   return knex('members').where('social_id', profile.id).then(function(users) {
     var user = users[0];
     if (user && !user.is_banned) {
-      return Promise.resolve(user);
+      return lookupRole({ id: user.role_id }).then(function(role) {
+        user.role_name = role.name;
+        console.log(role);
+        return Promise.resolve(user);
+      });
     } else if (user) {
       return Promise.reject('user has been banned');
     } else {
-      return knex('roles').where('name', 'normal').then(function(roles) {
-        return Promise.resolve(roles[0]);
-      }).then(function(role) {
+      return lookupRole({ name: 'normal' }).then(function(role) {
         return knex('members').returning('*').insert({
           social_id: profile.id,
           is_banned: false,
           role_id: role.id
         }).then(function(users) {
+          users[0].role_name = role.name;
           return Promise.resolve(users[0]);
         });
       });
     }
+  });
+}
+
+function lookupRole(where) {
+  return knex('roles').where(where).then(function(roles) {
+    return Promise.resolve(roles[0]);
   });
 }
