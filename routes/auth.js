@@ -2,6 +2,8 @@ var route = require('express').Router();
 var session = require('express-session');
 var passport = require('passport');
 var LinkedIn = require('passport-linkedin-oauth2').Strategy;
+var knex = require('../db/knex');
+
 module.exports = route;
 
 
@@ -28,8 +30,7 @@ passport.use(new LinkedIn({
   scope: ['r_emailaddress', 'r_basicprofile'],
   state: true
 }, function(accessToken, refreshToken, profile, done) {
-  var newProfile = { id: profile.id, displayName: profile.displayName };
-  done(null, newProfile);
+  incorporateUser(profile, done);
 }));
 
 
@@ -37,11 +38,53 @@ route.get('/auth/linkedin',
   passport.authenticate('linkedin')
 );
 
-route.get('/auth/linkedin/callback', passport.authenticate('linkedin'), function(request, response, next) {
-  response.redirect('/');
+route.get('/auth/linkedin/callback',
+  passport.authenticate('linkedin'),
+  function(request, response, next) {
+    response.json({ user: request.user });
+  }
+);
+
+route.get('/logout', function(request, response, next) {
+  request.logout();
 });
 
-route.get('/logout', function(request, response, next){
-  request.logout();
-  response.redirect('/');
-});
+
+
+function incorporateUser(profile, done) {
+  getOrCreateUser(profile).then(function(user) {
+    var newProfile = {
+      id: user.id,
+      is_banned: user.is_banned,
+      role_id: user.role_id,
+      role: user.role,
+      social_id: profile.id,
+      displayName: profile.displayName,
+      photos: profile.photos
+    };
+    done(null, newProfile)
+  });
+}
+
+function getOrCreateUser(profile) {
+  return knex('members').where('social_id', profile.id).then(function(users) {
+    var user = users[0];
+    if (user && !user.is_banned) {
+      return Promise.resolve(user);
+    } else if (user) {
+      return Promise.reject('user has been banned');
+    } else {
+      return knex('roles').where('name', 'normal').then(function(roles) {
+        return Promise.resolve(roles[0]);
+      }).then(function(role) {
+        return knex('members').returning('*').insert({
+          social_id: profile.id,
+          is_banned: false,
+          role_id: role.id
+        }).then(function(users) {
+          return Promise.resolve(users[0]);
+        });
+      });
+    }
+  });
+}

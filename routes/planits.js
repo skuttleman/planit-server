@@ -1,8 +1,4 @@
 var route = require('express').Router();
-var members = require('./members')
-var messages = require('./messages');
-var proposals = require('./proposals');
-var reviews = require('./reviews');
 var tasks = require('./tasks');
 
 module.exports = route;
@@ -15,10 +11,6 @@ route.use('/:id', function(request, response, next) {
   next();
 });
 
-route.use('/:id/members', members);
-route.use('/:id/messages', messages);
-route.use('/:id/proposals', proposals);
-route.use('/:id/reviews', reviews);
 route.use('/:id/tasks', tasks);
 
 
