@@ -1,12 +1,7 @@
 var route = require('express').Router();
-var members = require('./members')
-var messages = require('./messages');
-var planits = require('./planits');
 var proposals = require('./proposals');
-var reviews = require('./reviews');
 
 module.exports = route;
-
 
 
 route.use('/:id', function(request, response, next) {
@@ -15,11 +10,7 @@ route.use('/:id', function(request, response, next) {
   next();
 });
 
-route.use('/:id/members', members);
-route.use('/:id/messages', messages);
-route.use('/:id/planits', planits);
 route.use('/:id/proposals', proposals);
-route.use('/:id/reviews', reviews);
 
 
 

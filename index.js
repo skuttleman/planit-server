@@ -7,8 +7,13 @@ var express = require('express'), app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
-app.use(bodyParser({ extended: false }));
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors({
+  credentials: true,
+  allowedHeaders: ['Authorization'],
+  exposedHeaders: ['Authorization'],
+  origin: process.env.CLIENT_URL || 'http://localhost:8080'
+}));
 
 
 
@@ -18,12 +23,24 @@ app.use(auth);
 
 
 // ROUTES
+var members = require('./routes/members');
+var messages = require('./routes/messages');
+var planits = require('./routes/planits');
+var proposals = require('./routes/proposals');
+var reviews = require('./routes/reviews');
+var tasks = require('./routes/tasks');
+app.use('/members', members);
+app.use('/messages', messages);
+app.use('/planits', planits);
+app.use('/proposals', proposals);
+app.use('/reviews', reviews);
+app.use('/tasks', tasks);
+
 
 
 app.get('/', function(request, response) {
 	response.send(request.user ? 'loggedin' : 'loggedout');
 });
-
 
 app.listen(process.env.PORT, function() {
   console.log('The NSA is listening on PORT:', process.env.PORT);
@@ -40,7 +57,7 @@ app.use(function(request, response, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   app.use(function(error, request, response, next) {
     response.status(error.status || 500);
     response.json({

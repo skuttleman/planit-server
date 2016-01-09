@@ -1,9 +1,4 @@
 var route = require('express').Router();
-var members = require('./members')
-var planits = require('./planits');
-var proposals = require('./proposals');
-var reviews = require('./reviews');
-var tasks = require('./tasks');
 
 module.exports = route;
 
@@ -14,12 +9,6 @@ route.use('/:id', function(request, response, next) {
   request.routeChain.messageId = request.params.id;
   next();
 });
-
-route.use('/:id/members', members);
-route.use('/:id/planits', planits);
-route.use('/:id/proposals', proposals);
-route.use('/:id/reviews', reviews);
-route.use('/:id/tasks', tasks);
 
 
 
