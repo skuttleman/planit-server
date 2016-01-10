@@ -40,10 +40,6 @@ app.use('/tasks', tasks);
 
 
 
-app.get('/', function(request, response) {
-	
-});
-
 app.listen(process.env.PORT, function() {
   console.log('The NSA is listening on PORT:', process.env.PORT);
 });
