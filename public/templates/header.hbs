@@ -1,6 +1,12 @@
-<!-- {{#if header}}
-  {{header}}
-{{else}}
-  {{somethingElse}}
-{{/if}} -->
-<button type="button" name="button" onclick="login();">Login</button>
+<nav class="navbar navbar-inverse">
+	<img src="../images/brand_logo_v1.png">
+  	{{#if user}}
+		<button type="button" name="logout_button" onclick="logout()">Logout</button>
+	{{else}}
+		<p class="pull-right" name="login_button" onclick="login();">Login <span class='small'>or </span>Register</p>
+	{{/if}}
+</nav>
+
+
+
+
