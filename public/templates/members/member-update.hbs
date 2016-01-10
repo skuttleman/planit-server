@@ -1,0 +1,9 @@
+<div class="member">
+  <img src="{{profile_image}}" alt="{{display_name}} image" />
+  <p>{{display_name}}</p>
+  <form class="form" action="/" method="post">
+    <label for="bio">Bio:</label>
+    <textarea name="bio" rows="12" cols="50">{{bio}}</textarea>
+    <button type="button" onclick="updateMemberPut(event, {{id}});">Update Bio</button>
+  </form>
+</div>

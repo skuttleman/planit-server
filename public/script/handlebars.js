@@ -22,8 +22,13 @@ Promise.all([
   promisifyPartial({ name: 'header', file: '/templates/header.hbs' }),
   promisifyPartial({ name: 'footer', file: '/templates/footer.hbs' }),
 
-  // views
+  // general views
   promisifyPartial({ name: 'splashpage', file: '/templates/splash-page.hbs' }),
+
+  // members views
+  promisifyPartial({ name: 'members', file: '/templates/members/members.hbs' }),
+  promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
+  promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
 
   // Document Ready?
   promiseToLoad()
