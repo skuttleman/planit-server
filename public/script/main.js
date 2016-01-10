@@ -75,3 +75,20 @@ function getFormData(selector) {
     return formData;
   }, {});
 }
+
+function banMember(id, reinstate) {
+  $.ajax({
+    url: '/members/' + id,
+    method: 'put',
+    data: { is_banned: !!reinstate },
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewServiceRecord(id);
+  });
+}
+
+function reinstateMember(id) {
+  banMember(id, true);
+}
