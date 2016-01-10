@@ -76,16 +76,18 @@ function getFormData(selector) {
   }, {});
 }
 
-function banMember(id, reinstate) {
+function banMember(id, ban) {
   $.ajax({
     url: '/members/' + id,
     method: 'put',
-    data: { is_banned: !!reinstate },
+    data: { is_banned: !ban },
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
     viewServiceRecord(id);
+  }).fail(function(err) {
+    console.log(err);
   });
 }
 
