@@ -8,6 +8,30 @@ nav img {
 	margin: 10px;
 }
 
+#display_name {
+	float: right;
+	color: white;
+	font-size: 18px;
+	margin-top: 20px;
+	margin-right: 20px;
+}
+.dropdown {
+	color: rgb(26, 26, 26);
+	float: right;
+	margin-top: 15px;
+	margin-right: 90px;
+	padding-bottom: 18px;
+}
+
+.dropdown .btn {
+	background-color: rgb(26, 26, 26);
+	border-color: rgb(26, 26, 26);
+}
+
+.glyphicon {
+	color: white;
+}
+
 nav p {
 	color: white;
 	font-size: 18px;
