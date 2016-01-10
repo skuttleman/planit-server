@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-    <img src="../images/brand_logo_v1.png">
+    <img onclick="pageLoaded();" src="../images/brand_logo_v1.png">
     {{#if user}}
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -8,10 +8,10 @@
         <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Mission Control</a></li>
-            <li><a href="#">Service Record</a></li>
-            <li><a href="#">Browse PlanIts</a></li>
-            <li><a href="#">Logout</a></li>
+            <li>Mission Control</li>
+            <li onclick="viewServiceRecord({{user.id}});">Service Record</li>
+            <li>Browse PlanIts</li>
+            <li onclick="logout();">Logout</li>
         </ul>
     </div>
     <span id="display_name">{{user.display_name}}</span>
