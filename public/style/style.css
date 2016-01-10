@@ -1,3 +1,7 @@
 * {
   font-family: Helvetica, sans-serif;
 }
+
+.footer-links {
+  display: inline-block;
+}
