@@ -2,7 +2,6 @@ var route = require('express').Router();
 var session = require('express-session');
 var passport = require('passport');
 var LinkedIn = require('passport-linkedin-oauth2').Strategy;
-// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var knex = require('../db/knex');
 
 module.exports = route;
@@ -23,19 +22,7 @@ passport.deserializeUser(function(obj, done) {
 });
 
 
-// passport.use(new GoogleStrategy({
-//   clientID: process.env.GOOGLE_CLIENT_ID,
-//   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//   callbackURL: process.env.HOST + "/auth/google/callback"
-// },
-// function(accessToken, refreshToken, profile, done) {
-//   incorporateUser(profile, done).catch(function(error) {
-//       done(error);
-//   // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//   //   return done(err, user);
-//   // });
-//   });
-// }));
+
 passport.use(new LinkedIn({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
@@ -52,10 +39,7 @@ route.get('/auth', function(request, response) {
   response.json({ user: request.user });
 });
 
-route.get('/auth/linkedin',
-  passport.authenticate('linkedin')
-);
-
+route.get('/auth/linkedin', passport.authenticate('linkedin'));
 route.get('/auth/linkedin/callback',
   passport.authenticate('linkedin'),
   function(request, response, next) {
@@ -63,22 +47,9 @@ route.get('/auth/linkedin/callback',
   }
 );
 
-// route.get('/auth/google',
-//   passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' })
-// );
-//
-// route.get('/auth/google/callback',
-//   passport.authenticate('google'),
-//   function(request, response) {
-//     // Successful authentication, redirect home.
-//     // res.redirect('/');
-//     console.log('anything');
-//     response.json({ user: request.user })
-//   }
-// );
-
 route.get('/auth/logout', function(request, response, next) {
   request.logout();
+  response.json({ user: request.user });
 });
 
 

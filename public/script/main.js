@@ -3,7 +3,6 @@ function pageLoaded() {
     url: '/auth',
     method: 'get'
   }).done(function(data) {
-    console.log(data);
     displayTemplate('header', 'header', data);
   });
 
@@ -12,4 +11,11 @@ function pageLoaded() {
 
 function login() {
   window.open('/auth/linkedin', '_self');
+}
+
+function logout() {
+  $.get('/auth/logout').done(function() {
+    displayTemplate('header', 'header', { user: null });
+    // ... re-display splash page
+  });
 }
