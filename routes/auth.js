@@ -48,6 +48,9 @@ passport.use(new LinkedIn({
   });
 }));
 
+route.get('/auth', function(request, response) {
+  response.json({ user: request.user });
+});
 
 route.get('/auth/linkedin',
   passport.authenticate('linkedin')
