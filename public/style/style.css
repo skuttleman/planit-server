@@ -6,6 +6,11 @@
 html,
 body {
   height: 100%;
+  background-image: url('../images/stars_background.jpg');
+}
+
+textarea {
+  background-color: black;
 }
 
 nav img {
@@ -64,7 +69,6 @@ nav p {
   height: 100vh;
   margin-top: -40px;
   background-color: #000;
-  background-image: url('../images/stars_background.jpg');
 
 }
 
