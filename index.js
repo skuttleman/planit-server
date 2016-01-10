@@ -7,12 +7,14 @@ var express = require('express'), app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
+app.use(express.static(__dirname + '/public'));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   credentials: true,
   allowedHeaders: ['Authorization'],
   exposedHeaders: ['Authorization'],
-  origin: process.env.CLIENT_URL || 'http://localhost:8080'
+  origin: process.env.HOST
 }));
 
 
@@ -38,9 +40,9 @@ app.use('/tasks', tasks);
 
 
 
-app.get('/', function(request, response) {
-	response.send(request.user ? 'loggedin' : 'loggedout');
-});
+// app.get('/', function(request, response) {
+// 	response.send(request.user ? 'loggedin' : 'loggedout');
+// });
 
 app.listen(process.env.PORT, function() {
   console.log('The NSA is listening on PORT:', process.env.PORT);
