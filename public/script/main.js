@@ -30,6 +30,7 @@ function listMembers() {
     url: '/members',
     method: 'get'
   }).done(function(members) {
+    members.user = appvars.user;
     displayTemplate('main', 'members', members);
   });
 }
