@@ -5,4 +5,7 @@
   {{#compare user.id member.id}}
     <button type="button" onclick="updateMember({{member.id}});">Update My Service Record</button>
   {{/compare}}
+  {{#compare user.role_name 'moderator'}}
+    <button type="button" onclick="banMember({{member.id}});">Ban Crew Member</button>
+  {{/compare}}
 </div>
