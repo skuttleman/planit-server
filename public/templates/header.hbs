@@ -1,12 +1,8 @@
 <nav class="navbar navbar-inverse">
 	<img src="../images/brand_logo_v1.png">
   	{{#if user}}
-		<button type="button" name="logout_button" onclick="logout()">Logout</button>
+		<p class="pull-right" name="logout_button" onclick="logout()">Logout</p>
 	{{else}}
 		<p class="pull-right" name="login_button" onclick="login();">Login <span class='small'>or </span>Register</p>
 	{{/if}}
 </nav>
-
-
-
-
