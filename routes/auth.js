@@ -30,7 +30,9 @@ passport.use(new LinkedIn({
   scope: ['r_emailaddress', 'r_basicprofile'],
   state: true
 }, function(accessToken, refreshToken, profile, done) {
-  incorporateUser(profile, done);
+  incorporateUser(profile, done).catch(function(error) {
+    done(error);
+  });
 }));
 
 
@@ -45,23 +47,15 @@ route.get('/auth/linkedin/callback',
   }
 );
 
-route.get('/logout', function(request, response, next) {
+route.get('/auth/logout', function(request, response, next) {
   request.logout();
 });
 
 
 
 function incorporateUser(profile, done) {
-  getOrCreateUser(profile).then(function(user) {
-    done(null, {
-      id: user.id,
-      is_banned: user.is_banned,
-      role_id: user.role_id,
-      role_name: user.role_name,
-      social_id: profile.id,
-      displayName: profile.displayName,
-      photos: profile.photos
-    });
+  return getOrCreateUser(profile).then(function(user) {
+    done(null, user);
   });
 }
 
@@ -69,24 +63,11 @@ function getOrCreateUser(profile) {
   return knex('members').where('social_id', profile.id).then(function(users) {
     var user = users[0];
     if (user && !user.is_banned) {
-      return lookupRole({ id: user.role_id }).then(function(role) {
-        user.role_name = role.name;
-        console.log(role);
-        return Promise.resolve(user);
-      });
+      return updateUser(user, profile);
     } else if (user) {
       return Promise.reject('user has been banned');
     } else {
-      return lookupRole({ name: 'normal' }).then(function(role) {
-        return knex('members').returning('*').insert({
-          social_id: profile.id,
-          is_banned: false,
-          role_id: role.id
-        }).then(function(users) {
-          users[0].role_name = role.name;
-          return Promise.resolve(users[0]);
-        });
-      });
+      return createUser(profile);
     }
   });
 }
@@ -95,4 +76,41 @@ function lookupRole(where) {
   return knex('roles').where(where).then(function(roles) {
     return Promise.resolve(roles[0]);
   });
+}
+
+function userWithRole(user, where) {
+  return lookupRole(where).then(function(role) {
+    user.role_name = role.name;
+    return Promise.resolve(user);
+  });
+}
+
+function updateUser(user, profile) {
+  return knex('members').returning('*').where({ id: user.id }).update({
+    display_name: profile.displayName || '',
+    profile_image: photo(profile.photos)
+  }).then(function(users) {
+    return userWithRole(users[0], { id: user.role_id });
+  });
+}
+
+function createUser(profile) {
+  return lookupRole({ name: 'normal' }).then(function(role) {
+    return knex('members').returning('*').insert({
+      is_banned: false,
+      role_id: role.id,
+      social_id: profile.id,
+      display_name: profile.displayName,
+      profile_image: photo(profile.photos)
+    }).then(function(users) {
+      var user = users[0];
+      user.role_name = role.name
+      return Promise.resolve(user);
+    });
+  });
+}
+
+function photo(photos) {
+  var ret = photos[photos.length - 1];
+  return ret ? ret.value : '';
 }
