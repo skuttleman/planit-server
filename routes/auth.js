@@ -43,6 +43,7 @@ route.get('/auth/linkedin',
 route.get('/auth/linkedin/callback',
   passport.authenticate('linkedin'),
   function(request, response, next) {
+    // console.log('this is fine');
     response.json({ user: request.user });
   }
 );
