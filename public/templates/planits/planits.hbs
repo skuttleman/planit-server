@@ -4,7 +4,7 @@
     <table class="table table-striped planits-table">
       <thead>
         <tr>
-          <th>DATE</th>
+          <th>START DATE</th>
           <th>TITLE</th>
           <th>TYPE</th>
           <th>CITY</th>
@@ -13,24 +13,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
-        </tr>
         {{#planits}}
           <tr>
-            <td>1{{date}}</td>
-            <td>2{{title}}</td>
-            <td>3{{type}}</td>
-            <td>4{{city}}</td>
-            <td>5{{state}}</td>
+            <td>{{start_date}}</td>
+            <td>{{title}}</td>
+            <td>{{type}}</td>
+            <td>{{city}}</td>
+            <td>{{state}}</td>
             <td><button type="button" class="btn btn-primary" name="planit-details" onclick="viewPlanit({{id}})">View</button></td>
           </tr>
-        {{#planits}}  
+        {{/planits}}
       </tbody>
     </table>
   </div>

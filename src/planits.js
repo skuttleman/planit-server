@@ -1,4 +1,4 @@
-function listPlanits(batllama) {
+function listPlanits() {
   $.ajax({
     url: '/planits',
     method: 'get'
