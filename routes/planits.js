@@ -79,7 +79,7 @@ route.delete('/:id', function(request, response, next) {
 route.get('/', function(request, response, next) {
   var where = {};
   if (request.routeChain && request.routeChain.memberId) where.member_id = request.routeChain.memberId;
-  knex('planits').where(where).then(function(planits) {
+  knex('planits').where(where).orderBy('start_date', 'asc').then(function(planits) {
     response.json({ planits: planits });
   });
 });
