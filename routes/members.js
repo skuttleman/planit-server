@@ -3,6 +3,7 @@ var messages = require('./messages');
 var planits = require('./planits');
 var reviews = require('./reviews');
 var knex = require('../db/knex');
+var methods = require('../methods');
 
 module.exports = route;
 
@@ -31,11 +32,11 @@ route.get('/:id', function(request, response, next) {
   knex('members').where('id', request.params.id).then(function(members) {
     response.json({ members: members });
   });
-});
+}); // TODO: read skills
 
 // U
 route.put('/:id', function(request, response, next) {
-  getPermission(request.user.id).then(function(permission) {
+  methods.getPermission(request.user.id).then(function(permission) {
     if (request.user.id == request.params.id || request.user.role_name == 'moderator' || request.user.role_name == 'admin') {
       knex('members').where('id', request.params.id).update(request.body).then(function() {
         response.json({ success: true });
@@ -46,11 +47,11 @@ route.put('/:id', function(request, response, next) {
       next('You do not have permission to perform this action');
     }
   });
-});
+}); // TODO: update skills
 
 // D
 route.delete('/:id', function(request, response, next) {
-  getPermission(request.user.id).then(function(permission) {
+  methods.getPermission(request.user.id).then(function(permission) {
     if (request.user.id == request.params.id || request.user.role_name == 'admin') {
       if (request.user.id == request.params.id) request.logout();
       knex('members').where('id', request.params.id).del().then(function() {
@@ -74,10 +75,3 @@ route.get('/', function(request, response, next) {
     response.json({ members: members });
   });
 });
-
-function getPermission(memberId) {
-  return knex('members').returning('roles.name').where('members.id', memberId).innerJoin('roles', 'members.role_id', 'roles.id')
-  .then(function(roleNames) {
-    return Promise.resolve(roleNames[0]);
-  });
-}
