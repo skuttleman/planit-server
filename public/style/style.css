@@ -195,12 +195,14 @@ footer li {
 
 /* Service Record Styles */
 
-/*.inner-container .btn-delete-member {
-  display: flex;
+/*.member {
+  display:flex;
+}*/
+
+.btn-delete-member {
   align-self: flex-end;
 }
 
-.inner-container .btn-update-member {
-  display: flex;
+.btn-update-member {
   align-self: flex-end;
-}*/
+}
