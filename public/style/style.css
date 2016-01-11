@@ -153,26 +153,16 @@ footer li {
   margin: 10px;
 }
 
+.inner-container {
+  width: 80%;
+  height: 70vh;
+  padding: 20px;
+  display: flex;
+  background-color: rgba(45, 45, 45, 0.8);
+}
+
 /* List Members Styles */
 
-.members-grid {
-  width: 80%;
-  height: 70vh;
-  padding: 20px;
-  display: flex;
-  background-color: rgba(45, 45, 45, 0.8);
-}
-
-.members-grid figure {
+.inner-container figure {
   margin: 10px;
-}
-
-/* List planits Styles */
-
-.planits-list {
-  width: 80%;
-  height: 70vh;
-  padding: 20px;
-  display: flex;
-  background-color: rgba(45, 45, 45, 0.8);
 }

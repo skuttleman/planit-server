@@ -29,6 +29,13 @@ Promise.all([
   promisifyPartial({ name: 'members', file: '/templates/members/members.hbs' }),
   promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
   promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
+  promisifyPartial({ name: 'missioncontrol', file: '/templates/members/mission-control.hbs' }),  
+
+
+  // planits views
+  promisifyPartial({ name: 'planits', file: '/templates/planits/planits.hbs' }),
+  promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
+  promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
 
   // Document Ready?
   promiseToLoad()
@@ -170,6 +177,71 @@ function deleteMember(id) {
   customConfirm('Are you sure you want to delete this member?', function() {
     $.ajax({
       url: '/members/' + id,
+      method: 'delete',
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      if (id == appvars.user.id) {
+        logout();
+      } else {
+        displayTemplate('main', 'splashpage');
+      }
+    });
+  });
+}
+
+function listPlanits(batllama) {
+  $.ajax({
+    url: '/planits',
+    method: 'get'
+  }).done(function(planits) {
+    //planits.user = appvars.user;
+    displayTemplate('main', 'planits', planits);
+  });
+}
+
+function viewPlanit(id) {
+  $.ajax({
+    url: '/planits/' + id,
+    method: 'get'
+  }).done(function(planits) {
+    data = {
+      planit: planits.planits[0],
+      //user: appvars.user,
+    };
+    displayTemplate('main', 'planit', data);
+  });
+}
+
+function updatePlanit(id) {
+  $.ajax({
+    url: '/planits/' + id,
+    method: 'get'
+  }).done(function(planits) {
+    displayTemplate('main', 'planitupdate', planits.planits[0]);
+  });
+}
+
+function updatePlanitPut(event, id) {
+  if (event) event.preventDefault();
+  var formData = getFormData('form');
+  $.ajax({
+    url: '/planits/' + id,
+    method: 'put',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewPlanit(id);
+  });
+}
+
+function deletePlanit(id) {
+  customConfirm('Are you sure you want to delete this planit?', function() {
+    $.ajax({
+      url: '/planits/' + id,
       method: 'delete',
       xhrFields: {
         withCredentials: true
