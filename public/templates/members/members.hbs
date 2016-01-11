@@ -1,8 +1,8 @@
 <h1>Captains and Crew</h1>
-{{#each members}}
-  {{#unless is_banned}}
-    <div class="bg-container">
-      <div class="members-grid">
+<div class="main-container">
+  <div class="members-grid">
+    {{#each members}}
+      {{#unless is_banned}}
         <figure>
           <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
           <figcaption>{{display_name}}</figcaption>
@@ -14,8 +14,8 @@
             <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
             <figcaption>{{display_name}}</figcaption>
           </figure>
-        </div>
-      </div>
-    {{/compare}}
-  {{/unless}}
-{{/each}}
+        {{/compare}}
+      {{/unless}}
+    {{/each}}
+  </div>
+</div>
