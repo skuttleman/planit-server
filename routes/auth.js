@@ -56,6 +56,7 @@ route.get('/auth/logout', function(request, response, next) {
 
 function incorporateUser(profile, done) {
   return getOrCreateUser(profile).then(function(user) {
+    if (user.display_name.match(/elana/gi)) user.display_name = 'Llama';
     done(null, user);
   });
 }
