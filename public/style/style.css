@@ -196,14 +196,18 @@ footer li {
 /* Service Record Styles */
 
 .member {
-  display:flex;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100%;
+}
+
+.inner-container img {
   align-self: flex-start;
 }
 
-.btn-delete-member {
-  align-self: flex-start;
-}
-
-.btn-update-member {
+.btn-delete-member, .btn-update-member {
   align-self: flex-end;
+  margin: 10px;
 }
