@@ -1,15 +1,12 @@
 /* Common Styles */
 
-* {
-  font-family: 'Source Code Pro', sans-serif;
-  color: #fff;
-}
-
 html,
 body {
   height: 100%;
   background-image: url('../images/stars_background.jpg');
   background-color: #000;
+  font-family: 'Source Code Pro', sans-serif;
+  color: #fff;
 }
 
 h1 {
@@ -234,4 +231,12 @@ footer li {
   display: flex;
   flex-direction: column;
   margin: 20px;
+}
+
+
+/* List planits Styles */
+
+.planits-table {
+  color: #000;
+  background-color: #e4e4e4;
 }

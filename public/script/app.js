@@ -220,7 +220,7 @@ function listPlanits(batllama) {
     url: '/planits',
     method: 'get'
   }).done(function(planits) {
-    //planits.user = appvars.user;
+    planits.user = appvars.user;
     displayTemplate('main', 'planits', planits);
   });
 }
@@ -232,7 +232,7 @@ function viewPlanit(id) {
   }).done(function(planits) {
     data = {
       planit: planits.planits[0],
-      //user: appvars.user,
+      user: appvars.user,
     };
     displayTemplate('main', 'planit', data);
   });
