@@ -30,6 +30,13 @@ Promise.all([
   promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
   promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
   promisifyPartial({ name: 'missioncontrol', file: '/templates/members/mission-control.hbs' }),  
+
+
+  // planits views
+  promisifyPartial({ name: 'planits', file: '/templates/planits/planits.hbs' }),
+  promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
+  promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
+
   // Document Ready?
   promiseToLoad()
 ]).then(function(datas) {
