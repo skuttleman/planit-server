@@ -29,6 +29,8 @@ Promise.all([
   promisifyPartial({ name: 'members', file: '/templates/members/members.hbs' }),
   promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
   promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
+  promisifyPartial({ name: 'missioncontrol', file: '/templates/members/mission-control.hbs' }),  
+
 
   // planits views
   promisifyPartial({ name: 'planits', file: '/templates/planits/planits.hbs' }),
@@ -189,7 +191,7 @@ function deleteMember(id) {
   });
 }
 
-function listPlanits() {
+function listPlanits(batllama) {
   $.ajax({
     url: '/planits',
     method: 'get'
