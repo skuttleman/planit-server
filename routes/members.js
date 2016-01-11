@@ -44,14 +44,15 @@ route.get('/:id', function(request, response, next) {
 route.put('/:id', function(request, response, next) {
   methods.getPermission(request.user.id).then(function(permission) {
     if (request.user.id == request.params.id || request.user.role_name == 'moderator' || request.user.role_name == 'admin') {
-      knex('members').where('id', request.params.id).update(request.body).then(function() {
+      var separatedData = separateMemberSkills(request.body);
+      prepSkillsUpdate(request.params.id, separatedData).then(function() {
         response.json({ success: true });
-      }).catch(function(err) {
-        next(err);
       });
     } else {
       next('You do not have permission to perform this action');
     }
+  }).catch(function(err) {
+    next(err);
   });
 }); // TODO: update skills
 
@@ -81,3 +82,32 @@ route.get('/', function(request, response, next) {
     response.json({ members: members });
   });
 });
+
+function separateMemberSkills(data) {
+  return Object.keys(data).reduce(function(returnData, key) {
+    if (key.match(/skill/gi)) {
+      var skill = key.split('_')[1];
+      returnData.skills.push({ skill_id: skill, val: String(data[key]) == 'true' });
+    } else {
+      returnData.member[key] = data[key];
+    }
+    return returnData;
+  }, { member: {}, skills: [] });
+}
+
+function prepSkillsUpdate(memberId, data) {
+  var ret = [knex('members').where({ id: memberId }).update(data.member)];
+  return knex('member_skills').where({ member_id: memberId }).then(function(memberSkills) {
+    data.skills.forEach(function(skill) {
+      var hasSkill = !!memberSkills.filter(function(eachSkill) {
+        return eachSkill.skill_id == skill.skill_id;
+      }).length;
+      if (skill.val && !hasSkill) {
+        ret.push(knex('member_skills').insert({ skill_id: skill.skill_id, member_id: memberId }));
+      } else if (!skill.val && hasSkill) {
+        ret.push(knex('member_skills').where({ skill_id: skill.skill_id, member_id: memberId }).del());
+      }
+    });
+    return Promise.all(ret);
+  });
+}
