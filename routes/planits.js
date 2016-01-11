@@ -19,7 +19,14 @@ route.use('/:id/tasks', tasks);
 
 // C
 route.post('/', function(request, response, next) {
-
+  if (request.user) {
+    request.body.member_id = request.user.id;
+    knex('planits').returning('*').insert(request.body).then(function(planits) {
+      response.json({ success: true, planits: planits });
+    });
+  } else {
+    next('You must be logged in to perform this action');
+  }
 });
 
 // R
@@ -34,9 +41,6 @@ route.get('/:id', function(request, response, next) {
 
 // U
 route.put('/:id', function(request, response, next) {
-  var where = {};
-  if (request.routeChain && request.routeChain.memberId) where.member_id = request.routeChain.memberId;
-  where.id = request.params.id;
   methods.getPermission(request.user.id).then(function(permission) {
     knex('planits').where('id', request.params.id).then(function(planits) {
       var planit = planits[0];
@@ -55,7 +59,20 @@ route.put('/:id', function(request, response, next) {
 
 // D
 route.delete('/:id', function(request, response, next) {
-
+  methods.getPermission(request.user.id).then(function(permission) {
+    knex('planits').where('id', request.params.id).then(function(planits) {
+      var planit = planits[0];
+      if (request.user.id == planit.member_id || request.user.role_name == 'admin') {
+        knex('planits').where('id', request.params.id).del().then(function() {
+          response.json({ success: true });
+        }).catch(function(err) {
+          next(err);
+        });
+      } else {
+        next('You do not have permission to perform this action');
+      }
+    });
+  });
 });
 
 // L
