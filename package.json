@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/skuttleman/planit-server#readme",
   "devDependencies": {
-    "dotenv": "^1.2.0"
+    "dotenv": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0"
   },
   "dependencies": {
     "body-parser": "^1.14.2",
