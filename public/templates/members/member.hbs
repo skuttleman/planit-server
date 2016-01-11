@@ -3,6 +3,12 @@
     <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
     <p>{{member.display_name}}</p>
     <p>{{member.bio}}</p>
+    <ul>
+      {{#each skills}}
+        <li>{{name}}
+        </li>
+      {{/each}}
+    </ul>
     {{#compare user.id member.id}}
       <button class="btn btn-custom" type="button" onclick="updateMember({{member.id}});">Update My Service Record</button>
     {{/compare}}
