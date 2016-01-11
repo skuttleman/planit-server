@@ -33,9 +33,12 @@ route.post('/', function(request, response, next) {
 route.get('/:id', function(request, response, next) {
   var where = {};
   if (request.routeChain && request.routeChain.memberId) where.member_id = request.routeChain.memberId;
-  where.id = request.params.id;
-  knex('planits').where(where).then(function(planits) {
-    response.json({ planits: planits });
+  where['planits.id'] = request.params.id;
+  Promise.all([
+    knex('planits').innerJoin('planit_types', 'planits.planit_type_id', 'planit_types.id').where(where),
+    knex('tasks').innerJoin('skills', 'skills.id', 'tasks.skill_id').where({ planit_id: request.params.id })
+  ]).then(function(data) {
+    response.json({ planits: data[0], tasks: data[1] });
   });
 });
 
