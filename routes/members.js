@@ -29,10 +29,16 @@ route.use('/:id/reviews', reviews);
 
 // R
 route.get('/:id', function(request, response, next) {
-  knex('members').where('id', request.params.id).then(function(members) {
-    response.json({ members: members });
+  Promise.all([
+    knex('members').where({ id: request.params.id }),
+    knex('skills').innerJoin('member_skills', 'skills.id', 'member_skills.skill_id')
+    .where('member_skills.member_id', request.params.id)
+  ]).then(function(data) {
+    var members = data[0];
+    var skills = data[1];
+    response.json({ members: members, skills: skills });
   });
-}); // TODO: read skills
+}); // TODO: TEST TEST TEST TEST
 
 // U
 route.put('/:id', function(request, response, next) {
