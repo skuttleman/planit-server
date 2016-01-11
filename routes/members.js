@@ -36,7 +36,6 @@ route.get('/:id', function(request, response, next) {
 // U
 route.put('/:id', function(request, response, next) {
   getPermission(request.user.id).then(function(permission) {
-    console.log(request.user)
     if (request.user.id == request.params.id || request.user.role_name == 'moderator' || request.user.role_name == 'admin') {
       knex('members').where('id', request.params.id).update(request.body).then(function() {
         response.json({ success: true });
