@@ -1,10 +1,12 @@
 <h1>Upcoming planits</h1>
 <div class="main-container">
-  <div class="planits-list">
-    {{#each planit}}
-      <ul>
-        <li onclick="viewPlanit({{id}});"/>{{planit.title}}</li>
-      </ul>
-    {{/each}}
+  <div class="inner-container-column">
+    <div class="planits-list">
+      {{#each planit}}
+        <ul>
+          <li onclick="viewPlanit({{id}});"/>{{planit.title}}</li>
+        </ul>
+      {{/each}}
+    </div>
   </div>
 </div>
