@@ -226,15 +226,18 @@ function listPlanits() {
 }
 
 function viewPlanit(id) {
+  console.log('hererasdfkljaslkdfk;asdf');
   $.ajax({
     url: '/planits/' + id,
     method: 'get'
   }).done(function(planits) {
     data = {
       planit: planits.planits[0],
-      user: appvars.user,
+      user: appvars.user
     };
     displayTemplate('main', 'planit', data);
+  }).fail(function(err) {
+    console.log(err);
   });
 }
 
