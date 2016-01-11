@@ -1,9 +1,18 @@
 <div class="member">
-  <img src="{{profile_image}}" alt="{{display_name}} image" />
-  <p>{{display_name}}</p>
+  <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
+  <p>{{member.display_name}}</p>
   <form class="form" action="/" method="post">
     <label for="bio">Bio:</label>
-    <textarea name="bio" rows="12" cols="50">{{bio}}</textarea>
-    <button type="button" onclick="updateMemberPut(event, {{id}});">Update Bio</button>
+    <textarea name="bio" rows="12" cols="50">{{member.bio}}</textarea>
+    {{#each skills}}
+      {{#if memberHas}}
+        <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" checked="checked" />
+        <label for="skill_{{id}}">{{name}}</label>
+      {{else}}
+        <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" />
+        <label for="skill_{{id}}">{{name}}</label>
+      {{/if}}
+    {{/each}}
+    <button type="button" onclick="updateMemberPut(event, {{member.id}});">Update Service Record</button>
   </form>
 </div>

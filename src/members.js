@@ -36,11 +36,33 @@ function viewServiceRecord(id) {
 }
 
 function updateMember(id) {
-  $.ajax({
-    url: '/members/' + id,
-    method: 'get'
-  }).done(function(members) {
-    displayTemplate('main', 'memberupdate', members.members[0]);
+  Promise.all([
+    $.ajax({
+      url: '/members/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/skills',
+      method: 'get'
+    })
+  ]).then(function(serverData) {
+    var allSkills = serverData[1].skills;
+    var memberSkills = serverData[0].skills;
+
+    allSkills.forEach(function(skill) {
+      if (memberSkills.filter(function(memberSkill) {
+        return skill.id == memberSkill.id;
+      }).length) {
+        skill.memberHas = true;
+      } else {
+        skill.memberHas = false;
+      }
+    });
+    var data = {
+      member: serverData[0].members[0],
+      skills: allSkills
+    }
+    displayTemplate('main', 'memberupdate', data);
   });
 }
 
