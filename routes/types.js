@@ -8,3 +8,9 @@ route.get('/skills', function(request, response) {
     response.json({ skills: skills });
   });
 });
+
+route.get('/planit_types', function(request, response) {
+  knex('planit_types').then(function(skills) {
+    response.json({ skills: skills });
+  });
+});
