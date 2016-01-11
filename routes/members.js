@@ -68,6 +68,10 @@ route.delete('/:id', function(request, response, next) {
 // L
 route.get('/', function(request, response, next) {
   knex('members').then(function(members) {
+    members.forEach(function(member) {
+      var name = member.display_name.split(' ');
+      member.display_name = [name[0], name[1][0]].join(' ');
+    });
     response.json({ members: members });
   });
 });
