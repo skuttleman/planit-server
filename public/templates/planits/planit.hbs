@@ -39,16 +39,17 @@
         </tr>
         {{#each tasks}}
         <tr>
-            <td>{{skill_name}}</td>
-            {{#each ../task_description}}
+        	{{#compare skill_name 'other'}}
+        		<td>{{skill_description}}</td>
+    		{{else}}
+            	<td>{{skill_name}}</td>
+        	{{/compare}}
             <td>{{description}}</td>
-            {{/each}}
-            {{#each tasks}}
             <td>{{budget}}</td>
             <td>{{head_count}}</td>
             <td>{{start_time}}</td>
             <td>{{end_time}}</td>
-            {{/each}}
         </tr>
+        {{/each}}
     </table>
 </div>
