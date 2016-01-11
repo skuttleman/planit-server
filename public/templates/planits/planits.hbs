@@ -1,10 +1,29 @@
 <h1>Upcoming planits</h1>
 <div class="main-container">
-  <div class="planits-list">
-    <ul>
-      {{#each planits}}
-        <li onclick="viewPlanit({{id}});">{{title}}</li>
-      {{/each}}
-    </ul>
+  <div class="inner-container-column">
+    <table class="table table-striped planits-table">
+      <thead>
+        <tr>
+          <th>START DATE</th>
+          <th>TITLE</th>
+          <th>TYPE</th>
+          <th>CITY</th>
+          <th>STATE</th>
+          <th>DETAILS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#planits}}
+          <tr>
+            <td>{{start_date}}</td>
+            <td>{{title}}</td>
+            <td>{{type}}</td>
+            <td>{{city}}</td>
+            <td>{{state}}</td>
+            <td><button type="button" class="btn btn-primary" name="planit-details" onclick="viewPlanit({{id}})">View</button></td>
+          </tr>
+        {{/planits}}
+      </tbody>
+    </table>
   </div>
 </div>
