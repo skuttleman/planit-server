@@ -25,7 +25,7 @@
             <h4>Budget:</h4>
             <p>{{planit.budget}}</p>
         </div>
-        <button type="button" class="btn btn-default" onclick="">Edit</button>
+        <button type="button" class="btn btn-default" onclick="editplanit({{id}})"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>Edit</button>
         <h1>Tasks</h1>
         <div id="tasks">
             <table style="width:100%">
@@ -42,7 +42,7 @@
                     {{#compare skill_name 'other'}}
                     <td>{{skill_description}}</td>
                     {{else}}
-                    <td>{{skill_name}}</td>
+                    <td>{{name}}</td>
                     {{/compare}}
                     <td>{{description}}</td>
                     <td>{{budget}}</td>
