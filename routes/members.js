@@ -11,7 +11,6 @@ module.exports = route;
 route.use('/:id', function(request, response, next) {
   request.routeChain = request.routeChain || {};
   request.routeChain.memberId = request.params.id;
-
   next();
 });
 

@@ -28,12 +28,21 @@ nav img {
 	margin-right: 20px;
 }
 
+ul .dropdown-menu {
+	color: white;
+	background-color: black;
+}
+
 .dropdown {
 	color: rgb(26, 26, 26);
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
 	padding-bottom: 18px;
+}
+
+.dropdown-menu {
+  background-color: black;
 }
 
 .dropdown .btn {

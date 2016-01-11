@@ -5,8 +5,13 @@ function pageLoaded() {
     url: '/auth',
     method: 'get'
   }).done(function(data) {
-    appvars.user = data.user;
-    displayTemplate('header', 'header', data);
+    if (data && data.user && data.user.is_banned) {
+      logout();
+      customAlert('You cannot login because your account has been banned.');
+    } else {
+      appvars.user = data.user;
+      displayTemplate('header', 'header', data);
+    }
   });
 
   displayTemplate('main', 'splashpage');
@@ -21,7 +26,7 @@ function login() {
 function logout() {
   $.get('/auth/logout').done(function() {
     displayTemplate('header', 'header', { user: null });
-    // ... re-display splash page
+    displayTemplate('main', 'splashpage');
   });
 }
 
@@ -94,4 +99,8 @@ function banMember(id, ban) {
 
 function reinstateMember(id) {
   banMember(id, true);
+}
+
+function customAlert(message) {
+  window.alert(message);
 }

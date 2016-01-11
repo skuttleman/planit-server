@@ -63,7 +63,7 @@ function incorporateUser(profile, done) {
 function getOrCreateUser(profile) {
   return knex('members').where('social_id', profile.id).then(function(users) {
     var user = users[0];
-    if (user && !user.is_banned) {
+    if (user) {
       return updateUser(user, profile);
     } else if (user) {
       return Promise.reject('user has been banned');
