@@ -1,3 +1,5 @@
+/* Common Styles */
+
 * {
   font-family: 'Source Code Pro', sans-serif;
   color: #fff;
@@ -17,6 +19,8 @@ h1 {
 textarea {
   background-color: black;
 }
+
+/* Nav */
 
 nav img {
 	margin: 15px 0px 10px 40px;
@@ -70,21 +74,35 @@ nav p {
 	font-weight: normal;
 }
 
-#wrap {
-  min-height: 100%;
-  height: auto;
-  margin: 0 auto -60px;
-  padding: 0 0 60px;
+/* Custom Buttons */
+
+.btn-custom {
+	color: #FFFFFF;
+  font-size: 1.5em;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #BD411B;
+	*background-color: #BD411B;
+	background-image: -moz-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFAE00), to(#BD411B));
+	background-image: -webkit-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: -o-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: linear-gradient(to bottom, #FFAE00, #BD411B);
+	background-repeat: repeat-x;
+	border-color: #BD411B;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
-.bg-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active,
+.btn-custom.active,
+.btn-custom.disabled,
+.btn-custom[disabled] {
+	color: #FFFFFF;
+	background-color: #BD411B;
 }
 
-/* Splash Page Styles*/
+/* Splash Page */
 
 h2 {
   margin-bottom: 30px;
@@ -93,6 +111,24 @@ h2 {
 .splash-logo {
   width: 300px;
   margin-top: 150px;
+}
+
+/* Main Container */
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* For Sticky Footer */
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
 }
 
 footer {
@@ -120,8 +156,11 @@ footer li {
 /*List Members Styles*/
 
 .members-grid {
-  width: 800px;
+  width: 80%;
+  height: 70vh;
+  padding: 20px;
   display: flex;
+  background-color: rgba(45, 45, 45, 0.8);
 }
 
 .members-grid figure {
