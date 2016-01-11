@@ -4,8 +4,12 @@
       <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
       <p>{{member.display_name}}</p>
       <p>{{member.bio}}</p>
+      <h3>Specialties</h3>
+      <ul>
+        <li>placeholder</li>
+      </ul>
       {{#compare user.id member.id}}
-        <button class="btn btn-custom btn-update-record" type="button" onclick="updateMember({{member.id}});">Update Service Record</button>
+        <button class="btn btn-custom btn-update-member" type="button" onclick="updateMember({{member.id}});">Update Service Record</button>
       {{/compare}}
       {{#if bannable}}
         {{#if member.is_banned}}
@@ -15,7 +19,7 @@
         {{/if}}
       {{/if}}
       {{#if deletable}}
-        <button class="btn btn-danger btn-delete-record" type="button" onclick="deleteMember({{member.id}});">Delete Member</button>
+        <button class="btn btn-danger btn-delete-member" type="button" onclick="deleteMember({{member.id}});">Delete Member</button>
       {{/if}}
     </div>
   </div>

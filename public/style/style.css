@@ -183,8 +183,7 @@ footer li {
   height: 70vh;
   padding: 20px;
   display: flex;
-  flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
   background-color: rgba(45, 45, 45, 0.8);
 }
 
@@ -196,10 +195,12 @@ footer li {
 
 /* Service Record Styles */
 
-.btn-update-record {
+/*.inner-container .btn-delete-member {
+  display: flex;
   align-self: flex-end;
 }
 
-.btn-delete-record {
+.inner-container .btn-update-member {
+  display: flex;
   align-self: flex-end;
-}
+}*/
