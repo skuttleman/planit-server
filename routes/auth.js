@@ -106,6 +106,7 @@ function createUser(profile) {
     }).then(function(users) {
       var user = users[0];
       user.role_name = role.name
+      user.firstLogin = true;
       return Promise.resolve(user);
     });
   });

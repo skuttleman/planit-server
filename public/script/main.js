@@ -11,6 +11,11 @@ function pageLoaded() {
     } else {
       appvars.user = data.user;
       displayTemplate('header', 'header', data);
+      if (data.user && data.user.firstLogin) {
+        updateMember(data.user.id);
+      } else {
+        // TODO: go to mission control
+      }
     }
   });
 
@@ -48,9 +53,9 @@ function viewServiceRecord(id) {
     data = {
       member: members.members[0],
       user: appvars.user,
-      deletable: appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin',
-      bannable: appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
-    }
+      deletable: appvars.user && (appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin'),
+      bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
+    };
     displayTemplate('main', 'member', data);
   });
 }
@@ -75,7 +80,7 @@ function updateMemberPut(event, id) {
       withCredentials: true
     }
   }).done(function(data) {
-    displayTemplate('main', 'splashpage');
+    viewServiceRecord(id);
   });
 }
 
@@ -129,7 +134,7 @@ function deleteMember(id) {
       } else {
         displayTemplate('main', 'splashpage');
       }
-      
+
     });
   });
 }
