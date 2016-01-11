@@ -30,15 +30,16 @@ var messages = require('./routes/messages');
 var planits = require('./routes/planits');
 var proposals = require('./routes/proposals');
 var reviews = require('./routes/reviews');
-var skills = require('./routes/skills');
 var tasks = require('./routes/tasks');
+var types = require('./routes/types');
 app.use('/members', members);
 app.use('/messages', messages);
 app.use('/planits', planits);
 app.use('/proposals', proposals);
 app.use('/reviews', reviews);
-app.use('/skills', skills);
 app.use('/tasks', tasks);
+app.use('/types', types);
+
 
 
 
