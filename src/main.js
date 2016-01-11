@@ -27,7 +27,11 @@ function pageLoaded() {
 function getFormData(selector) {
   return Array.prototype.reduce.call($(selector).children(), function(formData, element) {
     if (element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') {
-      formData[element.name] = $(element).val();
+      if (element.type == 'checkbox') {
+        formData[element.name] = !!element.checked;
+      } else {
+        formData[element.name] = $(element).val();
+      }
     }
     return formData;
   }, {});
