@@ -129,7 +129,7 @@ function viewServiceRecord(id) {
       deletable: appvars.user && (appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin'),
       bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
     };
-    displayTemplate('main', 'member', 'skills', data);
+    displayTemplate('main', 'member', data);
   });
 }
 
