@@ -1,17 +1,20 @@
+<h1>Captains and Crew</h1>
 {{#each members}}
   {{#unless is_banned}}
-    <div class="bg-container members-grid ">
-      <figure>
-        <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
-        <figcaption>{{display_name}}</figcaption>
-      </figure>
-    {{else}}
-      {{#compare ../user.role_name 'normal'}}
-      {{else}}
+    <div class="bg-container">
+      <div class="members-grid">
         <figure>
           <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
           <figcaption>{{display_name}}</figcaption>
         </figure>
+      {{else}}
+        {{#compare ../user.role_name 'normal'}}
+        {{else}}
+          <figure>
+            <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
+            <figcaption>{{display_name}}</figcaption>
+          </figure>
+        </div>
       </div>
     {{/compare}}
   {{/unless}}

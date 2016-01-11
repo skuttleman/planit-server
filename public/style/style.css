@@ -10,6 +10,10 @@ body {
   background-color: #000;
 }
 
+h1 {
+  text-align: center;
+}
+
 textarea {
   background-color: black;
 }
@@ -87,15 +91,6 @@ nav p {
   margin-top: 150px;
 }
 
-.members-grid {
-  width: 800px;
-  display: flex;
-}
-
-.members-grid figure{
-  flex-direction: row;
-}
-
 footer {
   height: 60px;
   background-color: #000;
@@ -115,5 +110,16 @@ footer ul{
 }
 
 footer li {
+  margin: 10px;
+}
+
+/*List Members Styles*/
+
+.members-grid {
+  width: 800px;
+  display: flex;
+}
+
+.members-grid figure {
   margin: 10px;
 }
