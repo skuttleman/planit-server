@@ -9,13 +9,14 @@ function listPlanits() {
 }
 
 function viewPlanit(id) {
-  console.log('hererasdfkljaslkdfk;asdf');
   $.ajax({
     url: '/planits/' + id,
     method: 'get'
   }).done(function(planits) {
+    console.log(planits);
     data = {
       planit: planits.planits[0],
+      tasks: planits.tasks,
       user: appvars.user
     };
     displayTemplate('main', 'planit', data);
