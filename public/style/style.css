@@ -103,6 +103,7 @@ nav p {
 }
 
 .btn-custom {
+  align-self: flex-start;
 	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #BD411B;
@@ -178,18 +179,28 @@ footer li {
   margin: 10px;
 }
 
-.inner-container {
+.inner-container-row {
   width: 80%;
   height: 70vh;
   padding: 20px;
   display: flex;
-  /*flex-flow: row wrap;*/
+  flex-flow: row wrap;
   background-color: rgba(45, 45, 45, 0.8);
 }
 
+.inner-container-column {
+  width: 80%;
+  height: 70vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(45, 45, 45, 0.8);
+}
+
+
 /* List Members Styles */
 
-.inner-container figure {
+.inner-container-row figure {
   margin: 10px;
 }
 
@@ -202,12 +213,25 @@ footer li {
   height: 100vh;
   width: 100%;
 }
-
-.inner-container img {
-  align-self: flex-start;
-}
-
 .btn-delete-member, .btn-update-member {
   align-self: flex-end;
   margin: 10px;
+}
+
+/* Profile Form */
+.profile-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-container {
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
 }
