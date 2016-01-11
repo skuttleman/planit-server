@@ -2,54 +2,54 @@
 <button type="button" class="btn btn-default" onclick="">Edit</button>
 <div class="planit_details">Title:
     <p>
-    {{title}}
+    {{planit.title}}
     </p>
 </div>
-<div class="planit_details">Category:
-    {{description}}
+<div class="planit_details">
+  Category: {{planit.planit_type_name}}
 </div>
 <div class="planit_details">Address:
     <p>
-    {{street_address}} {{city}} {{state}} {{zipcode}}
+    {{planit.street_address}} {{planit.city}}, {{planit.state}} {{planit.zipcode}}
     </p>
 </div>
 <div class="planit_details">Description:
-    <p>{{description}}</p>
+    <p>{{planit.description}}</p>
 </div>
 <div class="planit_details">Date:</div>
 <p>
-{{start_date}} - {{end_date}}
+{{planit.start_date}} - {{planit.end_date}}
 </p>
 <div class="planit_details">Budget:
-    <p>
-    {{budget}}
-    </p>
+  <p>
+    {{planit.budget}}
+  </p>
 </div>
 <h1>Tasks</h1>
 <button type="button" class="btn btn-default" onclick="">Add a Task</button>
 <div id="tasks">
-    <table style="width:100%">
-        <tr>
-            <td>TYPE</td>
-            <td>|DESCRIPTION</td>
-            <td>}|RATE</td>
-            <td>|# NEEDED</td>
-            <td>|START DATE</td>
-            <td>|END DATE</td>
-        </tr>
-        {{#each tasks}}
-        <tr>
-        	{{#compare skill_name 'other'}}
-        		<td>{{skill_description}}</td>
-    		{{else}}
-            	<td>{{skill_name}}</td>
-        	{{/compare}}
-            <td>{{description}}</td>
-            <td>{{budget}}</td>
-            <td>{{head_count}}</td>
-            <td>{{start_time}}</td>
-            <td>{{end_time}}</td>
-        </tr>
-        {{/each}}
-    </table>
+  <table style="width:100%">
+    <tr>
+      <td>TYPE</td>
+      <td>|DESCRIPTION</td>
+      <td>|RATE</td>
+      <td>|# NEEDED</td>
+      <td>|START DATE</td>
+      <td>|END DATE</td>
+    </tr>
+    {{#each tasks}}
+      <tr>
+      	{{#compare skill_name 'other'}}
+      		<td>{{skill_description}}</td>
+	      {{else}}
+          	<td>{{skill_name}}</td>
+      	{{/compare}}
+          <td>{{description}}</td>
+          <td>{{budget}}</td>
+          <td>{{head_count}}</td>
+          <td>{{start_time}}</td>
+          <td>{{end_time}}</td>
+      </tr>
+    {{/each}}
+  </table>
 </div>
