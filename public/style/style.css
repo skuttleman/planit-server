@@ -19,9 +19,7 @@ textarea {
 }
 
 nav img {
-	padding-left: 35px;
-	height: 42px;
-	margin: 10px;
+	margin: 15px 0px 10px 40px;
 }
 
 #display_name {
@@ -84,6 +82,12 @@ nav p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+/* Splash Page Styles*/
+
+h2 {
+  margin-bottom: 30px;
 }
 
 .splash-logo {
