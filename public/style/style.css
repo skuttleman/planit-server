@@ -153,7 +153,7 @@ footer li {
   margin: 10px;
 }
 
-/*List Members Styles*/
+/* List Members Styles */
 
 .members-grid {
   width: 80%;
@@ -165,4 +165,14 @@ footer li {
 
 .members-grid figure {
   margin: 10px;
+}
+
+/* List planits Styles */
+
+.planits-list {
+  width: 80%;
+  height: 70vh;
+  padding: 20px;
+  display: flex;
+  background-color: rgba(45, 45, 45, 0.8);
 }
