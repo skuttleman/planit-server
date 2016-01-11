@@ -76,9 +76,34 @@ nav p {
 
 /* Custom Buttons */
 
-.btn-custom {
+.btn-main {
 	color: #FFFFFF;
   font-size: 1.5em;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #BD411B;
+	*background-color: #BD411B;
+	background-image: -moz-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFAE00), to(#BD411B));
+	background-image: -webkit-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: -o-linear-gradient(top, #FFAE00, #BD411B);
+	background-image: linear-gradient(to bottom, #FFAE00, #BD411B);
+	background-repeat: repeat-x;
+	border-color: #BD411B;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active,
+.btn-custom.active,
+.btn-custom.disabled,
+.btn-custom[disabled] {
+	color: #FFFFFF;
+	background-color: #BD411B;
+}
+
+.btn-custom {
+	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #BD411B;
 	*background-color: #BD411B;
@@ -158,11 +183,31 @@ footer li {
   height: 70vh;
   padding: 20px;
   display: flex;
+  /*flex-flow: row wrap;*/
   background-color: rgba(45, 45, 45, 0.8);
 }
 
 /* List Members Styles */
 
 .inner-container figure {
+  margin: 10px;
+}
+
+/* Service Record Styles */
+
+.member {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100%;
+}
+
+.inner-container img {
+  align-self: flex-start;
+}
+
+.btn-delete-member, .btn-update-member {
+  align-self: flex-end;
   margin: 10px;
 }

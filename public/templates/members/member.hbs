@@ -1,26 +1,29 @@
 <div class="main-container">
-  <div class="member">
-    <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
-    <p>{{member.display_name}}</p>
-    <p>{{member.bio}}</p>
-    <ul>
-      {{#each skills}}
-        <li>{{name}}
-        </li>
-      {{/each}}
-    </ul>
-    {{#compare user.id member.id}}
-      <button class="btn btn-custom" type="button" onclick="updateMember({{member.id}});">Update My Service Record</button>
-    {{/compare}}
-    {{#if bannable}}
-      {{#if member.is_banned}}
-        <button class="btn btn-custom" type="button" onclick="reinstateMember({{member.id}});">Reinstate Crew Member</button>
-      {{else}}
-        <button class="btn btn-danger" type="button" onclick="banMember({{member.id}});">Ban Crew Member</button>
+  <div class="inner-container">
+    <div class="member">
+      <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
+      <p>{{member.display_name}}</p>
+      <p>{{member.bio}}</p>
+      <h3>Specialties</h3>
+      <ul>
+        {{#each skills}}
+          <li>{{name}}
+          </li>
+        {{/each}}
+      </ul>
+      {{#compare user.id member.id}}
+        <button class="btn btn-custom btn-update-member" type="button" onclick="updateMember({{member.id}});">Update Service Record</button>
+      {{/compare}}
+      {{#if bannable}}
+        {{#if member.is_banned}}
+          <button class="btn btn-custom" type="button" onclick="reinstateMember({{member.id}});">Reinstate Crew Member</button>
+        {{else}}
+          <button class="btn btn-danger" type="button" onclick="banMember({{member.id}});">Ban Crew Member</button>
+        {{/if}}
       {{/if}}
-    {{/if}}
-    {{#if deletable}}
-      <button class="btn btn-danger" type="button" onclick="deleteMember({{member.id}});">Delete Member</button>
-    {{/if}}
+      {{#if deletable}}
+        <button class="btn btn-danger btn-delete-member" type="button" onclick="deleteMember({{member.id}});">Delete Member</button>
+      {{/if}}
+    </div>
   </div>
 </div>
