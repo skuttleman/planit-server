@@ -4,13 +4,15 @@
   <p>{{member.bio}}</p>
   {{#compare user.id member.id}}
     <button type="button" onclick="updateMember({{member.id}});">Update My Service Record</button>
-  {{else}}
-    {{#compare user.role_name 'moderator'}}
-      {{#if member.is_banned}}
-        <button type="button" onclick="reinstateMember({{member.id}});">Reinstate Crew Member</button>
-      {{else}}
-        <button type="button" onclick="banMember({{member.id}});">Ban Crew Member</button>
-      {{/if}}
-    {{/compare}}
   {{/compare}}
+  {{#if bannable}}
+    {{#if member.is_banned}}
+      <button type="button" onclick="reinstateMember({{member.id}});">Reinstate Crew Member</button>
+    {{else}}
+      <button type="button" onclick="banMember({{member.id}});">Ban Crew Member</button>
+    {{/if}}
+  {{/if}}
+  {{#if deletable}}
+    <button type="button" onclick="deleteMember({{member.id}});">Delete Member</button>
+  {{/if}}
 </div>

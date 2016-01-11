@@ -45,7 +45,13 @@ function viewServiceRecord(id) {
     url: '/members/' + id,
     method: 'get'
   }).done(function(members) {
-    displayTemplate('main', 'member', { member: members.members[0], user: appvars.user });
+    data = {
+      member: members.members[0],
+      user: appvars.user,
+      deletable: appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin',
+      bannable: appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
+    }
+    displayTemplate('main', 'member', data);
   });
 }
 
@@ -103,4 +109,27 @@ function reinstateMember(id) {
 
 function customAlert(message) {
   window.alert(message);
+}
+
+function customConfirm(message, then) {
+  if (window.confirm(message)) then();
+}
+
+function deleteMember(id) {
+  customConfirm('Are you sure you want to delete this member?', function() {
+    $.ajax({
+      url: '/members/' + id,
+      method: 'delete',
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      if (id == appvars.user.id) {
+        logout();
+      } else {
+        displayTemplate('main', 'splashpage');
+      }
+      
+    });
+  });
 }
