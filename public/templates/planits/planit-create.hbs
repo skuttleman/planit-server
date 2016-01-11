@@ -1,0 +1,29 @@
+<h1>Create a PlanIt</h1>
+<div>
+    <form action="post">
+        Title: <input type="text" name="title"><br>
+        Category:
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+            {{#each skills}}
+            <li class="disabled">{{name}}</li>
+            {{/each}}
+        </ul>
+        Budget: <input type="submit" value="Submit"><br>
+        Date: <input type="text" name="date"><br>
+        Address: <input type="text" name="address"><br>
+        City: <input type="text" name="city">
+        State:
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+            <li class="disabled">NY</li>
+            <li class="disabled">CO</li>
+            <li class="disabled">PA</li>
+            <li class="disabled">CA</li>
+            {{!-- {{#each states}}
+            <li class="disabled">{{name}}</li>
+            {{/each}} --}}
+        </ul>
+        Zip: <input type="text" name="zip"><br>
+        Description: <input type="textarea" name="description"><br>
+        <input type="submit" value="Create PlanIt">
+    </form>
+</div>
