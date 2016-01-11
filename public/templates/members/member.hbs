@@ -5,6 +5,12 @@
       <p>{{member.display_name}}</p>
       <p>{{member.bio}}</p>
       <h3>Specialties</h3>
+      <ul>
+        {{#each skills}}
+          <li>{{name}}
+          </li>
+        {{/each}}
+      </ul>
       {{#compare user.id member.id}}
         <button class="btn btn-custom btn-update-member" type="button" onclick="updateMember({{member.id}});">Update Service Record</button>
       {{/compare}}
