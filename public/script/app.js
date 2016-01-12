@@ -317,7 +317,16 @@ function updateTask(id) {
     url: '/tasks/' + id,
     method: 'get'
   }).done(function(tasks) {
-    displayTemplate('main', 'taskupdate', Tasks.Tasks[0]);
+    displayTemplate('main', 'taskupdate', tasks.tasks[0]);
+  });
+}
+
+function createTask(data){
+  $.ajax({
+    url: '/tasks/',
+    method: 'post'
+  }).done(function(task){
+    console.log(task);
   });
 }
 
