@@ -54,14 +54,14 @@
               <td>{{budget}}</td>
               <td>{{head_count}}</td>
               <td>{{start_time}}</td>
-              <td><button class="btn btn-custom" onclick="viewTask({{id}});">View</button></td>
+              <td><button class="btn btn-custom" onclick="viewTask({{planit.id}}, {{id}});">View</button></td>
           </tr>
           {{/each}}
         </tbody>
       </table>
     {{#if editable}}
-      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{id}})">
-        Add A Task
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="createTask({{planit.id}})">
+        Add a Task
       </button>
     {{/if}}
     {{#if deletable}}

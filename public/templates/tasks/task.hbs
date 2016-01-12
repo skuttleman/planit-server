@@ -1,4 +1,4 @@
-<h1>planit Details</h1>
+<h1>Task Details</h1>
 <div class="main-container">
   <div class="inner-container-column">
     <div class="task_details">
@@ -26,10 +26,16 @@
       <p>{{task.end_time}}</p>
     </div>
     {{#if editable}}
-      <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{task.id}});">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Edit
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{task.id}});">
+        Edit Task
       </button>
+      <button type="button" class="btn btn-danger form-submit-btn" onclick="deleteTask({{task.id}});">
+        Jettison Task
+      </button>
+    {{else}}
+        <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{task.id}});">
+          Submit Proposal
+        </button>
     {{/if}}
   </div>
 </div>
