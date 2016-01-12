@@ -42,6 +42,11 @@ nav img {
   z-index: 1000;
 }
 
+.dropdown-menu > li:hover {
+  background-color: #383938;
+
+}
+
 .dropdown-menu li {
   z-index: 10000;
 }
