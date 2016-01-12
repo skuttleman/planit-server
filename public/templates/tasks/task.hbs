@@ -1,14 +1,17 @@
 <h1>Task Details</h1>
 <div class="main-container">
   <div class="inner-container-column">
-    <div class="task_details">
-      <h4>Type:</h4>
-      <p>{{task.name}}</p>
-    </div>
-    <div class="task-details">
-      <h4>Description:</h4>
-      <p>{{task.description}}</p>
-    </div>
+    {{#if task.description}}
+      <div class="task-details">
+        <h4>Description:</h4>
+        <p>{{task.description}}</p>
+      </div>
+    {{else}}
+      <div class="task_details">
+        <h4>Type:</h4>
+        <p>{{task.name}}</p>
+      </div>
+    {{/if}}
     <div class="task-details">
       <h4>Rate:</h4>
       <p>{{task.budget}}</p>

@@ -121,11 +121,11 @@ function deletePlanit(id) {
 
 function selectState(id) {
   $('.planit-state').val(appvars.states[id]);
-  $('.state-btn').html(appvars.states[id] + '<span class="caret"></span>');
+  $('.ben-will-murder-you-if-remove-this-class-state').html(appvars.states[id] + '<span class="caret"></span>');
 }
 
 function selectPlanitType(id) {
   $('.planit-type').val(id);
   var planitType = findBy(appvars.planit_types, 'id', id).name;
-  $('.category-btn').html(planitType + '<span class="caret"></span>');
+  $('.ben-will-murder-you-if-remove-this-class-category').html(planitType + '<span class="caret"></span>');
 }

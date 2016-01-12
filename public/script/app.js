@@ -370,13 +370,13 @@ function deletePlanit(id) {
 
 function selectState(id) {
   $('.planit-state').val(appvars.states[id]);
-  $('.state-btn').html(appvars.states[id] + '<span class="caret"></span>');
+  $('.ben-will-murder-you-if-remove-this-class-state').html(appvars.states[id] + '<span class="caret"></span>');
 }
 
 function selectPlanitType(id) {
   $('.planit-type').val(id);
   var planitType = findBy(appvars.planit_types, 'id', id).name;
-  $('.category-btn').html(planitType + '<span class="caret"></span>');
+  $('.ben-will-murder-you-if-remove-this-class-category').html(planitType + '<span class="caret"></span>');
 }
 
 function createProposal() {
@@ -525,7 +525,6 @@ function createTask(planitId) {
     appvars.planit = serverData[0].planits[0];
     appvars.skills = serverData[1].skills;
     appvars.skills.push({ id:0, name: 'other' });
-    console.log(appvars.skills);
     var data = {
       planit: appvars.planit,
       title: 'Create a Task',
@@ -541,18 +540,19 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(data.tasks[0].id);
-  }).fail(function(err) {
-    customAlert('All fields must be filled out to create a task');
-  });
+  console.log(formData);
+  // $.ajax({
+  //   url: '/planits/' + planitId + '/tasks',
+  //   method: 'post',
+  //   data: formData,
+  //   xhrFields: {
+  //     withCredentials: true
+  //   }
+  // }).done(function(data) {
+  //   viewTask(data.tasks[0].id);
+  // }).fail(function(err) {
+  //   customAlert('All fields must be filled out to create a task');
+  // });
 }
 
 function viewTask(planitId, id) {
@@ -562,13 +562,13 @@ function viewTask(planitId, id) {
       method: 'get'
     }),
     $.ajax({
-      url: '/planits/',
+      url: '/planits/' + planitId,
       method: 'get'
     })
   ]).then(function(serverData) {
     appvars.planit = serverData[1].planits[0];
     data = {
-      planit: planit,
+      planit: appvars.planit,
       task: serverData[0].tasks[0],
       user: appvars.user
     };
@@ -640,8 +640,11 @@ function deleteTask(planitId, id) {
   });
 }
 
-// function selectTaskType(id) {
-//   $('.task-type').val(id);
-//   var taskType = findBy(appvars.task_types, 'id', id).name;
-//   $('.category-btn').html(taskType + '<span class="caret"></span>');
-// }
+function selectSkill(id) {
+  $('.skill').val(id);
+  var skill = findBy(appvars.skills, 'id', id).name;
+  $('.skill-btn').html(skill + '<span class="caret"></span>');
+  var $description = $('.optional-description');
+  if (skill == 'other') $description.removeClass('hidden');
+  else $description.addClass('hidden');
+}
