@@ -1,3 +1,28 @@
+(function() {
+  var partials = [
+    // general views
+    { name: 'header', file: '/templates/header.hbs' },
+    { name: 'footer', file: '/templates/footer.hbs' },
+    { name: 'splashpage', file: '/templates/splash-page.hbs' },
+    // members views
+    { name: 'members', file: '/templates/members/members.hbs' },
+    { name: 'member', file: '/templates/members/member.hbs' },
+    { name: 'memberupdate', file: '/templates/members/member-update.hbs' },
+    { name: 'missioncontrol', file: '/templates/members/mission-control.hbs' },
+    // planits views
+    { name: 'planits', file: '/templates/planits/planits.hbs' },
+    { name: 'planit', file: '/templates/planits/planit.hbs' },
+    { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
+    // tasks views
+    { name: 'tasks', file: '/templates/tasks/tasks.hbs' },
+    { name: 'task', file: '/templates/tasks/task.hbs' },
+    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }
+  ].map(promisifyPartial);
+  
+  partials.push(promiseToLoad());
+  return Promise.all(partials);
+})().then(pageLoaded);
+
 function promisifyPartial(partial) {
   return new Promise(function(success, failure) {
     $.get(partial.file).done(function(text) {
@@ -17,35 +42,6 @@ function promiseToLoad() {
   });
 }
 
-Promise.all([
-  // partials
-  promisifyPartial({ name: 'header', file: '/templates/header.hbs' }),
-  promisifyPartial({ name: 'footer', file: '/templates/footer.hbs' }),
-
-  // general views
-  promisifyPartial({ name: 'splashpage', file: '/templates/splash-page.hbs' }),
-
-  // members views
-  promisifyPartial({ name: 'members', file: '/templates/members/members.hbs' }),
-  promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
-  promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
-  promisifyPartial({ name: 'missioncontrol', file: '/templates/members/mission-control.hbs' }),
-
-  // planits views
-  promisifyPartial({ name: 'planits', file: '/templates/planits/planits.hbs' }),
-  promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
-  promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
-
-  // tasks views
-  promisifyPartial({ name: 'tasks', file: '/templates/tasks/tasks.hbs' }),
-  promisifyPartial({ name: 'task', file: '/templates/tasks/task.hbs' }),
-  promisifyPartial({ name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }),
-
-  // Document Ready?
-  promiseToLoad()
-]).then(function(datas) {
-  pageLoaded();
-});
 
 Handlebars.registerHelper('compare', function(val1, val2, options) {
   if (val1 == val2) return options.fn(this);
