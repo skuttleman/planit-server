@@ -7,7 +7,7 @@ function createProposal() {
   var data = {
     proposal_details: appvars.proposal_details,
     title: 'Proposal Creation',
-    costEstimate: costEstimate,
+    cost_estimate: cost_estimate,
     };
 
     //?unsure about proposal update template
@@ -79,7 +79,7 @@ function updateProposal(id) {
       proposal_details: data[1].proposal_details,
       title: 'Proposal Update',
       update: true,
-      costEstimate: costEstimate,
+      cost_estimate: cost_estimate,
     };
     displayTemplate('main', 'proposalupdate', data);
   });
