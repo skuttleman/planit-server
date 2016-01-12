@@ -37,7 +37,7 @@ ul .dropdown-menu {
 }
 
 .dropdown {
-	color: rgb(26, 26, 26);
+	color: white;
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
@@ -240,3 +240,8 @@ footer li {
   color: #000;
   background-color: #e4e4e4;
 }
+
+/*planIt Details Styles */
+
+
+

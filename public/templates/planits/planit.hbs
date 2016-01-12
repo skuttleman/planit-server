@@ -1,55 +1,59 @@
 <h1>planit Details</h1>
-<button type="button" class="btn btn-default" onclick="">Edit</button>
-<div class="planit_details">Title:
-    <p>
-    {{planit.title}}
-    </p>
-</div>
-<div class="planit_details">
-  Category: {{planit.planit_type_name}}
-</div>
-<div class="planit_details">Address:
-    <p>
-    {{planit.street_address}} {{planit.city}}, {{planit.state}} {{planit.zipcode}}
-    </p>
-</div>
-<div class="planit_details">Description:
-    <p>{{planit.description}}</p>
-</div>
-<div class="planit_details">Date:</div>
-<p>
-{{planit.start_date}} - {{planit.end_date}}
-</p>
-<div class="planit_details">Budget:
-  <p>
-    {{planit.budget}}
-  </p>
-</div>
-<h1>Tasks</h1>
-<button type="button" class="btn btn-default" onclick="">Add a Task</button>
-<div id="tasks">
-  <table style="width:100%">
-    <tr>
-      <td>TYPE</td>
-      <td>|DESCRIPTION</td>
-      <td>|RATE</td>
-      <td>|# NEEDED</td>
-      <td>|START DATE</td>
-      <td>|END DATE</td>
-    </tr>
-    {{#each tasks}}
-      <tr>
-      	{{#compare skill_name 'other'}}
-      		<td>{{skill_description}}</td>
-	      {{else}}
-        	<td>{{skill_name}}</td>
-      	{{/compare}}
-          <td>{{description}}</td>
-          <td>{{budget}}</td>
-          <td>{{head_count}}</td>
-          <td>{{start_time}}</td>
-          <td>{{end_time}}</td>
-      </tr>
-    {{/each}}
-  </table>
+<<<<<<< HEAD
+<div class="main-container">
+    <div class="inner-container-column">
+        <div class="planit_details">
+            <h4>Title:</h4>
+            <p>{{planit.title}}</p>
+        </div>
+        <div class="planit_details">
+            <h4>Category:<h4>
+            <p>{{planit.planit_type_name}}</p>
+        </div>
+        <div class="planit_details">
+            <h4>Address:</h4>
+            <p>{{planit.street_address}} {{planit.city}}, {{planit.state}} {{planit.zipcode}}</p>
+        </div>
+        <div class="planit_details">
+            <h4>Description:</h4>
+            <p>{{planit.description}}</p>
+        </div>
+        <div class="planit_details">
+            <h4>Date:</h4>
+            <p>{{planit.start_date}} - {{planit.end_date}}</p>
+        </div>
+        <div class="planit_details">
+            <h4>Budget:</h4>
+            <p>{{planit.budget}}</p>
+        </div>
+        <button type="button" class="btn btn-default" onclick="editplanit({{id}})"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>Edit</button>
+        <h1>Tasks</h1>
+        <div id="tasks">
+            <table style="width:100%">
+                <tr>
+                    <td>TYPE</td>
+                    <td>|DESCRIPTION</td>
+                    <td>|RATE</td>
+                    <td>|# NEEDED</td>
+                    <td>|START DATE</td>
+                    <td>|END DATE</td>
+                </tr>
+                {{#each tasks}}
+                <tr>
+                    {{#compare skill_name 'other'}}
+                    <td>{{skill_description}}</td>
+                    {{else}}
+                    <td>{{name}}</td>
+                    {{/compare}}
+                    <td>{{description}}</td>
+                    <td>{{budget}}</td>
+                    <td>{{head_count}}</td>
+                    <td>{{start_time}}</td>
+                    <td>{{end_time}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+        <button type="button" class="btn btn-default" onclick="">Add a Task</button>
+    </div>
 </div>
