@@ -50,7 +50,6 @@ nav p {
 }
 
 .dropdown {
-	color: white;
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
@@ -250,11 +249,15 @@ footer li {
   flex-direction: column;
 }
 
+.planit-dropdown {
+  position: relative;
+  margin: 20px 0;
+}
+
 .description-margin {
   margin-top: 20px;
 }
 
 .edit-planit-btn {
   align-self: flex-start;
-  margin: 20px 0;
 }

@@ -5,20 +5,22 @@
     <form class="form planit-form">
       <label for="title">Title:</label>
       <input type="text" name="title" value="{{planit.title}}" />
-      <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
-      {{#if category}}
-        {{category}}
-      {{else}}
-        Category
-      {{/if}}
-      <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        {{#each planit_types}}
-          <li onclick="selectPlanitType({{id}});">{{name}}</li>
-        {{/each}}
-      </ul>
-      <input class="planit-type" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
+      <div class="planit-dropdown">
+        <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+        {{#if category}}
+          {{category}}
+        {{else}}
+          Category
+        {{/if}}
+        <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          {{#each planit_types}}
+            <li onclick="selectPlanitType({{id}});">{{name}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      <input type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
       <label for="budget">Budget:</label>
       <input type="number" name="budget" value="{{planit.budget}}" />
       <label for="date">Start Date:</label>
@@ -29,19 +31,21 @@
       <input type="text" name="street_address" value="{{planit.street_address}}"><br>
       <label for="city">City:</label>
       <input type="text" name="city" value="{{planit.city}}" />
-      <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
-        {{#if planit.state}}
-          {{planit.state}}
-        {{else}}
-          State
-        {{/if}}
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        {{#each states}}
-          <li onclick="selectState({{@index}});">{{this}}</li>
-        {{/each}}
-      </ul>
+      <div class="planit-dropdown">
+        <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+          {{#if planit.state}}
+            {{planit.state}}
+          {{else}}
+            State
+          {{/if}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          {{#each states}}
+            <li onclick="selectState({{@index}});">{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
       <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" />
       <label for="zipcode">Zipcode:</label>
       <input type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}">
