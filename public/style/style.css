@@ -7,7 +7,7 @@ body {
   background-color: #000;
   font-family: 'Source Code Pro', sans-serif;
   color: #fff;
-  cursor: url('../images/cursor.png'), pointer;
+  cursor: pointer;
 }
 
 h1 {
@@ -16,10 +16,6 @@ h1 {
 
 input, textarea {
   background-color: black;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 /* Nav */
