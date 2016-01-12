@@ -1,68 +1,35 @@
 <h1>planit Details</h1>
 <div class="main-container">
-    <div class="inner-container-column">
-        <div class="task_details">
-            <h4>Type:</h4>
-            <p>{{task.skill_id_name}}</p>
-        </div>
-        <div class="task-details">
-            <h4>Description:</h4>
-            <p>{{task.skill_description_description}}</p>
-        </div>
-        <div class="task-details">
-            <h4>Rate:</h4>
-            <p>{{task.budget}}</p>
-        </div>
-        <div class="task-details">
-            <h4># Needed:</h4>
-            <p>{{task.head_count}}</p>
-        </div>
-        <div class="task-details">
-            <h4>Start Time:</h4>
-            <p>{{task.start_time}}</p>
-        </div>
-        <div class="task-details">
-            <h4>End Time:</h4>
-            <p>{{task.end_time}}</p>
-        </div>
-        {{#if editable}}
-        <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{task.id}});">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Edit
-        </button>
-        {{/if}}
-        <h1>Tasks</h1>
-        <div id="tasks">
-            <table style="width:100%">
-                <tr>
-                    <td>TYPE</td>
-                    <td>|DESCRIPTION</td>
-                    <td>|RATE</td>
-                    <td>|# NEEDED</td>
-                    <td>|START DATE</td>
-                    <td>|END DATE</td>
-                </tr>
-                {{#each tasks}}
-                <tr>
-                    {{#compare skill_name 'other'}}
-                      <td>{{skill_description}}</td>
-                    {{else}}
-                      <td>{{skill_name}}</td>
-                    {{/compare}}
-                    <td>{{description}}</td>
-                    <td>{{budget}}</td>
-                    <td>{{head_count}}</td>
-                    <td>{{start_time}}</td>
-                    <td>{{end_time}}</td>
-                </tr>
-                {{/each}}
-            </table>
-        </div>
-        {{#if deletable}}
-        <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{id}})">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Add A Task
-        </button>
-        {{/if}}
+  <div class="inner-container-column">
+    <div class="task_details">
+      <h4>Type:</h4>
+      <p>{{task.name}}</p>
     </div>
+    <div class="task-details">
+      <h4>Description:</h4>
+      <p>{{task.description}}</p>
+    </div>
+    <div class="task-details">
+      <h4>Rate:</h4>
+      <p>{{task.budget}}</p>
+    </div>
+    <div class="task-details">
+      <h4># Needed:</h4>
+      <p>{{task.head_count}}</p>
+    </div>
+    <div class="task-details">
+      <h4>Start Time:</h4>
+      <p>{{task.start_time}}</p>
+    </div>
+    <div class="task-details">
+      <h4>End Time:</h4>
+      <p>{{task.end_time}}</p>
+    </div>
+    {{#if editable}}
+      <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{task.id}});">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Edit
+      </button>
+    {{/if}}
+  </div>
 </div>
