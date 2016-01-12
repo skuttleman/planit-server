@@ -27,7 +27,7 @@ function updateTask(id) {
     url: '/tasks/' + id,
     method: 'get'
   }).done(function(tasks) {
-    displayTemplate('main', 'taskupdate', Tasks.Tasks[0]);
+    displayTemplate('main', 'taskupdate', tasks.tasks[0]);
   });
 }
 
