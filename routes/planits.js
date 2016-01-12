@@ -22,7 +22,6 @@ route.post('/', function(request, response, next) {
   if (request.user) {
     request.body.member_id = request.user.id;
     knex('planits').returning('*').insert(request.body).then(function(planits) {
-      console.log('created planit');
       response.json({ success: true, planits: planits });
     }).catch(next);
   } else {

@@ -49,6 +49,11 @@
     <input class="edit-planit-text" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}"><br>
     <label for="description">Description:</label>
     <textarea class="edit-planit-text" name="description" rows="8" cols="40">{{planit.description}}</textarea><br>
-    <input type="submit" value="{{submitText}}" onclick="{{submitMethod}}(event, {{planit.id}});" />
+    {{#if update}}
+      <input type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
+    {{else}}
+      <input type="submit" value="Create" onclick="createPlanitPost(event);" />
+    {{/if}}
+
   </div>
 </form>

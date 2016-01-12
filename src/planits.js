@@ -3,11 +3,10 @@ function createPlanit() {
     url: '/types/planit_types',
     method: 'get'
   }).done(function(types) {
+    appvars.planit_types = types.planit_types
     var data = {
-      planit_types: types.planit_types,
+      planit_types: appvars.planit_types,
       title: 'planit Creation',
-      submitMethod: 'createPlanitPost',
-      submitText: 'Create',
       states: appvars.states,
       startDate: formatDateInput(Date.now()),
       endDate: formatDateInput(Date.now())
@@ -27,8 +26,9 @@ function createPlanitPost(event) {
       withCredentials: true
     }
   }).done(function(data) {
-    console.log(data);
-    // viewPlanit(id);
+    viewPlanit(data.planits[0].id);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out in order to create a planit');
   });
 }
 
@@ -75,8 +75,7 @@ function updatePlanit(id) {
       planit: planit,
       planit_types: data[1].planit_types,
       title: 'planit Update',
-      submitMethod: 'updatePlanitPut',
-      submitText: 'Update',
+      update: true,
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
