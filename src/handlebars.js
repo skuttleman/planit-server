@@ -14,11 +14,10 @@
     { name: 'planit', file: '/templates/planits/planit.hbs' },
     { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
     // tasks views
-    { name: 'tasks', file: '/templates/tasks/tasks.hbs' },
     { name: 'task', file: '/templates/tasks/task.hbs' },
     { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }
   ].map(promisifyPartial);
-  
+
   partials.push(promiseToLoad());
   return Promise.all(partials);
 })().then(pageLoaded);
