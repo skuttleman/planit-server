@@ -1,26 +1,32 @@
-function createTask() {
-  $.ajax({
-    url: '/types/skills',
-    method: 'get'
-  }).done(function(types){
-    appvars.skills = types.skills
-  var data = {
-    task_types: appvars.task_types,
-    title: 'Task Creation',
-    headCount: headCount,
-    startDate: formatDateInput(Date.now()),
-    endDate: formatDateInput(Date.now())
+function createTask(planitId) {
+  Promise.all([
+    $.ajax({
+      url: '/planits/' + planitId,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/task_types',
+      method: 'get'
+    })
+  ]).done(function(data) {
+    appvars.planit = data[0].planits[0];
+    appvars.task_types = data[1].task_types;
+    var data = {
+      planit: appvars.planit,
+      title: 'Task Creation',
+      startTime: formatDateInput(Date.now()),
+      endTime: formatDateInput(Date.now())
     };
-    // :MODULE FORM ROUTE
+    // TODO: MODULARIZE FORM ROUTE
     displayTemplate('main', 'taskupdate', data);
   });
 }
 
-function createTaskPost(event, id) {
+function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/tasks',
+    url: '/planits/' + planitId + '/tasks',
     method: 'post',
     data: formData,
     xhrFields: {
@@ -33,9 +39,9 @@ function createTaskPost(event, id) {
   });
 }
 
-function viewTask(id) {
+function viewTask(planitId, id) {
   $.ajax({
-    url: '/tasks/' + id,
+    url: '/planits/' + planitId + '/tasks/' + id,
     method: 'get'
   }).done(function(tasks) {
     data = {
@@ -46,28 +52,30 @@ function viewTask(id) {
   });
 }
 
-// May be a mistake
-
-function updateTask(id) {
+function updateTask(planitId, id) {
   Promise.all([
-  $.ajax({
-    url: '/tasks/' + id,
-    method: 'get'
-  }),
-  $.ajax({
-    url: '/tasks/task_types',
-    method: 'get'
+    $.ajax({
+      url: 'planits/' + planitId + '/tasks/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/task_types',
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/planits',
+      method: 'get'
     })
   ]).then(function(data) {
     appvars.task_types = data[1].task_types;
     var task = data[0].tasks[0];
+    var planit = data[2].planits[0];
     var data = {
-      tasks: task,
-      task_types: data[1].task_types,
+      task: task,
+      planit: planit,
+      task_types: appvars.task_types,
       title: 'Task Update',
       update: true,
-      headCount: headCount,
-      budget: budget,
       startDate: formatDateInput(task.start_date),
       endDate: formatDateInput(task.end_date)
     };
@@ -75,14 +83,11 @@ function updateTask(id) {
   });
 }
 
-
-//Unsure if id is needed as well
-
-function updateTaskPut(event, id) {
+function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/tasks/' + id,
+    url: '/planits/' + planitId + '/tasks/' + id,
     method: 'put',
     data: formData,
     xhrFields: {
@@ -93,10 +98,10 @@ function updateTaskPut(event, id) {
   });
 }
 
-function deleteTask(id) {
+function deleteTask(planitId, id) {
   customConfirm('Are you sure you want to delete this task?', function() {
     $.ajax({
-      url: '/tasks/' + id,
+      url: '/planits/' + planitId + '/tasks/' + id,
       method: 'delete',
       xhrFields: {
         withCredentials: true
@@ -111,8 +116,8 @@ function deleteTask(id) {
   });
 }
 
-function selectTaskType(id) {
-  $('.task-type').val(id);
-  var taskType = findBy(appvars.task_types, 'id', id).name;
-  $('.category-btn').html(taskType + '<span class="caret"></span>');
-}
+// function selectTaskType(id) {
+//   $('.task-type').val(id);
+//   var taskType = findBy(appvars.task_types, 'id', id).name;
+//   $('.category-btn').html(taskType + '<span class="caret"></span>');
+// }
