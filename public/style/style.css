@@ -37,7 +37,7 @@ ul .dropdown-menu {
 }
 
 .dropdown {
-	color: rgb(26, 26, 26);
+	color: white;
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
@@ -178,7 +178,7 @@ footer li {
 
 .inner-container-row {
   width: 80%;
-  height: 70vh;
+  height: 100%;
   padding: 20px;
   display: flex;
   flex-flow: row wrap;
@@ -187,7 +187,7 @@ footer li {
 
 .inner-container-column {
   width: 80%;
-  height: 70vh;
+  height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -240,3 +240,14 @@ footer li {
   color: #000;
   background-color: #e4e4e4;
 }
+
+.glyphicon-plus {
+
+  color: black;
+
+}
+
+/*planIt Details Styles */
+
+
+
