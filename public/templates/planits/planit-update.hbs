@@ -4,7 +4,7 @@
     <label for="title">Title:</label>
     <input class='edit-planit-text' type="text" name="title" id="title" value="{{planit.title}}" /><br>
     <div class="planit-dropdown-btn">
-      <button class="btn btn-custom dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown">
+      <button class="category-btn btn btn-custom dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown">
         {{#if category}}
           {{category}}
         {{else}}
@@ -30,7 +30,7 @@
     <label for="city">City:</label>
     <input class="edit-planit-text" type="text" name="city" id="city" value="{{planit.city}}" />
     <div class="planit-dropdown-btn">
-      <button class="btn btn-custom dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+      <button class="state-btn btn btn-custom dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
         {{#if planit.state}}
           {{planit.state}}
         {{else}}
