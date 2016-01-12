@@ -1,26 +1,35 @@
 function createPlanit() {
-  var data = {
-    title: 'planit Update',
-    submitMethod: 'createPlanitPost',
-    submitText: 'Create'
-  };
-  displayTemplate('main', 'planitupdate', data);
+  $.ajax({
+    url: '/types/planit_types',
+    method: 'get'
+  }).done(function(types) {
+    appvars.planit_types = types.planit_types
+    var data = {
+      planit_types: appvars.planit_types,
+      title: 'planit Creation',
+      states: appvars.states,
+      startDate: formatDateInput(Date.now()),
+      endDate: formatDateInput(Date.now())
+    };
+    displayTemplate('main', 'planitupdate', data);
+  });
 }
 
-function createPlanitPost(event, id) {
+function createPlanitPost(event) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  console.log(formData);
-  // $.ajax({
-  //   url: '/planits',
-  //   method: 'post',
-  //   data: formData,
-  //   xhrFields: {
-  //     withCredentials: true
-  //   }
-  // }).done(function(data) {
-  //   viewPlanit(id);
-  // });
+  $.ajax({
+    url: '/planits',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewPlanit(data.planits[0].id);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out in order to create a planit');
+  });
 }
 
 function listPlanits() {
@@ -66,11 +75,11 @@ function updatePlanit(id) {
       planit: planit,
       planit_types: data[1].planit_types,
       title: 'planit Update',
-      submitMethod: 'updatePlanitPut',
-      submitText: 'Update',
+      update: true,
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
-      formatedDate: formatDate(data[0].planits[0])
+      startDate: formatDateInput(planit.start_date),
+      endDate: formatDateInput(planit.end_date)
     };
     displayTemplate('main', 'planitupdate', data);
   });
@@ -79,17 +88,17 @@ function updatePlanit(id) {
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  console.log(formData);
-  // $.ajax({
-  //   url: '/planits/' + id,
-  //   method: 'put',
-  //   data: formData,
-  //   xhrFields: {
-  //     withCredentials: true
-  //   }
-  // }).done(function(data) {
-  //   viewPlanit(id);
-  // });
+  // console.log(formData);
+  $.ajax({
+    url: '/planits/' + id,
+    method: 'put',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewPlanit(id);
+  });
 }
 
 function deletePlanit(id) {
