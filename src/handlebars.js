@@ -36,6 +36,11 @@ Promise.all([
   promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
   promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
 
+  // tasks views
+  promisifyPartial({ name: 'tasks', file: '/templates/tasks/tasks.hbs' }),
+  promisifyPartial({ name: 'task', file: '/templates/tasks/task.hbs' }),
+  promisifyPartial({ name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }),
+
   // Document Ready?
   promiseToLoad()
 ]).then(function(datas) {
