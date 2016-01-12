@@ -51,9 +51,9 @@
     <textarea name="description" rows="8" cols="40">{{planit.description}}</textarea>
 
     {{#if update}}
-      <input class="btn btn-custom planit-submit" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
+      <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
     {{else}}
-      <input class="btn btn-custom planit-submit" type="submit" value="Create" onclick="createPlanitPost(event);" />
+      <input class="btn btn-custom form-submit-btn" type="submit" value="Create" onclick="createPlanitPost(event);" />
     {{/if}}
   </div>
 </form>

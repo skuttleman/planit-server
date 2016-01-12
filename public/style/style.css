@@ -14,7 +14,7 @@ h1 {
   text-align: center;
 }
 
-textarea {
+input, textarea {
   background-color: black;
 }
 
@@ -277,7 +277,7 @@ footer li {
   margin-top: 20px;
 }
 
-.planit-submit {
+.form-submit-btn {
   margin: 20px;
   align-self: flex-end;
 }
