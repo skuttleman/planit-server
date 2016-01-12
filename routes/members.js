@@ -21,12 +21,6 @@ route.use('/:id/reviews', reviews);
 
 
 
-// C
-// No use case? Only created when logging in for first time with linkedin?
-// route.post('/', function(request, response, next) {
-//
-// });
-
 // R
 route.get('/:id', function(request, response, next) {
   Promise.all([
@@ -38,7 +32,7 @@ route.get('/:id', function(request, response, next) {
     var skills = data[1];
     response.json({ members: members, skills: skills });
   });
-}); // TODO: TEST TEST TEST TEST
+});
 
 // U
 route.put('/:id', function(request, response, next) {
@@ -54,7 +48,7 @@ route.put('/:id', function(request, response, next) {
   }).catch(function(err) {
     next(err);
   });
-}); // TODO: update skills
+});
 
 // D
 route.delete('/:id', function(request, response, next) {

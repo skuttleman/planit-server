@@ -6,9 +6,11 @@ try {
 var express = require('express'), app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var methods = require('./methods');
+
+
 
 app.use(express.static(__dirname + '/public'));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   credentials: true,
@@ -39,6 +41,9 @@ app.use('/proposals', proposals);
 app.use('/reviews', reviews);
 app.use('/tasks', tasks);
 app.use('/types', types);
+app.get('/partials', function(request, response, next) {
+  response.json(methods.partials());
+});
 
 
 
