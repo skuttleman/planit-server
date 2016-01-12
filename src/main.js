@@ -55,6 +55,18 @@ function findBy(array, key, value) {
   })[0];
 }
 
-function formatDate(date) {
-  return date;
+function formatDateInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-');
+  return returnDate;
+}
+
+function padTwo(number) {
+  var string = String(number);
+  while (string.length < 2) string = '0' + string;
+  return string;
 }
