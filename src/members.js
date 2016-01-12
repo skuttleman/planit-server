@@ -3,6 +3,7 @@ function login() {
 }
 
 function logout() {
+  appvars.user = undefined;
   $.get('/auth/logout').done(function() {
     displayTemplate('header', 'header', { user: null });
     displayTemplate('main', 'splashpage');

@@ -133,6 +133,7 @@ function login() {
 }
 
 function logout() {
+  appvars.user = undefined;
   $.get('/auth/logout').done(function() {
     displayTemplate('header', 'header', { user: null });
     displayTemplate('main', 'splashpage');
@@ -517,15 +518,17 @@ function createTask(planitId) {
       method: 'get'
     }),
     $.ajax({
-      url: '/types/task_types',
+      url: '/types/skills',
       method: 'get'
     })
-  ]).done(function(serverData) {
+  ]).then(function(serverData) {
     appvars.planit = serverData[0].planits[0];
-    appvars.task_types = serverData[1].task_types;
+    appvars.skills = serverData[1].skills;
+    appvars.skills.push('other');
     var data = {
       planit: appvars.planit,
       title: 'Task Creation',
+      skills: appvars.skills,
       startTime: formatDateInput(Date.now()),
       endTime: formatDateInput(Date.now())
     };
@@ -561,7 +564,7 @@ function viewTask(planitId, id) {
       url: '/planits/',
       method: 'get'
     })
-  ]).done(function(serverData) {
+  ]).then(function(serverData) {
     appvars.planit = serverData[1].planits[0];
     data = {
       planit: planit,

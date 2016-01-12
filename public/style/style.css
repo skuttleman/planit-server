@@ -31,7 +31,6 @@ nav p {
 
 #display_name {
 	float: right;
-	/*color: white;*/
 	font-size: 18px;
 	margin-top: 20px;
 	margin-right: 20px;
@@ -39,7 +38,6 @@ nav p {
 
 /* Also used in other forms */
 .dropdown-menu {
-	/*color: white;*/
   padding: 10px;
 	background-color: black;
   cursor: pointer;
@@ -245,29 +243,18 @@ footer li {
   background-color: #e4e4e4;
 }
 
-.glyphicon-plus {
-
-  color: black;
-
-}
-
 /* Edit planit */
 
-#edit-planit-main-container {
+.planit-form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.planit-dropdown-btn {
-  position: relative;
-	float: right;
-	margin-bottom: 20px;
-  margin-top: 20px;
 }
 
 .description-margin {
   margin-top: 20px;
+}
+
+.edit-planit-btn {
+  align-self: flex-start;
+  margin: 20px 0;
 }
