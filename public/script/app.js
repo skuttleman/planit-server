@@ -1,30 +1,10 @@
 (function() {
-  var partials = [
-    // general views
-    { name: 'header', file: '/templates/header.hbs' },
-    { name: 'footer', file: '/templates/footer.hbs' },
-    { name: 'splashpage', file: '/templates/splash-page.hbs' },
-    // members views
-    { name: 'members', file: '/templates/members/members.hbs' },
-    { name: 'member', file: '/templates/members/member.hbs' },
-    { name: 'memberupdate', file: '/templates/members/member-update.hbs' },
-    { name: 'missioncontrol', file: '/templates/mission-control/dashboard.hbs' },
-    // planits views
-    { name: 'planits', file: '/templates/planits/planits.hbs' },
-    { name: 'planit', file: '/templates/planits/planit.hbs' },
-    { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
-    // tasks views
-    { name: 'task', file: '/templates/tasks/task.hbs' },
-    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' },
-    // proposal views
-    { name: 'proposal', file: '/templates/proposals/proposal.hbs' },
-    { name: 'proposalupdate', file: 'templates/proposals/proposal_update'}
-
-  ].map(promisifyPartial);
-
-  partials.push(promiseToLoad());
-  return Promise.all(partials);
-})().then(pageLoaded);
+  $.get('/partials').done(function(partials) {
+    var promises = partials.map(promisifyPartial);
+    promises.push(promiseToLoad());
+    Promise.all(promises).then(pageLoaded);
+  });
+})();
 
 function promisifyPartial(partial) {
   return new Promise(function(success, failure) {
