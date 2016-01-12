@@ -1,0 +1,30 @@
+<h1>Task List</h1>
+<div class="main-container">
+  <div class="inner-container-column">
+    <table class="table table-striped tasks-table">
+      <thead>
+        <tr>
+          <th>TYPE</th>
+          <th>DESCRIPTION</th>
+          <th>RATE</th>
+          <th># NEEDED</th>
+          <th>START DATE</th>
+          <th>END DATE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#tasks}}
+          <tr>
+            <td>{{skill_id}}</td>
+            <td>{{description}}</td>
+            <td>{{budget}}</td>
+            <td>{{head_count}}</td>
+            <td>{{start_time}}</td>
+            <td>{{end_time}}</td>
+            <td><button type="button" class="btn btn-primary" name="planit-details" onclick="viewTask({{id}});">View</button></td>
+          </tr>
+        {{/tasks}}
+      </tbody>
+    </table>
+  </div>
+</div>
