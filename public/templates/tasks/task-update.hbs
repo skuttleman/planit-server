@@ -1,33 +1,28 @@
 <h1>Add a Task</h1>
-<div>
-  <form action=>
-    <label for="task-title">
-      <input type="text" name="task-title">
-    </label>
-    <label for="task-category">
-      <input type="selector" name="task-title">
-    </label>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
-            {{#each skills}}
-            <li class="disabled">{{name}}</li>
-            {{/each}}
+<div class="main-container">
+  <div class="inner-container-column">
+    <form action=>
+      <label for="task-title">Title
+        <input type="text" name="task-title">
+      </label>
+      <label for="task-type">Task Type
+        <input type="selector" name="task-type">
+        <ul class="dropdown-menu">
+          {{#each skills}}
+          <li class="disabled">{{name}}</li>
+          {{/each}}
         </ul>
-        Budget: <input type="submit" value="Submit"><br>
-        Date: <input type="text" name="date"><br>
-        Address: <input type="text" name="address"><br>
-        City: <input type="text" name="city">
-        State:
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
-            <li class="disabled">NY</li>
-            <li class="disabled">CO</li>
-            <li class="disabled">PA</li>
-            <li class="disabled">CA</li>
-            {{!-- {{#each states}}
-            <li class="disabled">{{name}}</li>
-            {{/each}} --}}
-        </ul>
-        Zip: <input type="text" name="zip"><br>
-        Description: <input type="textarea" name="description"><br>
-        <input type="submit" value="Create planit">
-    </form>
+      </label>
+      <label for="task-budget">Budget
+        <input type="text" name="task-budget">
+      </label>
+      <label for="task-date">Date Needed
+        <input type="text" name="task-date">
+      </label>
+      <label for="task-number-needed">Number of People Needed
+        <input type="text" name="task-number-needed">
+      </label>
+      <button type="submit">Submit</button>
+      </form>
+    </div>
 </div>
