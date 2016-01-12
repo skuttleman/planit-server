@@ -6,7 +6,7 @@
       <label for="title">Title:</label>
       <input type="text" name="title" value="{{planit.title}}" />
       <div class="planit-dropdown">
-        <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}
           {{category}}
         {{else}}
@@ -20,7 +20,7 @@
           {{/each}}
         </ul>
       </div>
-      <input type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
+      <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
       <label for="budget">Budget:</label>
       <input type="number" name="budget" value="{{planit.budget}}" />
       <label for="date">Start Date:</label>
@@ -32,7 +32,7 @@
       <label for="city">City:</label>
       <input type="text" name="city" value="{{planit.city}}" />
       <div class="planit-dropdown">
-        <button class="btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{#if planit.state}}
             {{planit.state}}
           {{else}}
