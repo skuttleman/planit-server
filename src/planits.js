@@ -1,20 +1,26 @@
 function createPlanit() {
-  displayTemplate('main', 'planitupdate', {});
+  var data = {
+    title: 'planit Update',
+    submitMethod: 'createPlanitPost',
+    submitText: 'Create'
+  };
+  displayTemplate('main', 'planitupdate', data);
 }
 
 function createPlanitPost(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  $.ajax({
-    url: '/planits',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
-  });
+  console.log(formData);
+  // $.ajax({
+  //   url: '/planits',
+  //   method: 'post',
+  //   data: formData,
+  //   xhrFields: {
+  //     withCredentials: true
+  //   }
+  // }).done(function(data) {
+  //   viewPlanit(id);
+  // });
 }
 
 function listPlanits() {
@@ -52,18 +58,20 @@ function updatePlanit(id) {
     $.ajax({
       url: '/types/planit_types',
       method: 'get'
-    }),
-    $.ajax({
-      url: '/types/skills',
-      method: 'get'
     })
   ]).then(function(data) {
+    appvars.planit_types = data[1].planit_types;
+    var planit = data[0].planits[0];
     var data = {
-      planit: data[0].planits[0],
+      planit: planit,
       planit_types: data[1].planit_types,
-      skills: data[2].skills
+      title: 'planit Update',
+      submitMethod: 'updatePlanitPut',
+      submitText: 'Update',
+      states: appvars.states,
+      category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
+      formatedDate: formatDate(data[0].planits[0])
     };
-    console.log(data);
     displayTemplate('main', 'planitupdate', data);
   });
 }
@@ -71,16 +79,17 @@ function updatePlanit(id) {
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
-  });
+  console.log(formData);
+  // $.ajax({
+  //   url: '/planits/' + id,
+  //   method: 'put',
+  //   data: formData,
+  //   xhrFields: {
+  //     withCredentials: true
+  //   }
+  // }).done(function(data) {
+  //   viewPlanit(id);
+  // });
 }
 
 function deletePlanit(id) {
@@ -99,4 +108,15 @@ function deletePlanit(id) {
       }
     });
   });
+}
+
+function selectState(id) {
+  $('.planit-state').val(appvars.states[id]);
+  $('.state-btn').html(appvars.states[id] + '<span class="caret"></span>');
+}
+
+function selectPlanitType(id) {
+  $('.planit-type').val(id);
+  var planitType = findBy(appvars.planit_types, 'id', id).name;
+  $('.category-btn').html(planitType + '<span class="caret"></span>');
 }

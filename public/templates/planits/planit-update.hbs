@@ -1,51 +1,52 @@
-<h1>Edit a planit</h1>
-<div class="main-container">
-    <div class="inner-container-column">
-        Title: <input class='edit-planit-text' type="text" name="title"><br>
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Category
-            <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                {{#each planit_types}}
-                <li>{{name}}</li>
-                {{/each}}
-            </ul>
-        </div>
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Skills
-            <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                {{#each skills}}
-                <li>{{name}}</li>
-                {{/each}}
-            </ul>
-        </div>
-        Budget:<input class='edit-planit-text' type="text" name="budget"><br>
-        Date:<input class='edit-planit-text' type="text" name="date"><br>
-        Address: <input class='edit-planit-text' type="text" name="address"><br>
-        City: <input class='edit-planit-text' type="text" name="city">
-        State:
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Dropdown
-            <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li class="disabled">NY</li>
-                <li class="disabled">CO</li>
-                <li class="disabled">PA</li>
-                <li class="disabled">CA</li>
-                {{!-- {{#each states}}
-                <li class="disabled">{{name}}</li>
-                {{/each}} --}}
-            </ul>
-        </div>
-        Zip: <input class='edit-planit-text' type="text" name="zip"><br>
-        Description: <input class='edit-planit-text' type="textarea" name="description"><br>
-        <input type="submit" value="Create planit" onclick="updatePlanitPut(event, {{planit.id}})">
+<h1>{{title}}</h1>
+<form class="main-container">
+  <div class="inner-container-column">
+    <label for="title">Title:</label>
+    <input class='edit-planit-text' type="text" name="title" id="title" value="{{planit.title}}" /><br>
+    <div class="dropdown">
+      <button class="category-btn btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        {{#if category}}
+          {{category}}
+        {{else}}
+          Category
+        {{/if}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each planit_types}}
+          <li onclick="selectPlanitType({{id}});" class="disabled">{{name}}</li>
+        {{/each}}
+      </ul>
+      <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
     </div>
-</div>
+    <label for="budget">Budget:</label>
+    <input class="edit-planit-text" type="number" name="budget" id="budget" value="{{planit.budget}}" /><br>
+    <label for="date">Date:</label>
+    <input class="edit-planit-text" type="date" name="date" id="date" value="{{formattedDate}}" /><br>
+    <label for="street_address">Street Address:</label>
+    <input class="edit-planit-text" type="text" name="street_address" id="street_address" value="{{planit.street_address}}"><br>
+    <label for="city">City:</label>
+    <input class="edit-planit-text" type="text" name="city" id="city" value="{{planit.city}}" />
+    <div class="dropdown">
+      <button class="state-btn btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        {{#if planit.state}}
+          {{planit.state}}
+        {{else}}
+          State
+        {{/if}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each states}}
+          <li onclick="selectState({{@index}});" class="disabled">{{this}}</li>
+        {{/each}}
+      </ul>
+      <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" />
+    </div>
+    <label for="zipcode">Zipcode:</label>
+    <input class="edit-planit-text" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}"><br>
+    <label for="description">Description:</label>
+    <textarea class="edit-planit-text" name="description" rows="8" cols="40">{{planit.description}}</textarea><br>
+    <input type="submit" value="{{submitText}}" onclick="{{submitMethod}}(event, {{planit.id}});" />
+  </div>
+</form>
