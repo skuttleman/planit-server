@@ -7,6 +7,7 @@ body {
   background-color: #000;
   font-family: 'Source Code Pro', sans-serif;
   color: #fff;
+  cursor: url('../images/cursor.png'), pointer;
 }
 
 h1 {
@@ -21,6 +22,11 @@ textarea {
 
 nav img {
 	margin: 20px 0px 10px 40px;
+  cursor: pointer;
+}
+
+nav p {
+  cursor: pointer;
 }
 
 #display_name {
@@ -34,6 +40,11 @@ nav img {
 ul .dropdown-menu {
 	color: white;
 	background-color: black;
+  cursor: pointer;
+}
+
+.dropdown-menu li {
+  cursor: pointer;
 }
 
 .dropdown {
@@ -210,6 +221,7 @@ footer li {
   height: 100vh;
   width: 100%;
 }
+
 .btn-delete-member, .btn-update-member {
   align-self: flex-end;
   margin: 10px;
@@ -231,6 +243,7 @@ footer li {
   display: flex;
   flex-direction: column;
   margin: 20px;
+  cursor: pointer;
 }
 
 
@@ -248,6 +261,3 @@ footer li {
 }
 
 /*planIt Details Styles */
-
-
-

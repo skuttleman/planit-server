@@ -36,6 +36,11 @@ Promise.all([
   promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
   promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
 
+  // tasks views
+  promisifyPartial({ name: 'tasks', file: '/templates/tasks/tasks.hbs' }),
+  promisifyPartial({ name: 'task', file: '/templates/tasks/task.hbs' }),
+  promisifyPartial({ name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }),
+
   // Document Ready?
   promiseToLoad()
 ]).then(function(datas) {
@@ -234,7 +239,9 @@ function viewPlanit(id) {
     data = {
       planit: planits.planits[0],
       tasks: planits.tasks,
-      user: appvars.user
+      user: appvars.user,
+      editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
     };
     displayTemplate('main', 'planit', data);
   });
@@ -268,6 +275,72 @@ function deletePlanit(id) {
   customConfirm('Are you sure you want to delete this planit?', function() {
     $.ajax({
       url: '/planits/' + id,
+      method: 'delete',
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      if (id == appvars.user.id) {
+        logout();
+      } else {
+        displayTemplate('main', 'splashpage');
+      }
+    });
+  });
+}
+
+function listTasks() {
+  $.ajax({
+    url: '/tasks',
+    method: 'get'
+  }).done(function(tasks) {
+    Tasks.user = appvars.user;
+    displayTemplate('main', 'tasks', tasks);
+  });
+}
+
+function viewTask(id) {
+  $.ajax({
+    url: '/tasks/' + id,
+    method: 'get'
+  }).done(function(tasks) {
+    data = {
+      task: tasks.tasks[0],
+      tasks: Tasks.tasks,
+      user: appvars.user
+    };
+    displayTemplate('main', 'task', data);
+  });
+}
+
+function updateTask(id) {
+  $.ajax({
+    url: '/tasks/' + id,
+    method: 'get'
+  }).done(function(tasks) {
+    displayTemplate('main', 'taskupdate', tasks.tasks[0]);
+  });
+}
+
+function updateTaskPut(event, id) {
+  if (event) event.preventDefault();
+  var formData = getFormData('form');
+  $.ajax({
+    url: '/tasks/' + id,
+    method: 'put',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewTask(id);
+  });
+}
+
+function deleteTask(id) {
+  customConfirm('Are you sure you want to delete this task?', function() {
+    $.ajax({
+      url: '/tasks/' + id,
       method: 'delete',
       xhrFields: {
         withCredentials: true
