@@ -1,30 +1,30 @@
-<div class="member">
+<div class="main-container">
   <div class="inner-container-column">
-    <div class="profile-container">
+    <div class="member">
       <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
       <p>{{member.display_name}}</p>
+      <form class="form member-form" action="/" method="post">
+        <div class="form-group">
+          <label for="bio">Bio:</label>
+          <textarea name="bio" rows="12" cols="50">{{member.bio}}</textarea>
+        </div>
+        <div class="checkbox-group">
+          {{#each skills}}
+            {{#if memberHas}}
+              <label for="skill_{{id}}">
+                <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" checked="checked" />
+                {{name}}
+              </label>
+            {{else}}
+              <label for="skill_{{id}}">
+                <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" />
+                {{name}}
+              </label>
+            {{/if}}
+          {{/each}}
+        </div>
+        <button type="button" class="btn btn-custom form-submit-btn" onclick="updateMemberPut(event, {{member.id}});">Save</button>
+      </form>
     </div>
-    <form class="form profile-form" action="/" method="post">
-      <div class="form-group">
-        <label for="bio">Bio:</label>
-        <textarea name="bio" rows="12" cols="50">{{member.bio}}</textarea>
-      </div>
-      <div class="form-group">
-        {{#each skills}}
-          {{#if memberHas}}
-            <label for="skill_{{id}}">
-              <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" checked="checked" />
-              {{name}}
-            </label>
-          {{else}}
-            <label for="skill_{{id}}">
-              <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" />
-              {{name}}
-            </label>
-          {{/if}}
-        {{/each}}
-      </div>
-      <button type="button" class="btn-custom" onclick="updateMemberPut(event, {{member.id}});">Save</button>
-    </form>
   </div>
 </div>
