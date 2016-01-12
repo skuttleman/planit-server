@@ -377,12 +377,12 @@ function selectPlanitType(id) {
 
 function createTask() {
   $.ajax({
-    url: '/tasks/'
+    url: '/tasks/',
     method: 'post'
   }).done(function(types){
     appvars.task_types = types.task_types
   var data = {
-    task_types: appvars.task_types
+    task_types: appvars.task_types,
     title: 'Task Creation',
     headCount: headCount,
     startDate: formatDateInput(Date.now()),
@@ -435,10 +435,10 @@ function viewTask(id) {
   });
 }
 
-// May be a mistake 
+// May be a mistake
 
 function updateTask(id) {
-  Promise.all([])
+  Promise.all([
   $.ajax({
     url: '/tasks/' + id,
     method: 'get'
