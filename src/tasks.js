@@ -31,7 +31,7 @@ function updateTask(id) {
   });
 }
 
-function createTask(data){
+function createTask(){
   $.ajax({
     url: '/tasks/',
     method: 'post'

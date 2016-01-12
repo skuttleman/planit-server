@@ -5,14 +5,12 @@
       <label for="task-title">Title
         <input type="text" name="task-title">
       </label>
-      <label for="task-type">Task Type
-        <input type="selector" name="task-type">
-        <ul class="dropdown-menu">
+      <label for="task-type">Task Type</label>
+        <select name="task-type">
           {{#each skills}}
-          <li class="disabled">{{name}}</li>
+            <option value="placeholder">{{name}}</option>
           {{/each}}
-        </ul>
-      </label>
+        </select>
       <label for="task-budget">Budget
         <input type="text" name="task-budget">
       </label>
