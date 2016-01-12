@@ -37,8 +37,10 @@ nav p {
 	margin-right: 20px;
 }
 
-ul.dropdown-menu {
-	color: white;
+/* Also used in other forms */
+.dropdown-menu {
+	/*color: white;*/
+  padding: 10px;
 	background-color: black;
   cursor: pointer;
   z-index: 1000;
@@ -55,10 +57,6 @@ ul.dropdown-menu {
 	margin-top: 15px;
 	margin-right: 90px;
 	padding-bottom: 18px;
-}
-
-.dropdown-menu {
-  background-color: black;
 }
 
 .dropdown .btn {
@@ -265,7 +263,6 @@ footer li {
 /* Edit planit */
 
 #edit-planit-main-container {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -273,15 +270,18 @@ footer li {
 
 }
 
-.edit-planit-text {
-  color: black;
-}
-
-.dropdown {
-  display: inline;
+.planit-dropdown-btn {
   position: relative;
-  z-index: 100000;
-
+	float: right;
+	margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-/*planIt Details Styles */
+.planit-submit {
+  margin: 20px;
+  align-self: flex-end;
+}
+
+.description-margin {
+  margin-top: 20px;
+}
