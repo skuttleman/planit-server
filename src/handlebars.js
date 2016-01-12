@@ -8,7 +8,7 @@
     { name: 'members', file: '/templates/members/members.hbs' },
     { name: 'member', file: '/templates/members/member.hbs' },
     { name: 'memberupdate', file: '/templates/members/member-update.hbs' },
-    { name: 'missioncontrol', file: '/templates/members/mission-control.hbs' },
+    { name: 'missioncontrol', file: '/templates/mission-control/dashboard.hbs' },
     // planits views
     { name: 'planits', file: '/templates/planits/planits.hbs' },
     { name: 'planit', file: '/templates/planits/planit.hbs' },
