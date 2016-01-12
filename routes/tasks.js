@@ -38,15 +38,24 @@ route.get('/:id', function(request, response, next) {
     'tasks.id': request.params.id
   };
   if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
-  knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
-  .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-  .leftJoin('skills', 'tasks.skill_id', 'skills.id')
-  .where(where).then(function(tasks) {
+  else response.json({ sucess: false });
+  Promise.all([
+    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
+    .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
+    .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
+    knex('planits').where({ id: where.planit_id })
+  ]).then(function(data) {
+    var tasks = data[0];
+    var memberId = data[1][0].member_id;
+    console.log('memberid', memberId);
     tasks.forEach(function(task) {
       task.id = task.task_id;
+      task.member_id = memberId;
       delete task.task_id;
     });
     response.json({ success: true, tasks: tasks });
+  }).catch(function(err) {
+    console.log(err);
   });
 });
 

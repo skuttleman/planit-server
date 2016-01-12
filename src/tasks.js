@@ -1,9 +1,9 @@
 function createTask() {
   $.ajax({
-    url: '/tasks/',
-    method: 'post'
+    url: '/types/skills',
+    method: 'get'
   }).done(function(types){
-    appvars.task_types = types.task_types
+    appvars.skills = types.skills
   var data = {
     task_types: appvars.task_types,
     title: 'Task Creation',
@@ -11,8 +11,9 @@ function createTask() {
     startDate: formatDateInput(Date.now()),
     endDate: formatDateInput(Date.now())
     };
-  displayTemplate('main', 'taskupdate', data);
-  })
+    // :MODULE FORM ROUTE
+    displayTemplate('main', 'taskupdate', data);
+  });
 }
 
 function createTaskPost(event, id) {
@@ -27,18 +28,8 @@ function createTaskPost(event, id) {
     }
   }).done(function(data) {
     viewTask(data.tasks[0].id);
-  }).fail(function(err){
-    customAlert('All filed must be filled out to create a task')
-  });
-}
-
-function listTasks() {
-  $.ajax({
-    url: '/tasks',
-    method: 'get'
-  }).done(function(tasks) {
-    Tasks.user = appvars.user;
-    displayTemplate('main', 'tasks', tasks);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out to create a task');
   });
 }
 
@@ -49,10 +40,7 @@ function viewTask(id) {
   }).done(function(tasks) {
     data = {
       task: tasks.tasks[0],
-      //? tasks: Tasks.tasks,
-      user: appvars.user,
-      editable: appvars.user && (appvars.user.id == tasks.tasks[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == tasks.tasks[0].member_id || appvars.user.role_name !== 'normal')
+      user: appvars.user
     };
     displayTemplate('main', 'task', data);
   });
