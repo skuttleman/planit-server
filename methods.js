@@ -7,6 +7,13 @@ function getPermission(memberId) {
   });
 }
 
+function chomp(array, field, search) {
+  return array.filter(function(element) {
+    return element[field] == search;
+  })[0];
+}
+
 module.exports = {
-  getPermission: getPermission
+  getPermission: getPermission,
+  chomp: chomp
 };
