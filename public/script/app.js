@@ -225,8 +225,8 @@ function createPlanit(data) {
     url: '/planits/',
     method: 'post'
   }).done(function(planits) {
-    console.log('creating a planit')
-  })
+    console.log('creating a planit');
+  });
 }
 
 function listPlanits() {
@@ -327,6 +327,15 @@ function updateTask(id) {
     method: 'get'
   }).done(function(tasks) {
     displayTemplate('main', 'taskupdate', tasks.tasks[0]);
+  });
+}
+
+function createTask(data){
+  $.ajax({
+    url: '/tasks/',
+    method: 'post'
+  }).done(function(task){
+    console.log(task);
   });
 }
 

@@ -3,8 +3,8 @@ function createPlanit(data) {
     url: '/planits/',
     method: 'post'
   }).done(function(planits) {
-    console.log('creating a planit')
-  })
+    console.log('creating a planit');
+  });
 }
 
 function listPlanits() {
