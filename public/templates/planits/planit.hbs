@@ -7,7 +7,7 @@
         </div>
         <div class="planit_details">
             <h4>Category:</h4>
-            <p>{{planit.name}}</p>
+            <p>{{planit.planit_type_name}}</p>
         </div>
         <div class="planit_details">
             <h4>Address:</h4>
@@ -45,9 +45,9 @@
                 {{#each tasks}}
                 <tr>
                     {{#compare skill_name 'other'}}
-                    <td>{{skill_description}}</td>
+                      <td>{{skill_description}}</td>
                     {{else}}
-                    <td>{{name}}</td>
+                      <td>{{skill_name}}</td>
                     {{/compare}}
                     <td>{{description}}</td>
                     <td>{{budget}}</td>
