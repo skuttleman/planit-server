@@ -16,7 +16,9 @@ function viewPlanit(id) {
     data = {
       planit: planits.planits[0],
       tasks: planits.tasks,
-      user: appvars.user
+      user: appvars.user,
+      editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
     };
     displayTemplate('main', 'planit', data);
   });
