@@ -1,5 +1,5 @@
 function createPlanit() {
-  displayTemplate('main', 'planitupdate', {});
+  displayTemplate('main', 'planitupdate');
 }
 
 function createPlanitPost(event, id) {

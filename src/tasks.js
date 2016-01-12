@@ -31,12 +31,22 @@ function updateTask(id) {
   });
 }
 
-function createTask(){
+function createTask() {
+  displayTemplate('main', 'taskupdate');
+}
+
+function createTaskPost(event, id) {
+  if (event) event.preventDefault();
+  var formData = getFormData('form');
   $.ajax({
-    url: '/tasks/',
-    method: 'post'
-  }).done(function(task){
-    console.log(task);
+    url: '/tasks',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewTask(id);
   });
 }
 
