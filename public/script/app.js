@@ -388,9 +388,9 @@ function createTask(planitId) {
       url: '/types/task_types',
       method: 'get'
     })
-  ]).done(function(data) {
-    appvars.planit = data[0].planits[0];
-    appvars.task_types = data[1].task_types;
+  ]).done(function(serverData) {
+    appvars.planit = serverData[0].planits[0];
+    appvars.task_types = serverData[1].task_types;
     var data = {
       planit: appvars.planit,
       title: 'Task Creation',
@@ -420,12 +420,20 @@ function createTaskPost(event, planitId) {
 }
 
 function viewTask(planitId, id) {
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + id,
-    method: 'get'
-  }).done(function(tasks) {
+  Promise.all([
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/planits/',
+      method: 'get'
+    })
+  ]).done(function(serverData) {
+    appvars.planit = serverData[1].planits[0];
     data = {
-      task: tasks.tasks[0],
+      planit: planit,
+      task: serverData[0].tasks[0],
       user: appvars.user
     };
     displayTemplate('main', 'task', data);
@@ -446,10 +454,10 @@ function updateTask(planitId, id) {
       url: '/planits',
       method: 'get'
     })
-  ]).then(function(data) {
-    appvars.task_types = data[1].task_types;
-    var task = data[0].tasks[0];
-    var planit = data[2].planits[0];
+  ]).then(function(serverData) {
+    appvars.task_types = serverData[1].task_types;
+    var task = serverData[0].tasks[0];
+    var planit = serverData[2].planits[0];
     var data = {
       task: task,
       planit: planit,
@@ -474,7 +482,7 @@ function updateTaskPut(event, planitId, id) {
       withCredentials: true
     }
   }).done(function(data) {
-    viewTask(id);
+    viewTask(planitId, id);
   });
 }
 
@@ -490,7 +498,7 @@ function deleteTask(planitId, id) {
       if (id == appvars.user.id) {
         logout();
       } else {
-        displayTemplate('main', 'splashpage');
+        viewPlanit(planitId);
       }
     });
   });
