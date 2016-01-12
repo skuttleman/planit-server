@@ -68,6 +68,12 @@ function month() {
   ];
 }
 
+function day() {
+  return [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+  ];
+}
+
 function formatDateInput(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -90,8 +96,9 @@ function formatDateShort(date) {
 
 function formatDateLong(date) {
   var dateObject = new Date(date);
+  console.log(dateObject.getDay());
   var returnDate = [
-    dateObject.getDay(),
+    day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
     [
       dateObject.getDate(),
