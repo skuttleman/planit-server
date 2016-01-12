@@ -14,7 +14,7 @@ h1 {
   text-align: center;
 }
 
-textarea {
+input, textarea {
   background-color: black;
 }
 

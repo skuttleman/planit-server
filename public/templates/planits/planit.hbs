@@ -26,8 +26,8 @@
             <p>{{planit.budget}}</p>
         </div>
         {{#if editable}}
-        <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updatePlanit({{planit.id}});">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <button type="button" class="btn btn-custom" onclick="updatePlanit({{planit.id}});">
+            <span class="glyphicon glyphicon-plus"></span>
             Edit
         </button>
         {{/if}}
@@ -59,14 +59,14 @@
             </table>
         </div>
         {{#if deletable}}
-          <button type="button" class="btn btn-default" aria-label="Left Align" onclick="deletePlanit({{planit.id}});">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <button type="button" class="btn btn-custom" onclick="deletePlanit({{planit.id}});">
+            <span class="glyphicon glyphicon-plus"></span>
             Delete
           </button>
         {{/if}}
         {{#if editable}}
-          <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{id}})">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <button type="button" class="btn btn-custom" onclick="updateTask({{id}})">
+            <span class="glyphicon glyphicon-plus"></span>
             Add A Task
           </button>
         {{/if}}
