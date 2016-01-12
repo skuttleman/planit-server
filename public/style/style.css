@@ -46,6 +46,7 @@ ul .dropdown-menu {
 
 .dropdown-menu li {
   cursor: pointer;
+  z-index: 10000;
 }
 
 .dropdown {

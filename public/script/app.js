@@ -283,7 +283,7 @@ function updatePlanit(id) {
     var data = {
       planit: data[0].planits[0],
       planit_types: data[1].planit_types,
-      skills: data[2]
+      skills: data[2].skills
     };
     console.log(data);
     displayTemplate('main', 'planitupdate', data);
