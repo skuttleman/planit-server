@@ -15,7 +15,10 @@
     { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
     // tasks views
     { name: 'task', file: '/templates/tasks/task.hbs' },
-    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }
+    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' },
+    // proposal views
+    { name: 'proposal', file: '/templates/proposals/proposal.hbs' }
+
   ].map(promisifyPartial);
 
   partials.push(promiseToLoad());
