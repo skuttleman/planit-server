@@ -164,7 +164,7 @@ function updateMember(id) {
     });
     var data = {
       member: serverData[0].members[0],
-      skills: allSkills
+      skills: all
     }
     displayTemplate('main', 'memberupdate', data);
   });
@@ -256,11 +256,27 @@ function viewPlanit(id) {
 }
 
 function updatePlanit(id) {
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'get'
-  }).done(function(planits) {
-    displayTemplate('main', 'planitupdate', planits.planits[0]);
+  Promise.all([
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/planit_types',
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/skills',
+      method: 'get'
+    })
+  ]).then(function(data) {
+    var data = {
+      planit: data[0].planits[0],
+      planit_types: data[1].planit_types,
+      skills: data[2]
+    };
+    console.log(data);
+    displayTemplate('main', 'planitupdate', data);
   });
 }
 
@@ -327,8 +343,6 @@ function updateTask(id) {
     method: 'get'
   }).done(function(tasks) {
     displayTemplate('main', 'taskupdate', tasks.tasks[0]);
-<<<<<<< HEAD
-=======
   });
 }
 
@@ -338,7 +352,6 @@ function createTask(data){
     method: 'post'
   }).done(function(task){
     console.log(task);
->>>>>>> 7034720a527823d7d6115d3e493f82e6a477c7c4
   });
 }
 

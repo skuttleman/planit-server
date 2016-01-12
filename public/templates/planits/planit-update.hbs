@@ -1,0 +1,47 @@
+<h1>Edit a planit</h1>
+<div class="main-container">
+    <div class="inner-container-column">
+        Title: <input class='edit-planit-text' type="text" name="title"><br>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Dropdown
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                {{#each planit_types}}
+                <li>{{planit_types}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        <ul class="dropdown-menu edit-planit-text" aria-labelledby="dropdownMenu4">
+            {{#each skills}}
+            <li class="disabled">{{skills}}</li>
+            {{/each}}
+        </ul>
+        Budget: <input class='edit-planit-text' type="text" name="budget"><br>
+        Date: <input class='edit-planit-text' type="text" name="date"><br>
+        Address: <input class='edit-planit-text' type="text" name="address"><br>
+        City: <input class='edit-planit-text' type="text" name="city">
+        State:
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Dropdown
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <ul class="dropdown-menu edit-planit-text" aria-labelledby="dropdownMenu4">
+                    <li class="disabled">NY</li>
+                    <li class="disabled">CO</li>
+                    <li class="disabled">PA</li>
+                    <li class="disabled">CA</li>
+                    {{!-- {{#each states}}
+                    <li class="disabled">{{name}}</li>
+                    {{/each}} --}}
+                </ul>
+            </ul>
+        </div>
+        Zip: <input class='edit-planit-text' type="text" name="zip"><br>
+        Description: <input class='edit-planit-text' type="textarea" name="description"><br>
+        <input type="submit" value="Create planit" onclick="updatePlanitPut(event, {{planit.id}})">
+    </div>
+</div>
