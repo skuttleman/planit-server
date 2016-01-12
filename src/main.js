@@ -100,3 +100,13 @@ function formatDateLong(date) {
   ].join(' ');
   return returnDate;
 }
+
+function formatCurrency(budget) {
+  var formattedCurrency;
+  for (var i = 0; i < budget.length; i++) {
+    if (budget[i] === '.') {
+      formattedCurrency = budget.splice(i+2,);
+    }
+  }
+  return '$ ' + + budget.toFixed(2).replace(/./g);
+}
