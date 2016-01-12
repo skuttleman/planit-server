@@ -66,6 +66,7 @@ function pageLoaded() {
       appvars.user = data.user;
       displayTemplate('header', 'header', data);
       if (data.user && data.user.firstLogin) {
+        console.log('why is this the first time I logged in');
         updateMember(data.user.id);
       } else {
         // TODO: go to mission control
