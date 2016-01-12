@@ -15,7 +15,7 @@ function createProposal() {
   displayTemplate('main', 'proposalupdate', data);
   })
 }
-
+  
 function createProposalPost(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
@@ -119,4 +119,13 @@ function deleteProposal(id) {
       }
     });
   });
+}
+
+function acceptedProposal(id){
+
+}
+
+function rejectedProposal(id){
+
+  
 }
