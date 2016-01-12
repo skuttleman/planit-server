@@ -1,9 +1,19 @@
-function createPlanit(data) {
+function createPlanit() {
+  displayTemplate('main', 'planitupdate', {});
+}
+
+function createPlanitPost(event, id) {
+  if (event) event.preventDefault();
+  var formData = getFormData('form');
   $.ajax({
-    url: '/planits/',
-    method: 'post'
-  }).done(function(planits) {
-    console.log('creating a planit');
+    url: '/planits',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewPlanit(id);
   });
 }
 
