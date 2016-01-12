@@ -446,7 +446,7 @@ function updateTask(id) {
   $.ajax({
     url: '/tasks/task_types',
     method: 'get'
-  })
+    })
   ]).then(function(data) {
     appvars.task_types = data[1].task_types;
     var task = data[0].tasks[0];
