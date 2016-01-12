@@ -31,6 +31,15 @@ function updateTask(id) {
   });
 }
 
+function createTask(data){
+  $.ajax({
+    url: '/tasks/',
+    method: 'post'
+  }).done(function(task){
+    console.log(task);
+  });
+}
+
 function updateTaskPut(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
