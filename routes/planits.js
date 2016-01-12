@@ -22,8 +22,9 @@ route.post('/', function(request, response, next) {
   if (request.user) {
     request.body.member_id = request.user.id;
     knex('planits').returning('*').insert(request.body).then(function(planits) {
+      console.log('created planit');
       response.json({ success: true, planits: planits });
-    });
+    }).catch(next);
   } else {
     next('You must be logged in to perform this action');
   }
@@ -62,6 +63,7 @@ route.put('/:id', function(request, response, next) {
         knex('planits').where('id', request.params.id).update(request.body).then(function() {
           response.json({ success: true });
         }).catch(function(err) {
+          console.error(err);
           next(err);
         });
       } else {
