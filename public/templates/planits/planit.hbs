@@ -59,10 +59,16 @@
             </table>
         </div>
         {{#if deletable}}
-        <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{id}})">
+          <button type="button" class="btn btn-default" aria-label="Left Align" onclick="deletePlanit({{planit.id}});">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Delete
+          </button>
+        {{/if}}
+        {{#if editable}}
+          <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updateTask({{id}})">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add A Task
-        </button>
+          </button>
         {{/if}}
     </div>
 </div>
