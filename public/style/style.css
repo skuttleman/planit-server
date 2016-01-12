@@ -37,11 +37,11 @@ nav p {
 	margin-right: 20px;
 }
 
-ul .dropdown-menu {
-	/*color: white;*/
-	/*background-color: black;*/
-  /*cursor: pointer;*/
-  /*z-index: 1000;*/
+ul.dropdown-menu {
+	color: white;
+	background-color: black;
+  cursor: pointer;
+  z-index: 1000;
 }
 
 .dropdown-menu li {
@@ -50,7 +50,7 @@ ul .dropdown-menu {
 }
 
 .dropdown {
-	/*color: white;*/
+	color: white;
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
