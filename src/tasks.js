@@ -11,10 +11,11 @@ function createTask(planitId) {
   ]).then(function(serverData) {
     appvars.planit = serverData[0].planits[0];
     appvars.skills = serverData[1].skills;
-    appvars.skills.push('other');
+    appvars.skills.push({ id:0, name: 'other' });
+    console.log(appvars.skills);
     var data = {
       planit: appvars.planit,
-      title: 'Task Creation',
+      title: 'Create a Task',
       skills: appvars.skills,
       startTime: formatDateInput(Date.now()),
       endTime: formatDateInput(Date.now())
@@ -84,7 +85,7 @@ function updateTask(planitId, id) {
       task: task,
       planit: planit,
       task_types: appvars.task_types,
-      title: 'Task Update',
+      title: 'Update Task',
       update: true,
       startDate: formatDateInput(task.start_date),
       endDate: formatDateInput(task.end_date)
