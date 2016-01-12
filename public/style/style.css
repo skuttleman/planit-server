@@ -41,6 +41,7 @@ ul .dropdown-menu {
 	color: white;
 	background-color: black;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .dropdown-menu li {
@@ -154,6 +155,7 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 /* For Sticky Footer */
@@ -257,6 +259,28 @@ footer li {
 .glyphicon-plus {
 
   color: black;
+
+}
+
+/* Edit planit */
+
+#edit-planit-main-container {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.edit-planit-text {
+  color: black;
+}
+
+.dropdown {
+  display: inline;
+  position: relative;
+  z-index: 100000;
 
 }
 

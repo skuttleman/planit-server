@@ -1,23 +1,23 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-    <img onclick="pageLoaded();" src="../images/brand_logo_v2.png">
-    {{#if user}}
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-        <span class="caret"></span>
-		</button>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li onclick="missionControl()">Mission Control</li>
-            <li onclick="listMembers()">Browse Members</li>
-            <li onclick="viewServiceRecord({{user.id}});">Service Record</li>
-            <li onclick="listPlanits();">Browse Planits</li>
-            <li onclick="updateMember({{user.id}})">Edit Profile</li>
-            <li onclick="logout();">Logout</li>
-        </ul>
-    </div>
-    <span id="display_name">{{user.display_name}}</span>
-    {{else}}
-    <p class="pull-right" name="login_button" onclick="login();">Login <span class='small'>or </span>Register</p>
-    {{/if}}
+  <img onclick="pageLoaded();" src="../images/brand_logo_v2.png">
+  {{#if user}}
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+    <span class="caret"></span>
+	</button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li onclick="missionControl()">Mission Control</li>
+      <li onclick="listMembers()">Browse Members</li>
+      <li onclick="viewServiceRecord({{user.id}});">Service Record</li>
+      <li onclick="listPlanits();">Browse Planits</li>
+      <li onclick="createPlanit();">Create a Planit</li>
+      <li onclick="updateMember({{user.id}})">Edit Profile</li>
+      <li onclick="logout();">Logout</li>
+    </ul>
+  </div>
+  <span id="display_name">{{user.display_name}}</span>
+  {{else}}
+  <p class="pull-right" name="login_button" onclick="login();">Login <span class='small'>or </span>Register</p>
+  {{/if}}
 </nav>

@@ -164,7 +164,7 @@ function updateMember(id) {
     });
     var data = {
       member: serverData[0].members[0],
-      skills: allSkills
+      skills: all
     }
     displayTemplate('main', 'memberupdate', data);
   });
@@ -220,6 +220,15 @@ function deleteMember(id) {
   });
 }
 
+function createPlanit(data) {
+  $.ajax({
+    url: '/planits/',
+    method: 'post'
+  }).done(function(planits) {
+    console.log('creating a planit');
+  });
+}
+
 function listPlanits() {
   $.ajax({
     url: '/planits',
@@ -247,11 +256,27 @@ function viewPlanit(id) {
 }
 
 function updatePlanit(id) {
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'get'
-  }).done(function(planits) {
-    displayTemplate('main', 'planitupdate', planits.planits[0]);
+  Promise.all([
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/planit_types',
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/types/skills',
+      method: 'get'
+    })
+  ]).then(function(data) {
+    var data = {
+      planit: data[0].planits[0],
+      planit_types: data[1].planit_types,
+      skills: data[2]
+    };
+    console.log(data);
+    displayTemplate('main', 'planitupdate', data);
   });
 }
 
