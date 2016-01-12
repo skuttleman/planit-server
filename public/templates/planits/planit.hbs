@@ -25,10 +25,12 @@
             <h4>Budget:</h4>
             <p>{{planit.budget}}</p>
         </div>
-        <button type="button" class="btn btn-default" aria-label="Left Align">
+        {{#if editable}}
+        <button type="button" class="btn btn-default" aria-label="Left Align" onclick="updatePlanit({{id}});">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Edit
         </button>
+        {{/if}}
         <h1>Tasks</h1>
         <div id="tasks">
             <table style="width:100%">
@@ -56,9 +58,11 @@
                 {{/each}}
             </table>
         </div>
+        {{#if deletable}}
         <button type="button" class="btn btn-default" aria-label="Left Align">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add A Task
         </button>
+        {{/if}}
     </div>
 </div>
