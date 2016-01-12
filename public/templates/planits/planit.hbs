@@ -19,7 +19,11 @@
     </div>
     <div class="planit_details">
         <h4>Date:</h4>
-        <p>{{planit.start_date}} - {{planit.end_date}}</p>
+        {{#compare planit.startDate planit.endDate}}
+          <p>{{planit.startDate}}</p>
+        {{else}}
+          <p>{{planit.startDate}} - {{planit.endDate}}</p>
+        {{/compare}}
     </div>
     <div class="planit_details">
         <h4>Budget:</h4>
