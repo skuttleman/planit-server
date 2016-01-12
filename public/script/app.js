@@ -220,6 +220,15 @@ function deleteMember(id) {
   });
 }
 
+function createPlanit(data) {
+  $.ajax({
+    url: '/planits/',
+    method: 'post'
+  }).done(function(planits) {
+    console.log('creating a planit');
+  });
+}
+
 function listPlanits() {
   $.ajax({
     url: '/planits',
