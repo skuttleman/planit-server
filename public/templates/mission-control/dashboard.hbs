@@ -1,14 +1,81 @@
 <h1>Mission Control</h1>
-<h3>My planits</h3>
-<div class="mission-control-my-planit">
-    {{#each planit}}
+<div class="main-container">
+    <h3>My planits</h3>
+    <div class="inner-container-column">
+        <table class="table table-striped planits-table">
+            <thead>
+                <tr>
+                    <th>START DATE</th>
+                    <th>TITLE</th>
+                    <th>TYPE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{!-- if member owns planit --}}
+                {{#if editable}}
+                {{#planits}}
+                <tr>
+                    <td>{{start_date}}</td>
+                    <td>{{title}}</td>
+                    <td>{{type}}</td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">Edit</button></td>
+                </tr>
+                {{/planits}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-custom" name="planit-details" onclick="createPlanit({{id}});">Create a planit</button>
+    <h3>My Sent Proposals</h3>
+    <div class="inner-container-column">
+        <table class="table table-striped planits-table">
+            <thead>
+                <tr>
+                    <th>START DATE</th>
+                    <th>TITLE</th>
+                    <th>TYPE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if editable}}
+				{{!--submitted proposals box --}}                
+				{{#proposals}}
+                <tr>
+                    <td>{{start_date}}</td>
+                    <td>{{title}}</td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">Edit</button></td>
+                </tr>
+                {{/proposals}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    <h3>Proposal Recieved</h3>
+    <div class="inner-container-column">
+        <table class="table table-striped planits-table">
+            <thead>
+                <tr>
+                    <th>START DATE</th>
+                    <th>TITLE</th>
+                    <th>TYPE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if editable}}
+				{{!--recieved proposals box--}}                
+				{{#proposals}}
+                <tr>
+                    <td>{{start_date}}</td>
+                    <td>{{title}}</td>
+                    <td>{{type}}</td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
+                    <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">Edit</button></td>
+                </tr>
+                {{/proposals}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
 </div>
-<h2>My Proposals</h2>
-<div class="my_proposals">
-    {{#each myProposals}}
-</div>
-<h2>Proposals for Me</h2>
-<div class="others_proposals">
-    {{#each othersProposals}}
-</div>
-<button type="button">Create a planit</button>
