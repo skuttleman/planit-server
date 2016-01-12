@@ -21,7 +21,7 @@ textarea {
 /* Nav */
 
 nav img {
-	margin: 20px 0px 10px 40px;
+	margin: 20px 0px 10px 90px;
   cursor: pointer;
 }
 
@@ -31,17 +31,17 @@ nav p {
 
 #display_name {
 	float: right;
-	color: white;
+	/*color: white;*/
 	font-size: 18px;
 	margin-top: 20px;
 	margin-right: 20px;
 }
 
 ul .dropdown-menu {
-	color: white;
-	background-color: black;
-  cursor: pointer;
-  z-index: 1000;
+	/*color: white;*/
+	/*background-color: black;*/
+  /*cursor: pointer;*/
+  /*z-index: 1000;*/
 }
 
 .dropdown-menu li {
@@ -50,7 +50,7 @@ ul .dropdown-menu {
 }
 
 .dropdown {
-	color: white;
+	/*color: white;*/
 	float: right;
 	margin-top: 15px;
 	margin-right: 90px;
