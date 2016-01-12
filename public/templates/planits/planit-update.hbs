@@ -3,8 +3,8 @@
   <div class="inner-container-column">
     <label for="title">Title:</label>
     <input class='edit-planit-text' type="text" name="title" id="title" value="{{planit.title}}" /><br>
-    <div class="dropdown">
-      <button class="category-btn btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <div class="planit-dropdown-btn">
+      <button class="btn btn-custom dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown">
         {{#if category}}
           {{category}}
         {{else}}
@@ -12,9 +12,9 @@
         {{/if}}
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <ul class="dropdown-menu">
         {{#each planit_types}}
-          <li onclick="selectPlanitType({{id}});" class="disabled">{{name}}</li>
+          <li onclick="selectPlanitType({{id}});">{{name}}</li>
         {{/each}}
       </ul>
       <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
@@ -29,8 +29,8 @@
     <input class="edit-planit-text" type="text" name="street_address" id="street_address" value="{{planit.street_address}}"><br>
     <label for="city">City:</label>
     <input class="edit-planit-text" type="text" name="city" id="city" value="{{planit.city}}" />
-    <div class="dropdown">
-      <button class="state-btn btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <div class="planit-dropdown-btn">
+      <button class="btn btn-custom dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
         {{#if planit.state}}
           {{planit.state}}
         {{else}}
@@ -38,22 +38,22 @@
         {{/if}}
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <ul class="dropdown-menu">
         {{#each states}}
-          <li onclick="selectState({{@index}});" class="disabled">{{this}}</li>
+          <li onclick="selectState({{@index}});">{{this}}</li>
         {{/each}}
       </ul>
       <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" />
     </div>
     <label for="zipcode">Zipcode:</label>
-    <input class="edit-planit-text" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}"><br>
-    <label for="description">Description:</label>
-    <textarea class="edit-planit-text" name="description" rows="8" cols="40">{{planit.description}}</textarea><br>
-    {{#if update}}
-      <input type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
-    {{else}}
-      <input type="submit" value="Create" onclick="createPlanitPost(event);" />
-    {{/if}}
+    <input type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}">
+    <label class="description-margin" for="description">Description:</label>
+    <textarea name="description" rows="8" cols="40">{{planit.description}}</textarea>
 
+    {{#if update}}
+      <input class="btn btn-custom planit-submit" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
+    {{else}}
+      <input class="btn btn-custom planit-submit" type="submit" value="Create" onclick="createPlanitPost(event);" />
+    {{/if}}
   </div>
 </form>
