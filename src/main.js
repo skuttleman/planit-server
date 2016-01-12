@@ -1,4 +1,12 @@
-var appvars = {};
+var appvars = {
+  states: [
+    "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI",
+    "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN",
+    "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH",
+    "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA",
+    "WI", "WV", "WY"
+  ]
+};
 
 function pageLoaded() {
   $.ajax({
@@ -18,17 +26,15 @@ function pageLoaded() {
       }
     }
   });
-
   displayTemplate('main', 'splashpage');
-
-  displayTemplate('footer', 'footer', { secret: 'this is a secret', public: 'cool' });
+  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {
   return Array.prototype.reduce.call($(selector).find('input, textarea'), function(formData, element) {
-    if (element.type == 'checkbox') {
+    if (element.name && element.type == 'checkbox') {
       formData[element.name] = !!element.checked;
-    } else {
+    } else if (element.name) {
       formData[element.name] = $(element).val();
     }
     return formData;
@@ -41,4 +47,14 @@ function customAlert(message) {
 
 function customConfirm(message, then) {
   if (window.confirm(message)) then();
+}
+
+function findBy(array, key, value) {
+  return array.filter(function(element) {
+    return element[key] == value;
+  })[0];
+}
+
+function formatDate(date) {
+  return date;
 }

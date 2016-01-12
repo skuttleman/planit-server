@@ -58,20 +58,19 @@ function updatePlanit(id) {
     $.ajax({
       url: '/types/planit_types',
       method: 'get'
-    }),
-    $.ajax({
-      url: '/types/skills',
-      method: 'get'
     })
   ]).then(function(data) {
-    console.log(data);
+    appvars.planit_types = data[1].planit_types;
+    var planit = data[0].planits[0];
     var data = {
-      planit: data[0].planits[0],
+      planit: planit,
       planit_types: data[1].planit_types,
-      skills: data[2].skills,
       title: 'planit Update',
       submitMethod: 'updatePlanitPut',
-      submitText: 'Update'
+      submitText: 'Update',
+      states: appvars.states,
+      category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
+      formatedDate: formatDate(data[0].planits[0])
     };
     displayTemplate('main', 'planitupdate', data);
   });
@@ -109,4 +108,15 @@ function deletePlanit(id) {
       }
     });
   });
+}
+
+function selectState(id) {
+  $('.planit-state').val(appvars.states[id]);
+  $('.state-btn').html(appvars.states[id] + '<span class="caret"></span>');
+}
+
+function selectPlanitType(id) {
+  $('.planit-type').val(id);
+  var planitType = findBy(appvars.planit_types, 'id', id).name;
+  $('.category-btn').html(planitType + '<span class="caret"></span>');
 }

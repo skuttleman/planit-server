@@ -1,3 +1,28 @@
+(function() {
+  var partials = [
+    // general views
+    { name: 'header', file: '/templates/header.hbs' },
+    { name: 'footer', file: '/templates/footer.hbs' },
+    { name: 'splashpage', file: '/templates/splash-page.hbs' },
+    // members views
+    { name: 'members', file: '/templates/members/members.hbs' },
+    { name: 'member', file: '/templates/members/member.hbs' },
+    { name: 'memberupdate', file: '/templates/members/member-update.hbs' },
+    { name: 'missioncontrol', file: '/templates/members/mission-control.hbs' },
+    // planits views
+    { name: 'planits', file: '/templates/planits/planits.hbs' },
+    { name: 'planit', file: '/templates/planits/planit.hbs' },
+    { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
+    // tasks views
+    { name: 'tasks', file: '/templates/tasks/tasks.hbs' },
+    { name: 'task', file: '/templates/tasks/task.hbs' },
+    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }
+  ].map(promisifyPartial);
+  
+  partials.push(promiseToLoad());
+  return Promise.all(partials);
+})().then(pageLoaded);
+
 function promisifyPartial(partial) {
   return new Promise(function(success, failure) {
     $.get(partial.file).done(function(text) {
@@ -17,35 +42,6 @@ function promiseToLoad() {
   });
 }
 
-Promise.all([
-  // partials
-  promisifyPartial({ name: 'header', file: '/templates/header.hbs' }),
-  promisifyPartial({ name: 'footer', file: '/templates/footer.hbs' }),
-
-  // general views
-  promisifyPartial({ name: 'splashpage', file: '/templates/splash-page.hbs' }),
-
-  // members views
-  promisifyPartial({ name: 'members', file: '/templates/members/members.hbs' }),
-  promisifyPartial({ name: 'member', file: '/templates/members/member.hbs' }),
-  promisifyPartial({ name: 'memberupdate', file: '/templates/members/member-update.hbs' }),
-  promisifyPartial({ name: 'missioncontrol', file: '/templates/members/mission-control.hbs' }),
-
-  // planits views
-  promisifyPartial({ name: 'planits', file: '/templates/planits/planits.hbs' }),
-  promisifyPartial({ name: 'planit', file: '/templates/planits/planit.hbs' }),
-  promisifyPartial({ name: 'planitupdate', file: '/templates/planits/planit-update.hbs' }),
-
-  // tasks views
-  promisifyPartial({ name: 'tasks', file: '/templates/tasks/tasks.hbs' }),
-  promisifyPartial({ name: 'task', file: '/templates/tasks/task.hbs' }),
-  promisifyPartial({ name: 'taskupdate', file: '/templates/tasks/task-update.hbs' }),
-
-  // Document Ready?
-  promiseToLoad()
-]).then(function(datas) {
-  pageLoaded();
-});
 
 Handlebars.registerHelper('compare', function(val1, val2, options) {
   if (val1 == val2) return options.fn(this);
@@ -57,7 +53,15 @@ function displayTemplate(selector, partial, data) {
   $(selector).html(template(data));
 }
 
-var appvars = {};
+var appvars = {
+  states: [
+    "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI",
+    "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN",
+    "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH",
+    "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA",
+    "WI", "WV", "WY"
+  ]
+};
 
 function pageLoaded() {
   $.ajax({
@@ -77,17 +81,15 @@ function pageLoaded() {
       }
     }
   });
-
   displayTemplate('main', 'splashpage');
-
-  displayTemplate('footer', 'footer', { secret: 'this is a secret', public: 'cool' });
+  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {
   return Array.prototype.reduce.call($(selector).find('input, textarea'), function(formData, element) {
-    if (element.type == 'checkbox') {
+    if (element.name && element.type == 'checkbox') {
       formData[element.name] = !!element.checked;
-    } else {
+    } else if (element.name) {
       formData[element.name] = $(element).val();
     }
     return formData;
@@ -100,6 +102,16 @@ function customAlert(message) {
 
 function customConfirm(message, then) {
   if (window.confirm(message)) then();
+}
+
+function findBy(array, key, value) {
+  return array.filter(function(element) {
+    return element[key] == value;
+  })[0];
+}
+
+function formatDate(date) {
+  return date;
 }
 
 function login() {
@@ -280,20 +292,19 @@ function updatePlanit(id) {
     $.ajax({
       url: '/types/planit_types',
       method: 'get'
-    }),
-    $.ajax({
-      url: '/types/skills',
-      method: 'get'
     })
   ]).then(function(data) {
-    console.log(data);
+    appvars.planit_types = data[1].planit_types;
+    var planit = data[0].planits[0];
     var data = {
-      planit: data[0].planits[0],
+      planit: planit,
       planit_types: data[1].planit_types,
-      skills: data[2].skills,
       title: 'planit Update',
       submitMethod: 'updatePlanitPut',
-      submitText: 'Update'
+      submitText: 'Update',
+      states: appvars.states,
+      category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
+      formatedDate: formatDate(data[0].planits[0])
     };
     displayTemplate('main', 'planitupdate', data);
   });
@@ -331,6 +342,17 @@ function deletePlanit(id) {
       }
     });
   });
+}
+
+function selectState(id) {
+  $('.planit-state').val(appvars.states[id]);
+  $('.state-btn').html(appvars.states[id] + '<span class="caret"></span>');
+}
+
+function selectPlanitType(id) {
+  $('.planit-type').val(id);
+  var planitType = findBy(appvars.planit_types, 'id', id).name;
+  $('.category-btn').html(planitType + '<span class="caret"></span>');
 }
 
 function listTasks() {
