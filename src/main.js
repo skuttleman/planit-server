@@ -55,6 +55,19 @@ function findBy(array, key, value) {
   })[0];
 }
 
+function padTwo(number) {
+  var string = String(number);
+  while (string.length < 2) string = '0' + string;
+  return string;
+}
+
+function month() {
+  return [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+}
+
 function formatDateInput(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -65,8 +78,25 @@ function formatDateInput(date) {
   return returnDate;
 }
 
-function padTwo(number) {
-  var string = String(number);
-  while (string.length < 2) string = '0' + string;
-  return string;
+function formatDateShort(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getMonth() + 1,
+    dateObject.getDate(),
+    dateObject.getYear() + 1900,
+  ].join('/');
+  return returnDate;
+}
+
+function formatDateLong(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getDay(),
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+  ].join(' ');
+  return returnDate;
 }

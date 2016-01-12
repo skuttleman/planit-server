@@ -112,6 +112,19 @@ function findBy(array, key, value) {
   })[0];
 }
 
+function padTwo(number) {
+  var string = String(number);
+  while (string.length < 2) string = '0' + string;
+  return string;
+}
+
+function month() {
+  return [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+}
+
 function formatDateInput(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -122,10 +135,27 @@ function formatDateInput(date) {
   return returnDate;
 }
 
-function padTwo(number) {
-  var string = String(number);
-  while (string.length < 2) string = '0' + string;
-  return string;
+function formatDateShort(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getMonth() + 1,
+    dateObject.getDate(),
+    dateObject.getYear() + 1900,
+  ].join('/');
+  return returnDate;
+}
+
+function formatDateLong(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getDay(),
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+  ].join(' ');
+  return returnDate;
 }
 
 function login() {
@@ -285,9 +315,13 @@ function listPlanits() {
   $.ajax({
     url: '/planits',
     method: 'get'
-  }).done(function(planits) {
-    planits.user = appvars.user;
-    displayTemplate('main', 'planits', planits);
+  }).done(function(data) {
+    data.user = appvars.user;
+    data.planits.forEach(function(planit) {
+      planit.startDate = formatDateShort(planit.start_date);
+      planit.endDate = formatDateShort(planit.end_date);
+    });
+    displayTemplate('main', 'planits', data);
   });
 }
 
@@ -296,8 +330,11 @@ function viewPlanit(id) {
     url: '/planits/' + id,
     method: 'get'
   }).done(function(planits) {
+    appvars.planit = planits.planits[0];
+    appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
+    appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
     data = {
-      planit: planits.planits[0],
+      planit: appvars.planit,
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
