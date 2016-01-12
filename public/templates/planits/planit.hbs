@@ -1,5 +1,4 @@
 <h1>planit Details</h1>
-<<<<<<< HEAD
 <div class="main-container">
     <div class="inner-container-column">
         <div class="planit_details">
@@ -8,7 +7,7 @@
         </div>
         <div class="planit_details">
             <h4>Category:<h4>
-            <p>{{planit.planit_type_name}}</p>
+            <p>{{planit.name}}</p>
         </div>
         <div class="planit_details">
             <h4>Address:</h4>
@@ -26,7 +25,10 @@
             <h4>Budget:</h4>
             <p>{{planit.budget}}</p>
         </div>
-        <button type="button" class="btn btn-default" onclick="editplanit({{id}})"><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>Edit</button>
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Edit
+        </button>
         <h1>Tasks</h1>
         <div id="tasks">
             <table style="width:100%">
@@ -54,6 +56,9 @@
                 {{/each}}
             </table>
         </div>
-        <button type="button" class="btn btn-default" onclick="">Add a Task</button>
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Add A Task
+        </button>
     </div>
 </div>
