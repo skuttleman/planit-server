@@ -318,6 +318,18 @@ function updateTask(id) {
     method: 'get'
   }).done(function(tasks) {
     displayTemplate('main', 'taskupdate', tasks.tasks[0]);
+<<<<<<< HEAD
+=======
+  });
+}
+
+function createTask(data){
+  $.ajax({
+    url: '/tasks/',
+    method: 'post'
+  }).done(function(task){
+    console.log(task);
+>>>>>>> 7034720a527823d7d6115d3e493f82e6a477c7c4
   });
 }
 
