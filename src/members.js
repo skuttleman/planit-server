@@ -60,7 +60,7 @@ function updateMember(id) {
     });
     var data = {
       member: serverData[0].members[0],
-      skills: all
+      skills: allSkills
     }
     displayTemplate('main', 'memberupdate', data);
   });
