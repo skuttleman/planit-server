@@ -156,7 +156,6 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 /* For Sticky Footer */
