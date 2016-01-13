@@ -27,14 +27,15 @@
     </div>
     <div class="planit_details">
         <h4>Budget:</h4>
-        <p>{{planit.budget}}</p>
+        <p>{{formattedCurrency}}</p>
     </div>
     {{#if editable}}
     <button type="button" class="btn btn-custom" onclick="updatePlanit({{planit.id}});">
       Edit
     </button>
     {{/if}}
-    <h1>Tasks</h1>
+    {{#if tasks.length}}
+      <h1>Tasks</h1>
       <table class="table table-striped planits-table">
         <thead>
           <tr>
@@ -63,6 +64,9 @@
           {{/each}}
         </tbody>
       </table>
+    {{else}}
+      <h1>No Tasks for this Planit</h1>
+    {{/if}}
     {{#if editable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createTask({{planit.id}})">
         Add a Task

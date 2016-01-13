@@ -122,6 +122,34 @@ function formatDateInput(date) {
   return returnDate;
 }
 
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateTimeInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') + 'T' +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
 function formatDateShort(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -134,7 +162,6 @@ function formatDateShort(date) {
 
 function formatDateLong(date) {
   var dateObject = new Date(date);
-  console.log(dateObject.getDay());
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -144,6 +171,10 @@ function formatDateLong(date) {
     ].join(', '),
   ].join(' ');
   return returnDate;
+}
+
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
 }
 
 function login() {
@@ -326,7 +357,8 @@ function viewPlanit(id) {
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });
@@ -353,8 +385,10 @@ function updatePlanit(id) {
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
-      endDate: formatDateInput(planit.end_date)
+      endDate: formatDateInput(planit.end_date),
+      formattedCurrency: Number(planit.budget).toFixed(2)
     };
+    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
@@ -554,8 +588,8 @@ function createTask(planitId) {
       planit: appvars.planit,
       title: 'Create a Task',
       skills: appvars.skills,
-      startTime: formatDateInput(Date.now()),
-      endTime: formatDateInput(Date.now())
+      startTime: formatDateTimeInput(appvars.planit.start_date),
+      endTime: formatDateTimeInput(appvars.planit.start_date)
     };
     // TODO: MODULARIZE FORM ROUTE
     displayTemplate('main', 'taskupdate', data);
@@ -565,19 +599,18 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  console.log(formData);
-  // $.ajax({
-  //   url: '/planits/' + planitId + '/tasks',
-  //   method: 'post',
-  //   data: formData,
-  //   xhrFields: {
-  //     withCredentials: true
-  //   }
-  // }).done(function(data) {
-  //   viewTask(data.tasks[0].id);
-  // }).fail(function(err) {
-  //   customAlert('All fields must be filled out to create a task');
-  // });
+  $.ajax({
+    url: '/planits/' + planitId + '/tasks',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewTask(planitId, data.tasks[0].id);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out correctly to create a task');
+  });
 }
 
 function viewTask(planitId, id) {
@@ -595,7 +628,9 @@ function viewTask(planitId, id) {
     data = {
       planit: appvars.planit,
       task: serverData[0].tasks[0],
-      user: appvars.user
+      user: appvars.user,
+      editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
     };
     displayTemplate('main', 'task', data);
   });
@@ -625,8 +660,8 @@ function updateTask(planitId, id) {
       task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
-      startDate: formatDateInput(task.start_date),
-      endDate: formatDateInput(task.end_date)
+      startTime: formatDateTimeInput(task.start_time),
+      endTime: formatDateTimeInput(task.end_time)
     };
     displayTemplate('main', 'taskupdate', data);
   });

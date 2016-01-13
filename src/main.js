@@ -84,6 +84,34 @@ function formatDateInput(date) {
   return returnDate;
 }
 
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateTimeInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') + 'T' +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
 function formatDateShort(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -96,7 +124,6 @@ function formatDateShort(date) {
 
 function formatDateLong(date) {
   var dateObject = new Date(date);
-  console.log(dateObject.getDay());
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -106,4 +133,8 @@ function formatDateLong(date) {
     ].join(', '),
   ].join(' ');
   return returnDate;
+}
+
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
 }
