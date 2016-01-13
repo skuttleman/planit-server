@@ -36,9 +36,34 @@
         Eject Task
       </button>
     {{else}}
-      <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{task.id}});">
-        Submit Proposal
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
+        Create Proposal
       </button>
+    {{/if}}
+    {{#if proposals.length}}
+      <h1>Proposals</h1>
+      <table class="table table-striped planits-table">
+        <thead>
+          <tr>
+            <td>CREW MEMBER</td>
+            <td>|RATE</td>
+            <td>|DETAILS</td>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each proposals}}
+          <tr>
+            <td>{{display_name}}</td>
+            <td>{{cost_estimate}}</td>
+            <td>{{details}}</td>
+            <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+      </table>
+    {{else}}
+      <h1>No Proposals for this Task</h1>
     {{/if}}
     <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
       Return to Orbit

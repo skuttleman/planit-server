@@ -9,11 +9,11 @@
       <h4>Your bid:</h4>
       <p>{{proposal.cost_estimate}}</p>
     </div>
-    {{#if editable}}
-      <button type="button" class="btn btn-default" aria-label="Left Align" onclick="createProposal({{proposal.id}});">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Submit Proposal
-      </button>
-    {{/if}}
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewTask({{planitId}}, {{taskId}});">
+      Return to Task View
+    </button>
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal();">
+      Delete Proposal
+    </button>
   </div>
 </div>
