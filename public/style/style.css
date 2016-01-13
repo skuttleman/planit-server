@@ -266,3 +266,7 @@ footer li {
   color: red;
   font-size: 24px;
 }
+
+input.error-highlight {
+  color: red;
+}
