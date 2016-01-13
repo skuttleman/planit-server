@@ -96,7 +96,6 @@ function formatDateShort(date) {
 
 function formatDateLong(date) {
   var dateObject = new Date(date);
-  console.log(dateObject.getDay());
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],

@@ -134,7 +134,6 @@ function formatDateShort(date) {
 
 function formatDateLong(date) {
   var dateObject = new Date(date);
-  console.log(dateObject.getDay());
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -595,7 +594,9 @@ function viewTask(planitId, id) {
     data = {
       planit: appvars.planit,
       task: serverData[0].tasks[0],
-      user: appvars.user
+      user: appvars.user,
+      editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
     };
     displayTemplate('main', 'task', data);
   });
