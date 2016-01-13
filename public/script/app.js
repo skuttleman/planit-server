@@ -599,7 +599,7 @@ function createTask(planitId) {
   ]).then(function(serverData) {
     appvars.planit = serverData[0].planits[0];
     appvars.skills = serverData[1].skills;
-    appvars.skills.push({ id:0, name: 'other' });
+    appvars.skills.push({ id: 0, name: 'other' });
     var data = {
       planit: appvars.planit,
       title: 'Create a Task',
@@ -659,23 +659,25 @@ function updateTask(planitId, id) {
       method: 'get'
     }),
     $.ajax({
-      url: '/types/task_types',
+      url: '/types/skills',
       method: 'get'
     }),
     $.ajax({
-      url: '/planits',
+      url: '/planits/' + planitId,
       method: 'get'
     })
   ]).then(function(serverData) {
-    appvars.task_types = serverData[1].task_types;
+    appvars.skills = serverData[1].skills;
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
-    console.log(task);
     var planit = serverData[2].planits[0];
+    console.log(task);
     var data = {
       task: task,
       planit: planit,
-      task_types: appvars.task_types,
+      skills: appvars.skills,
+      skill: task.skill_name || 'other',
+      hideDescription: task.skill_name ? ' hidden' : '',
       title: 'Update Task',
       update: true,
       startTime: formatDateTimeInput(task.start_time),
@@ -723,6 +725,10 @@ function selectSkill(id) {
   var skill = findBy(appvars.skills, 'id', id).name;
   $('.skill-btn').html(skill + '<span class="caret"></span>');
   var $description = $('.optional-description');
-  if (skill == 'other') $description.removeClass('hidden');
-  else $description.addClass('hidden');
+  if (skill == 'other') {
+    $description.removeClass('hidden');
+  } else {
+    $description.addClass('hidden');
+    $description.val('');
+  }
 }
