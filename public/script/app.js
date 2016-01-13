@@ -587,6 +587,8 @@ $(document).ready(function() {
 //     	alert('enter a title fool')
 //     }
 // })
+
+
 function createTask(planitId) {
   Promise.all([
     $.ajax({
