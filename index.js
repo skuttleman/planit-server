@@ -41,8 +41,11 @@ app.use('/proposals', proposals);
 app.use('/reviews', reviews);
 app.use('/tasks', tasks);
 app.use('/types', types);
+
 app.get('/partials', function(request, response, next) {
-  response.json(methods.partials());
+  methods.partials().then(function(partials) {
+    response.json(partials);
+  });
 });
 
 
