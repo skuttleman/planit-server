@@ -120,3 +120,7 @@ function formatDateLong(date) {
   ].join(' ');
   return returnDate;
 }
+
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
+}
