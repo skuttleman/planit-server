@@ -130,14 +130,16 @@ function permissable(id) {
         planit: planits[0]
       });
     });
+  }).catch(function(err) {
+    console.log(err);
   });
 }
 
 function acceptProposal(proposal) {
   return knex('proposals').where({ task_id: proposal.task_id }).then(function(proposals) {
-    var promises = proposals.map(function(eachPropsal) {
-      if (eachPropsal.id == proposal.id) {
-        return knex('proposals').where({ id: proposal.id }).update({ id_accpeted: true });
+    var promises = proposals.map(function(eachProposal) {
+      if (eachProposal.id == proposal.id) {
+        return knex('proposals').where({ id: proposal.id }).update({ is_accepted: true });
       } else {
         return rejectProposal(eachProposal);
       }
