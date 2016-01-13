@@ -32,6 +32,21 @@
       <input type="text" name="street_address" value="{{planit.street_address}}"><br>
       <label for="city">City:</label>
       <input type="text" name="city" value="{{planit.city}}" />
+
+
+
+      <div class="btn-group dropdown" id="cars">
+  <a data-toggle="dropdown" class="btn btn-inverse dropdown-toggle">Important Text that must be displayed at all times <span class="caret"></span></a>
+  <ul class="dropdown-menu">  
+    <li><a class="hc" href="#">Volvo</a></li>
+    <li><a class="hc" href="#">Saab</a></li>
+    <li><a class="hc" href="#">Mercedes</a></li>
+    <li><a class="hc" href="http://www.audi.com/">Audi</a></li>
+  </ul>
+</div>
+
+
+
       <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{#if planit.state}}
@@ -58,17 +73,34 @@
       {{else}}
         <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);" />
       {{/if}}
-
-<div class="btn-group dropdown" id="cars">
-  <a data-toggle="dropdown" class="btn btn-inverse dropdown-toggle">Important Text that must be displayed at all times <span class="caret"></span></a>
-  <ul class="dropdown-menu">  
-    <li><a class="hc" href="#">Volvo</a></li>
-    <li><a class="hc" href="#">Saab</a></li>
-    <li><a class="hc" href="#">Mercedes</a></li>
-    <li><a class="hc" href="http://www.audi.com/">Audi</a></li>
-  </ul>
-</div>
-      
     </form>
   </div>
+
+      <h1>Standard</h2>
+      <select id='standard' name='standard' class='custom-select'>
+        <option value=''>None - Please Select</option>
+        <option value='1'>New York</option>
+        <option value='2'>Mississippi</option>
+        <option value='3'>Alabama</option>
+        <option value='4'>Louisiana</option>
+        <option value='5'>Arkansas</option>
+        <option value='6'>aabcc</option>
+        <option value='7'>aabbcc</option>
+      </select>
+      <br />
+     
+    
+
+
+    <hr style='clear:both'/>
+
+    <form>
+      <div style='float:right;padding-right: 50px;'>
+        
+      </div>
+
+      
+
+     
+      </script>
 </div>
