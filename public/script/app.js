@@ -439,10 +439,10 @@ function selectPlanitType(id) {
   $('.ben-will-murder-you-if-remove-this-class-category').html(planitType + '<span class="caret"></span>');
 }
 
-function createProposal() {
+function createProposal(taskId) {
   $.ajax({
-    url: '/proposals/',
-    method: 'post'
+    url: '/proposals/' + proposalId,
+    method: 'get'
   }).done(function(details){
     appvars.proposal_details = details.proposal_details
   var data = {
@@ -456,7 +456,7 @@ function createProposal() {
   displayTemplate('main', 'proposalupdate', data);
   })
 }
-  
+
 function createProposalPost(event, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
@@ -568,7 +568,7 @@ function acceptedProposal(id){
 
 function rejectedProposal(id){
 
-  
+
 }
 
 $(document).ready(function() {
