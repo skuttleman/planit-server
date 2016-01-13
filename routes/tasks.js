@@ -19,7 +19,6 @@ route.post('/', function(request, response, next) {
   if (request.user && request.routeChain && request.routeChain.planitId) {
     var body = digest(request.body, request.routeChain.planitId);
     body.body.planit_id = request.routeChain.planitId;
-    console.log(body);
     knex('tasks').returning('*').insert(body.body).then(function(tasks) {
       if (body.description) {
         return knex('skill_description').insert({ id: tasks[0].id, description: body.description }).then(function() {
@@ -111,6 +110,7 @@ function digest(body, id) {
   };
   if (body.hasOwnProperty('id')) delete body.id;
   if (body.hasOwnProperty('description')) delete body.description;
+  if (body.hasOwnProperty('skill_id')) body.skill_id = Number(body.skill_id) || undefined;
   ret.body = body;
   return ret;
 }

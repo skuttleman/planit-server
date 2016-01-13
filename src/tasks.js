@@ -27,7 +27,6 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  if (formData.skill_id == 0) formData.skill_id = appvars.skills[0].id;
   $.ajax({
     url: '/planits/' + planitId + '/tasks',
     method: 'post',
@@ -138,6 +137,10 @@ function selectSkill(id) {
   var skill = findBy(appvars.skills, 'id', id).name;
   $('.skill-btn').html(skill + '<span class="caret"></span>');
   var $description = $('.optional-description');
-  if (skill == 'other') $description.removeClass('hidden');
-  else $description.addClass('hidden');
+  if (skill == 'other') {
+    $description.removeClass('hidden');
+  } else {
+    $description.addClass('hidden');
+    $description.val('');
+  }
 }

@@ -38,17 +38,22 @@ route.get('/:id', function(request, response, next) {
     knex('planits').where(where),
     knex('tasks').where({ planit_id: request.params.id }),
     knex('skills'),
-    knex('planit_types')
+    knex('planit_types'),
+    knex('skill_description')
   ]).then(function(data) {
     var planit = data[0][0];
     var tasks = data[1];
     var skills = data[2];
     var planit_types = data[3];
+    var descriptions = data[4];
 
     planit.planit_type_name = methods.chomp(planit_types, 'id', planit.planit_type_id).name;
     tasks.forEach(function(task) {
-      task.skill_name = methods.chomp(skills, 'id', task.skill_id).name;
+      console.log('iteration', task);
+      if (task.skill_id) task.skill_name = methods.chomp(skills, 'id', task.skill_id).name;
+      else task.description = methods.chomp(descriptions, 'id', task.id).description;
     });
+
     response.json({ planits: [planit], tasks: tasks });
   });
 });
