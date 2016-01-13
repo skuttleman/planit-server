@@ -116,7 +116,6 @@ function digest(body, id) {
 }
 
 function updateOrCreate(text, record, id) {
-  console.log(record, text);
   if (record && text) {
     return knex('skill_description').where({ id: record.id }).update({ description: text });
   } else if (record) {

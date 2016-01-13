@@ -660,23 +660,23 @@ function updateTask(planitId, id) {
       method: 'get'
     }),
     $.ajax({
-      url: '/types/task_types',
+      url: '/types/skills',
       method: 'get'
     }),
     $.ajax({
-      url: '/planits',
+      url: '/planits/' + planitId,
       method: 'get'
     })
   ]).then(function(serverData) {
-    appvars.task_types = serverData[1].task_types;
+    appvars.skills = serverData[1].skills;
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
-    console.log(task);
     var planit = serverData[2].planits[0];
     var data = {
       task: task,
       planit: planit,
-      task_types: appvars.task_types,
+      skills: appvars.skills,
+      skill: (findBy(appvars.skills, 'id', task.skill_id) || {}).name,
       title: 'Update Task',
       update: true,
       startTime: formatDateTimeInput(task.start_time),
@@ -689,7 +689,6 @@ function updateTask(planitId, id) {
 function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  if (formData.skill_id == 0) formData.skill_id = appvars.skills[0].id;
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + id,
     method: 'put',
