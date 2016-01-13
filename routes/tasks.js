@@ -43,7 +43,7 @@ route.get('/:id', function(request, response, next) {
   if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
   else response.json({ sucess: false });
   Promise.all([
-    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
+    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
     .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
     .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
     knex('planits').where({ id: where.planit_id })
@@ -69,6 +69,8 @@ route.put('/:id', function(request, response, next) {
     ]).then(function(data) {
       var task = data[0][0];
       var skillDescription = data[1][0];
+      console.log(data);
+      console.log(body);
       return updateOrCreate(body.description, skillDescription, request.params.id)
       .then(function() {
         return Promise.resolve(data[0]);
@@ -121,7 +123,7 @@ function updateOrCreate(text, record, id) {
   } else if (record) {
     return knex('skill_description').where({ id: record.id }).del();
   } else if (text) {
-    return knex('skill_description').where({ id: record.id }).insert({ id: id, description: text });
+    return knex('skill_description').insert({ id: id, description: text });
   } else {
     return Promise.resolve();
   }

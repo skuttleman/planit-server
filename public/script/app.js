@@ -641,7 +641,6 @@ function viewTask(planitId, id) {
     })
   ]).then(function(serverData) {
     appvars.planit = serverData[1].planits[0];
-    console.log(serverData[0].tasks[0]);
     data = {
       planit: appvars.planit,
       task: serverData[0].tasks[0],
@@ -672,11 +671,13 @@ function updateTask(planitId, id) {
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
     var planit = serverData[2].planits[0];
+    console.log(task);
     var data = {
       task: task,
       planit: planit,
       skills: appvars.skills,
-      skill: (findBy(appvars.skills, 'id', task.skill_id) || {}).name,
+      skill: task.skill_name || 'other',
+      hideDescription: task.skill_name ? ' hidden' : '',
       title: 'Update Task',
       update: true,
       startTime: formatDateTimeInput(task.start_time),
