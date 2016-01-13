@@ -591,13 +591,14 @@ function deleteProposal(planitId, taskId, id) {
 
 function setProposalStatus(id, status){
   $.ajax({
-    url: '/proposals/' + id + status ? '/accept' : '/reject',
+    url: '/proposals/' + id + (status ? '/accept' : '/reject'),
     method: 'put',
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(data.planitId, data.taskId, id);
+    console.log(data);
+    viewTask(data.planitId, data.taskId);
   }).fail(customAlert);
 }
 
