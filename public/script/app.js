@@ -177,16 +177,16 @@ function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(2);
 }
 
-function validateBudget(budget) {
-  var rule = '[1-9]\d*)$/';
-  var budgetVal = $('planit-budget').val();
-  if(rule.test(budgetVal)){
-    budgetVal.style.background ='#ccffcc';
+function validateBudget() {
+  var rule = /^\d+(?:\.\d{1,2})?$/;
+  console.log($('.planit-budget').val());
+  console.log(rule.test($('.planit-budget').val()));
+  if(rule.test($('.planit-budget').val())){
     return true;
   } else {
-    budgetVal.style.background ='#e35152';
+    $('.planit-budget').addClass('error-highlight');
     return false;
-  } 
+  }
 }
 
 function login() {
