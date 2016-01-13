@@ -122,6 +122,20 @@ function formatDateInput(date) {
   return returnDate;
 }
 
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
 function formatDateShort(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -626,8 +640,8 @@ function updateTask(planitId, id) {
       task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
-      startDate: formatDateInput(task.start_date),
-      endDate: formatDateInput(task.end_date)
+      startTime: formatDateTime(task.start_time),
+      endTime: formatDateTime(task.end_time)
     };
     displayTemplate('main', 'taskupdate', data);
   });

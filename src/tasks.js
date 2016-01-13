@@ -89,8 +89,8 @@ function updateTask(planitId, id) {
       task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
-      startDate: formatDateInput(task.start_date),
-      endDate: formatDateInput(task.end_date)
+      startTime: formatDateTime(task.start_time),
+      endTime: formatDateTime(task.end_time)
     };
     displayTemplate('main', 'taskupdate', data);
   });

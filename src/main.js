@@ -84,6 +84,20 @@ function formatDateInput(date) {
   return returnDate;
 }
 
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
 function formatDateShort(date) {
   var dateObject = new Date(date);
   var returnDate = [

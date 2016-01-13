@@ -25,9 +25,9 @@
     <label for="head_count">Head Count:</label>
     <input class="edit-planit-text" type="number" name="head_count" id="head_count" value="{{task.head_count}}" /><br>
     <label for="start_time">Start Time:</label>
-    <input class="edit-planit-text" type="date" name="start_time" id="start_time" value="{{startTime}}" /><br>
+    <input class="edit-planit-text" type="datetime-local" name="start_time" id="start_time" value="{{startTime}}" /><br>
     <label for="end_time">End Time:</label>
-    <input class="edit-planit-text" type="date" name="end_time" id="end_time" value="{{endTime}}" /><br>
+    <input class="edit-planit-text" type="datetime-local" name="end_time" id="end_time" value="{{endTime}}" /><br>
     {{#if update}}
       <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updateTaskPut(event, {{planit.id}}, {{task.id}});" />
     {{else}}
