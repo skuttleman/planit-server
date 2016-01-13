@@ -28,6 +28,4 @@ $('#cars').on('shown.bs.dropdown', function () {
 $('#cars').on('hide.bs.dropdown', function () {
     $(document).unbind("keypress");
 })
-      $(function() {
-        $("#standard").customselect();
-      });
+
