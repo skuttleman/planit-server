@@ -81,6 +81,8 @@ function updateTask(planitId, id) {
   ]).then(function(serverData) {
     appvars.task_types = serverData[1].task_types;
     var task = serverData[0].tasks[0];
+    appvars.skills.push({ id:0, name: 'other' });
+    console.log(task);
     var planit = serverData[2].planits[0];
     var data = {
       task: task,
