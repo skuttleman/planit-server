@@ -9,14 +9,26 @@
       <h4>Your bid:</h4>
       <p>{{proposal.cost_estimate}}</p>
     </div>
-    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewTask({{planitId}}, {{taskId}});">
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewTask({{planit.id}}, {{taskId}});">
       Return to Task View
     </button>
-    <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
-      Delete Proposal
-    </button>
-    <button type="button" class="btn btn-primary form-submit-btn" onclick="updateProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
-      Update Proposal
-    </button>
+    {{#if respondable}}
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="setProposalStatus({{proposal.id}}, true);">
+        Accept Proposal
+      </button>
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="setProposalStatus({{proposal.id}}, false);">
+        Reject Proposal
+      </button>
+    {{/if}}
+    {{#if deletable}}
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
+        Delete Proposal
+      </button>
+    {{/if}}
+    {{#if editable}}
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="updateProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
+        Update Proposal
+      </button>
+    {{/if}}
   </div>
 </div>

@@ -12,6 +12,31 @@ route.use('/:id', function(request, response, next) {
 });
 
 
+// Accept Proposal
+route.put('/:id/accept', function(request, response, next) {
+  permissable(request.params.id).then(function(data) {
+    if (request.user && (request.user.id == data.planit.member_id || request.user.role_name == 'admin')) {
+      return acceptProposal(data.proposal).then(function() {
+        response.json({ success: true, planitId: data.planit.id, taskId: data.proposal.task_id });
+      });
+    } else {
+      next('You do not have permission to preform this action.');
+    }
+  }).catch(next);
+});
+
+// Reject Proposal
+route.put('/:id/reject', function(request, response, next) {
+  permissable(request.params.id).then(function(data) {
+    if (request.user && (request.user.id == data.planit.member_id || request.user.role_name == 'admin')) {
+      return rejectProposal(data.proposal).then(function() {
+        response.json({ success: true });
+      });
+    } else {
+      next('You do not have permission to preform this action.');
+    }
+  }).catch(next);
+});
 
 // C
 route.post('/', function(request, response, next) {
@@ -94,4 +119,33 @@ function connectProposalToPlanit(id) {
       return Promise.resolve(data);
     });
   });
+}
+
+function permissable(id) {
+  return knex('proposals').where({ id: id }).then(function(proposals) {
+    return knex('planits').select('planits.*').innerJoin('tasks', 'planits.id', 'tasks.planit_id')
+    .where({ 'tasks.id': proposals[0].task_id }).then(function(planits) {
+      return Promise.resolve({
+        proposal: proposals[0],
+        planit: planits[0]
+      });
+    });
+  });
+}
+
+function acceptProposal(proposal) {
+  return knex('proposals').where({ task_id: proposal.task_id }).then(function(proposals) {
+    var promises = proposals.map(function(eachPropsal) {
+      if (eachPropsal.id == proposal.id) {
+        return knex('proposals').where({ id: proposal.id }).update({ id_accpeted: true });
+      } else {
+        return rejectProposal(eachProposal);
+      }
+    });
+    return Promise.all(promises);
+  });
+}
+
+function rejectProposal(proposal) {
+  return knex('proposals').where({ id: proposal.id }).update({ is_accepted: false });
 }
