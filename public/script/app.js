@@ -625,7 +625,7 @@ function createTaskPost(event, planitId) {
   }).done(function(data) {
     viewTask(planitId, data.tasks[0].id);
   }).fail(function(err) {
-    customAlert('All fields must be filled out correctly to create a task');
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid').setTimeout(3000);
   });
 }
 
@@ -653,30 +653,27 @@ function viewTask(planitId, id) {
 }
 
 function updateTask(planitId, id) {
-  console.log(planitId, id);
   Promise.all([
     $.ajax({
       url: 'planits/' + planitId + '/tasks/' + id,
       method: 'get'
     }),
     $.ajax({
-      url: '/types/skills',
+      url: '/types/task_types',
       method: 'get'
     }),
     $.ajax({
-      url: '/planits/' + planitId,
+      url: '/planits',
       method: 'get'
     })
   ]).then(function(serverData) {
-    appvars.skills = serverData[1].skills;
+    appvars.task_types = serverData[1].task_types;
     var task = serverData[0].tasks[0];
-    console.log(task);
     var planit = serverData[2].planits[0];
     var data = {
       task: task,
       planit: planit,
-      skills: appvars.skills,
-      skill: findBy(appvars.skills, 'id', task.skill_id).name,
+      task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
       startTime: formatDateTimeInput(task.start_time),
@@ -698,8 +695,6 @@ function updateTaskPut(event, planitId, id) {
     }
   }).done(function(data) {
     viewTask(planitId, id);
-  }).fail(function(err) {
-    console.log(err);
   });
 }
 
