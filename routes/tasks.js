@@ -19,9 +19,10 @@ route.post('/', function(request, response, next) {
   if (request.user && request.routeChain && request.routeChain.planitId) {
     var body = digest(request.body, request.routeChain.planitId);
     body.body.planit_id = request.routeChain.planitId;
+    console.log(body);
     knex('tasks').returning('*').insert(body.body).then(function(tasks) {
       if (body.description) {
-        return knex('skill_description').insert({ id: tasks[0].id, description: description }).then(function() {
+        return knex('skill_description').insert({ id: tasks[0].id, description: body.description }).then(function() {
           return Promise.resolve(tasks);
         });
       } else {
@@ -60,7 +61,7 @@ route.get('/:id', function(request, response, next) {
 // U
 route.put('/:id', function(request, response, next) {
   if (request.user.id) {
-    var body = digest(request.body);
+    var body = digest(request.body, request.params.id);
     Promise.all([
       knex('tasks').returning('*').where('id', request.params.id).update(body.body),
       knex('skill_description').where('id', request.params.id)
@@ -113,6 +114,7 @@ function digest(body, id) {
 }
 
 function updateOrCreate(text, record, id) {
+  console.log(record, text);
   if (record && text) {
     return knex('skill_description').where({ id: record.id }).update({ description: text });
   } else if (record) {

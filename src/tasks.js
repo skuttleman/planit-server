@@ -11,7 +11,7 @@ function createTask(planitId) {
   ]).then(function(serverData) {
     appvars.planit = serverData[0].planits[0];
     appvars.skills = serverData[1].skills;
-    appvars.skills.push({ id:0, name: 'other' });
+    appvars.skills.push({ id: 0, name: 'other' });
     var data = {
       planit: appvars.planit,
       title: 'Create a Task',
@@ -27,6 +27,7 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
+  if (formData.skill_id == 0) formData.skill_id = appvars.skills[0].id;
   $.ajax({
     url: '/planits/' + planitId + '/tasks',
     method: 'post',
@@ -53,6 +54,7 @@ function viewTask(planitId, id) {
     })
   ]).then(function(serverData) {
     appvars.planit = serverData[1].planits[0];
+    console.log(serverData[0].tasks[0]);
     data = {
       planit: appvars.planit,
       task: serverData[0].tasks[0],
@@ -101,6 +103,7 @@ function updateTask(planitId, id) {
 function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
+  if (formData.skill_id == 0) formData.skill_id = appvars.skills[0].id;
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + id,
     method: 'put',
