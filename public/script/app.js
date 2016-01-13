@@ -461,6 +461,7 @@ function createProposal(planitId, taskId) {
     appvars.task = details.tasks[0]
     var data = {
       task: appvars.task,
+      taskId: appvars.task.id,
       title: 'Proposal Creation',
       planitId: planitId
     };
@@ -496,13 +497,15 @@ function listProposals() {
 }
 
 function viewProposal(planitId, taskId, id) {
-  $.ajax({
-    url: '/proposals/' + id,
-    method: 'get'
-  }).then(function(proposals) {
+  Promise.all([
+    $.ajax({
+      url: '/proposals/' + id,
+      method: 'get'
+    })
+  ]).then(function(proposals) {
     return Promise.all([
       $.ajax({
-        url: '/members/' + proposals.proposals[0].member_id,
+        url: '/members/' + proposals[0].proposals[0].member_id,
         method: 'get'
       }),
       $.ajax({
@@ -513,7 +516,7 @@ function viewProposal(planitId, taskId, id) {
       return Promise.resolve({
         member: data[0].members[0],
         skills: data[0].skills,
-        proposal: proposals.proposals[0],
+        proposal: proposals[0].proposals[0],
         planit: data[1].planits[0]
       });
     });

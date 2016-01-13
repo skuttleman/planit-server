@@ -21,12 +21,12 @@
       </button>
     {{/if}}
     {{#if deletable}}
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
         Delete Proposal
       </button>
     {{/if}}
     {{#if editable}}
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="updateProposal({{planitId}}, {{taskId}}, {{proposal.id}});">
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="updateProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
         Update Proposal
       </button>
     {{/if}}
