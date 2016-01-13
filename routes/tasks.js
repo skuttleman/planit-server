@@ -30,6 +30,8 @@ route.post('/', function(request, response, next) {
       }
     }).then(function(tasks) {
       response.json({ success: true, tasks: tasks });
+    }).catch(function(err) {
+      response.status(404).send(err);
     });
   }
 });
