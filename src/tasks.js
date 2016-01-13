@@ -37,7 +37,8 @@ function createTaskPost(event, planitId) {
   }).done(function(data) {
     viewTask(planitId, data.tasks[0].id);
   }).fail(function(err) {
-    customAlert('All fields must be filled out correctly to create a task');
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+    // customAlert('All fields must be filled out correctly to create a task');
   });
 }
 
