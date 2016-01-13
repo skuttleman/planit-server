@@ -35,7 +35,8 @@
       <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deleteTask({{planit.id}}, {{task.id}});">
         Eject Task
       </button>
-    {{else}}
+    {{/if}}
+    {{#if submittable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
         Create Proposal
       </button>
