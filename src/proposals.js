@@ -1,35 +1,33 @@
-function createProposal() {
+function createProposal(planitId, taskId) {
   $.ajax({
-    url: '/proposals/',
-    method: 'post'
+    url: '/planits/' + planitId + '/tasks/' + taskId,
+    method: 'get'
   }).done(function(details){
-    appvars.proposal_details = details.proposal_details
+    console.log(taskId)
+    appvars.task = details.tasks[0]
   var data = {
-    proposal_details: appvars.proposal_details,
+    task: appvars.task,
     title: 'Proposal Creation',
-    cost_estimate: cost_estimate,
+    planitId: planitId
     };
-
-    //?unsure about proposal update template
-
   displayTemplate('main', 'proposalupdate', data);
   })
 }
-  
-function createProposalPost(event, id) {
+
+function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/proposals',
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
     method: 'post',
     data: formData,
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(data.proposals[0].id);
+    viewTask(planitId, taskId);
   }).fail(function(err){
-    customAlert('All filed must be filled out to create a proposal')
+    customAlert('All fields must be filled out to create a proposal')
   });
 }
 
@@ -43,14 +41,15 @@ function listProposals() {
   });
 }
 
-function viewProposal(id) {
+function viewProposal(planitId, taskId, id) {
   $.ajax({
     url: '/proposals/' + id,
     method: 'get'
   }).done(function(proposals) {
     data = {
       proposal: proposals.proposals[0],
-      //? tasks: Tasks.tasks,
+      planitId: planitId,
+      taskId: taskId,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name !== 'normal')
@@ -127,5 +126,5 @@ function acceptedProposal(id){
 
 function rejectedProposal(id){
 
-  
+
 }

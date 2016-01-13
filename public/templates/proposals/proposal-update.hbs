@@ -7,9 +7,9 @@
       <label for="cost_estimate">Your bid:</label>
       <input type="number" name="cost_estimate" value="{{proposal.cost_estimate}}" />
       {{#if update}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updateProposalPut(event, {{proposal.id}});" />
+        <input class="btn btn-custom form-submit-btn" type="submit" value="Update Proposal" onclick="updateProposalPut(event, {{planitId}}, {{task.id}}, {{proposal.id}});" />
       {{else}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Create" onclick="createProposalPost(event);" />
+        <input class="btn btn-custom form-submit-btn" type="submit" value="Submit Proposal" onclick="createProposalPost(event, {{planitId}}, {{task.id}});" />
       {{/if}}
     </form>
   </div>

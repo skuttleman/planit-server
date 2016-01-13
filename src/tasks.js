@@ -54,10 +54,26 @@ function viewTask(planitId, id) {
       method: 'get'
     })
   ]).then(function(serverData) {
-    appvars.planit = serverData[1].planits[0];
+    return $.ajax({
+      url: '/members/' + serverData[0].proposals[0].member_id
+    }).then(function(members) {
+      return Promise.resolve({
+        member: members.members[0],
+        planit: serverData[1].planits[0],
+        task: serverData[0].tasks[0],
+        proposals: serverData[0].proposals
+      });
+    });
+  }).then(function(serverData) {
+    appvars.planit = serverData.planit;
+    appvars.task = serverData.task;
+    appvars.proposals = serverData.proposals;
+    appvars.member = serverData.member;
     data = {
       planit: appvars.planit,
-      task: serverData[0].tasks[0],
+      task: appvars.task,
+      proposals: appvars.proposals,
+      member: appvars.member,
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
