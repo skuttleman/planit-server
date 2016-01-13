@@ -40,8 +40,7 @@
         <thead>
           <tr>
             <td>TYPE</td>
-            <td>|DESCRIPTION</td>
-            <td>|RATE</td>
+            <td>|BUDGET</td>
             <td>|# NEEDED</td>
             <td>|START DATE</td>
             <td>|DETAILS</td>
@@ -50,12 +49,13 @@
         <tbody>
         {{#each tasks}}
           <tr>
-              {{#compare skill_name 'other'}}
-                <td>{{skill_description}}</td>
+            <td>
+              {{#if skill_name}}
+                {{skill_name}}
               {{else}}
-                <td>{{skill_name}}</td>
-              {{/compare}}
-              <td>{{description}}</td>
+                {{description}}
+              {{/if}}
+              </td>
               <td>{{budget}}</td>
               <td>{{head_count}}</td>
               <td>{{start_time}}</td>
