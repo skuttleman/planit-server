@@ -5,12 +5,12 @@ function createProposal(planitId, taskId) {
   }).done(function(details){
     console.log(taskId)
     appvars.task = details.tasks[0]
-  var data = {
-    task: appvars.task,
-    title: 'Proposal Creation',
-    planitId: planitId
+    var data = {
+      task: appvars.task,
+      title: 'Proposal Creation',
+      planitId: planitId
     };
-  displayTemplate('main', 'proposalupdate', data);
+    displayTemplate('main', 'proposalupdate', data);
   })
 }
 
@@ -45,67 +45,79 @@ function viewProposal(planitId, taskId, id) {
   $.ajax({
     url: '/proposals/' + id,
     method: 'get'
-  }).done(function(proposals) {
+  }).then(function(proposals) {
+    return Promise.all([
+      $.ajax({
+        url: '/members/' + proposals.proposals[0].member_id,
+        method: 'get'
+      }),
+      $.ajax({
+        url: '/planits/' + planitId,
+        method: 'get'
+      })
+    ]).then(function(data) {
+      return Promise.resolve({
+        member: data[0].members[0],
+        skills: data[0].skills,
+        proposal: proposals.proposals[0],
+        planit: data[1].planits[0]
+      });
+    });
+  }).then(function(serverData) {
     data = {
-      proposal: proposals.proposals[0],
-      planitId: planitId,
+      proposal: serverData.proposal,
+      member: serverData.member,
+      skills: serverData.skills,
+      planit: serverData.planit,
       taskId: taskId,
       user: appvars.user,
-      editable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name !== 'normal')
+      respondable: appvars.user && (appvars.user.id == serverData.planit.member_id || appvars.user.role_name == 'admin'),
+      editable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name !== 'normal')
     };
     displayTemplate('main', 'proposal', data);
   });
 }
 
-// May be a mistake
-
-function updateProposal(id) {
+function updateProposal(planitId, taskId, id) {
   Promise.all([
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'get'
-  }),
-  $.ajax({
-    url: '/proposal/details',
-    method: 'get'
-    })
-  ]).then(function(data) {
-    appvars.proposal_details = data[1].proposal_details;
-    var proposal = data[0].proposals[0];
+  })
+  ]).then(function(serverData) {
+    appvars.proposal = serverData[0].proposals[0];
+    var proposal = serverData[0].proposals[0];
     var data = {
-      proposals: proposal,
-      proposal_details: data[1].proposal_details,
+      planitId: planitId,
+      taskId: taskId,
       title: 'Proposal Update',
+      proposal: appvars.proposal,
       update: true,
-      cost_estimate: cost_estimate,
     };
     displayTemplate('main', 'proposalupdate', data);
   });
 }
 
-
-//Unsure if id is needed as well
-
-function updateProposalPut(event, id) {
+function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'put',
     data: formData,
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(id);
+    viewProposal(planitId, taskId, id);
   });
 }
 
-function deleteProposal(id) {
+function deleteProposal(planitId, taskId, id) {
   customConfirm('Are you sure you want to delete this proposal?', function() {
     $.ajax({
-      url: '/proposals/' + id,
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
       method: 'delete',
       xhrFields: {
         withCredentials: true
@@ -114,17 +126,20 @@ function deleteProposal(id) {
       if (id == appvars.user.id) {
         logout();
       } else {
-        displayTemplate('main', 'splashpage');
+        viewTask(planitId, taskId);
       }
     });
   });
 }
 
-function acceptedProposal(id){
-
-}
-
-function rejectedProposal(id){
-
-
+function setProposalStatus(id, status){
+  $.ajax({
+    url: '/proposals/' + id + status ? '/accept' : '/reject',
+    method: 'put',
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewProposal(data.planitId, data.taskId, id);
+  }).fail(customAlert);
 }

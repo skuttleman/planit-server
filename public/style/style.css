@@ -14,8 +14,8 @@ h1 {
   text-align: center;
 }
 
-input, textarea {
-  background-color: black;
+textarea {
+  color: #555;
 }
 
 
@@ -272,3 +272,9 @@ footer li {
   font-size: 24px;
 }
 
+<<<<<<< HEAD
+=======
+input.error-highlight {
+  color: red;
+}
+>>>>>>> 319daaf95985b929da8c278995a54e57d6c6beee
