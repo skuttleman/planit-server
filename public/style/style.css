@@ -276,6 +276,11 @@ footer li {
   align-self: flex-start;
 }
 
+.proposal-form {
+  display: flex;
+  flex-direction: column;
+}
+
 #errorMessage {
   color: red;
   font-size: 24px;
