@@ -604,6 +604,7 @@ function createTask(planitId) {
       planit: appvars.planit,
       title: 'Create a Task',
       skills: appvars.skills,
+      hideDescription: ' hidden',
       startTime: formatDateTimeInput(appvars.planit.start_date),
       endTime: formatDateTimeInput(appvars.planit.start_date)
     };
