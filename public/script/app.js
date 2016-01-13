@@ -177,6 +177,18 @@ function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(2);
 }
 
+function validateBudget() {
+  var rule = /^\d+(?:\.\d{1,2})?$/;
+  console.log($('.planit-budget').val());
+  console.log(rule.test($('.planit-budget').val()));
+  if(rule.test($('.planit-budget').val())){
+    return true;
+  } else {
+    $('.planit-budget').addClass('error-highlight');
+    return false;
+  }
+}
+
 function login() {
   window.open('/auth/linkedin', '_self');
 }
@@ -447,12 +459,12 @@ function createProposal(planitId, taskId) {
   }).done(function(details){
     console.log(taskId)
     appvars.task = details.tasks[0]
-  var data = {
-    task: appvars.task,
-    title: 'Proposal Creation',
-    planitId: planitId
+    var data = {
+      task: appvars.task,
+      title: 'Proposal Creation',
+      planitId: planitId
     };
-  displayTemplate('main', 'proposalupdate', data);
+    displayTemplate('main', 'proposalupdate', data);
   })
 }
 
@@ -521,47 +533,38 @@ function viewProposal(planitId, taskId, id) {
   });
 }
 
-// May be a mistake
-
-function updateProposal(id) {
+function updateProposal(planitId, taskId, id) {
   Promise.all([
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'get'
-  }),
-  $.ajax({
-    url: '/proposal/details',
-    method: 'get'
-    })
-  ]).then(function(data) {
-    appvars.proposal_details = data[1].proposal_details;
-    var proposal = data[0].proposals[0];
+  })
+  ]).then(function(serverData) {
+    appvars.proposal = serverData[0].proposals[0];
+    var proposal = serverData[0].proposals[0];
     var data = {
-      proposals: proposal,
-      proposal_details: data[1].proposal_details,
+      planitId: planitId,
+      taskId: taskId,
       title: 'Proposal Update',
+      proposal: appvars.proposal,
       update: true,
-      cost_estimate: cost_estimate,
     };
     displayTemplate('main', 'proposalupdate', data);
   });
 }
 
-
-//Unsure if id is needed as well
-
-function updateProposalPut(event, id) {
+function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'put',
     data: formData,
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(id);
+    viewProposal(planitId, taskId, id);
   });
 }
 

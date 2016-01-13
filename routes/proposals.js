@@ -63,14 +63,16 @@ route.get('/:id', function(request, response, next) {
 // U
 route.put('/:id', function(request, response, next) {
   if (request.user) {
-    connectProposalToPlanit.then(function(data) {
+    connectProposalToPlanit(request.params.id).then(function(data) {
       var planit = data.planits[0], proposal = data.proposals[0], task = data.tasks[0];
       if (request.user.id == proposal.member_id || request.user.id == planit.member_id
       || request.user.role_name == 'admin') {
-        knex('proposals').where({ id: request.params.id }).update(request.body);
+        return knex('proposals').where({ id: request.params.id }).update(request.body);
       } else {
         next('You do not have permission to perform this action');
       }
+    }).then(function() {
+      response.json({ success: true });
     }).catch(next);
   } else {
     next('You must be logged in to perform this action');

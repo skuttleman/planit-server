@@ -14,8 +14,8 @@ h1 {
   text-align: center;
 }
 
-input, textarea {
-  background-color: black;
+textarea {
+  color: #555;
 }
 
 /* Nav */
@@ -269,4 +269,8 @@ footer li {
 #errorMessage {
   color: red;
   font-size: 24px;
+}
+
+input.error-highlight {
+  color: red;
 }

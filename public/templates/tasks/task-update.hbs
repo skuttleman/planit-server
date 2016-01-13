@@ -22,13 +22,13 @@
       <input class="optional-description{{hideDescription}}" name="description" rows="8" cols="40" value="{{task.description}}">
     </div>
     <label for="budget">Budget:</label>
-    <input class="edit-planit-text" type="number" name="budget" id="budget" value="{{task.budget}}" /><br>
+    <input class="edit-planit-text form-control" type="number" name="budget" id="budget" value="{{task.budget}}" />
     <label for="head_count">Positions to Fill:</label>
-    <input class="edit-planit-text" type="number" name="head_count" id="head_count" value="{{task.head_count}}" /><br>
+    <input class="edit-planit-text form-control" type="number" name="head_count" id="head_count" value="{{task.head_count}}" /><br>
     <label for="start_time">Start Time:</label>
-    <input class="edit-planit-text" type="datetime-local" name="start_time" id="start_time" value="{{startTime}}" /><br>
+    <input class="edit-planit-text form-control" type="datetime-local" name="start_time" id="start_time" value="{{startTime}}" /><br>
     <label for="end_time">End Time:</label>
-    <input class="edit-planit-text" type="datetime-local" name="end_time" id="end_time" value="{{endTime}}" />
+    <input class="edit-planit-text form-control" type="datetime-local" name="end_time" id="end_time" value="{{endTime}}" />
     {{#if update}}
       <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updateTaskPut(event, {{planit.id}}, {{task.id}});" />
     {{else}}
