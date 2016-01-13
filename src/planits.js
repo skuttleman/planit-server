@@ -26,6 +26,7 @@ function createPlanitPost(event) {
       withCredentials: true
     }
   }).done(function(data) {
+    $('#errorMessage').hide();
     viewPlanit(data.planits[0].id);
   }).fail(function(err) {
     $('#errorMessage').text('Enter all fields. Empty fields or invalid')

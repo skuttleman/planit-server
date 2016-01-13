@@ -20,7 +20,7 @@ route.post('/', function(request, response, next) {
     request.body.member_id = request.user.id;
     knex('proposals').insert(request.body).then(function() {
       response.json({ success: true });
-    });
+    }).catch(next);
   } else {
     next('You must be logged in to preform this action');
   }
@@ -30,7 +30,7 @@ route.post('/', function(request, response, next) {
 route.get('/:id', function(request, response, next) {
   knex('proposals').where({ id: request.params.id }).then(function(proposals) {
     response.json({ success: true, proposals: proposals });
-  });
+  }).catch(next);
 });
 
 // U
@@ -44,7 +44,7 @@ route.put('/:id', function(request, response, next) {
       } else {
         next('You do not have permission to perform this action');
       }
-    });
+    }).catch(next);
   } else {
     next('You must be logged in to perform this action');
   }
@@ -56,15 +56,13 @@ route.delete('/:id', function(request, response, next) {
     knex('proposals').where({ id: request.params.id }).then(function(proposals) {
       var proposal = proposals[0];
       if (request.user.id == proposal.member_id || request.user.role_name == 'admin') {
-        knex('proposals').where({ id: request.params.id }).del().then(function() {
+        return knex('proposals').where({ id: request.params.id }).del().then(function() {
           response.json({ success: true });
-        }).catch(function(err) {
-          next(err);
         });
       } else {
         next('You do not have permission to perform this action');
       }
-    });
+    }).catch(next);
   } else {
     next('You must be logged in to perform this action');
   }
@@ -75,7 +73,7 @@ route.get('/', function(request, response, next) {
   if (request.routeChain && request.routeChain.taskId) {
     knex('proposals').where({ task_id: request.routeChain.taskId }).then(function(proposals) {
       response.json({ success: true, proposals: proposals });
-    });
+    }).catch(next);
   }
 });
 
