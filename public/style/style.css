@@ -33,6 +33,7 @@ nav img {
 
 /* Also used in other forms */
 .dropdown-menu {
+  border-radius: 20px;
   padding: 10px;
 	background-color: black;
   z-index: 1000;
