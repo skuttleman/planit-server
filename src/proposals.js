@@ -1,35 +1,33 @@
 function createProposal(planitId, taskId) {
   $.ajax({
-    url: '/proposals/',
+    url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    appvars.proposal_details = details.proposal_details
+    console.log(taskId)
+    appvars.task = details.tasks[0]
   var data = {
-    proposal_details: appvars.proposal_details,
+    task: appvars.task,
     title: 'Proposal Creation',
-    cost_estimate: cost_estimate,
+    planitId: planitId
     };
-
-    //?unsure about proposal update template
-
   displayTemplate('main', 'proposalupdate', data);
   })
 }
 
-function createProposalPost(event, id) {
+function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/proposals',
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
     method: 'post',
     data: formData,
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(data.proposals[0].id);
+    viewTask(planitId, taskId);
   }).fail(function(err){
-    customAlert('All filed must be filled out to create a proposal')
+    customAlert('All fields must be filled out to create a proposal')
   });
 }
 

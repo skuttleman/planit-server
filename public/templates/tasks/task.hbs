@@ -39,9 +39,44 @@
         Eject Task
       </button>
     {{else}}
-      <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{task.id}});">
-        Submit Proposal
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
+        Create Proposal
       </button>
     {{/if}}
+
+    {{#if proposals.length}}
+      <h1>Proposals</h1>
+      <table class="table table-striped proposals-table">
+        <thead>
+          <tr>
+            <td>TYPE</td>
+            <td>|DATE</td>
+            <td>|TITLE</td>
+            <td>|RATE</td>
+            <td>|# NEEDED</td>
+            <td>|DESCRIPTION</td>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each tasks}}
+          <tr>
+              {{#compare skill_name 'other'}}
+                <td>{{skill_description}}</td>
+              {{else}}
+                <td>{{skill_name}}</td>
+              {{/compare}}
+              <td>{{description}}</td>
+              <td>{{budget}}</td>
+              <td>{{head_count}}</td>
+              <td>{{start_time}}</td>
+              <td><button class="btn btn-custom" onclick="viewTask({{../planit.id}}, {{id}});">View</button></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <h1>No Tasks for this Planit</h1>
+    {{/if}}
+
   </div>
 </div>
