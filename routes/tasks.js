@@ -48,15 +48,12 @@ route.get('/:id', function(request, response, next) {
   ]).then(function(data) {
     var tasks = data[0];
     var memberId = data[1][0].member_id;
-    console.log('memberid', memberId);
     tasks.forEach(function(task) {
       task.id = task.task_id;
       task.member_id = memberId;
       delete task.task_id;
     });
     response.json({ success: true, tasks: tasks });
-  }).catch(function(err) {
-    console.log(err);
   });
 });
 
@@ -65,12 +62,12 @@ route.put('/:id', function(request, response, next) {
   if (request.user.id) {
     var body = digest(request.body);
     Promise.all([
-      knex('tasks').where('id', request.params.id).update(body.body),
+      knex('tasks').returning('*').where('id', request.params.id).update(body.body),
       knex('skill_description').where('id', request.params.id)
     ]).then(function(data) {
       var task = data[0][0];
       var skillDescription = data[1][0];
-      return updateOrCreate(description, skillDescription, request.params.id)
+      return updateOrCreate(body.description, skillDescription, request.params.id)
       .then(function() {
         return Promise.resolve(data[0]);
       });
