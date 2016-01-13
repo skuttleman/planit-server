@@ -63,7 +63,7 @@ function viewTask(planitId, id) {
       proposals: appvars.proposals,
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
+      submittable: appvars.user && appvars.planit.member_id != appvars.user.id
     };
     displayTemplate('main', 'task', data);
   });
