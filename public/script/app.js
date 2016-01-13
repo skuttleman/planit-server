@@ -440,9 +440,9 @@ function selectPlanitType(id) {
   $('.ben-will-murder-you-if-remove-this-class-category').html(planitType + '<span class="caret"></span>');
 }
 
-function createProposal(taskId) {
+function createProposal(planitId, taskId) {
   $.ajax({
-    url: '/proposals/' + proposalId,
+    url: '/proposals/',
     method: 'get'
   }).done(function(details){
     appvars.proposal_details = details.proposal_details
