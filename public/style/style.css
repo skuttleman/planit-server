@@ -18,9 +18,11 @@ h1 {
 textarea, input {
 
   font-family: Arial;
-  em: 1.2 ;
+  font-size: 1.2em ;
   color: #555;
   font-weight: bold
+
+
 }
 
 
