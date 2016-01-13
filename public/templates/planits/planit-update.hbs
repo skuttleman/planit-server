@@ -3,8 +3,9 @@
   <h1>{{title}}</h1>
   <div class="inner-container-column">
     <form class="form planit-form">
+    <p id="errorMessage"></p>
       <label for="title">Title:</label>
-      <input type="text" name="title" value="{{planit.title}}" />
+      <input class='titletest' type="text" name="title" value="{{planit.title}}" />
       <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}
@@ -55,7 +56,7 @@
       {{#if update}}
         <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
       {{else}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Create" onclick="createPlanitPost(event);" />
+        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);" />
       {{/if}}
     </form>
   </div>

@@ -266,3 +266,8 @@ footer li {
 .edit-planit-btn {
   align-self: flex-start;
 }
+
+#errorMessage {
+  color: red;
+  font-size: 24px;
+}

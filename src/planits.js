@@ -28,7 +28,8 @@ function createPlanitPost(event) {
   }).done(function(data) {
     viewPlanit(data.planits[0].id);
   }).fail(function(err) {
-    customAlert('All fields must be filled out in order to create a planit');
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+    // customAlert('All fields must be filled out in order to create a planit');
   });
 }
 
