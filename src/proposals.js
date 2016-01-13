@@ -58,34 +58,36 @@ function viewProposal(planitId, taskId, id) {
   });
 }
 
-// May be a mistake
-
-function updateProposal(id) {
+function updateProposal(planitId, taskId, id) {
   Promise.all([
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'get'
   }),
   $.ajax({
     url: '/proposal/details',
     method: 'get'
-    })
-  ]).then(function(data) {
+  }),
+    $.ajax({
+      url: '/tasks' + taskId,
+      method: 'get'
+      })
+  ]).then(function(serverData) {
+    appvars.task = serverData[2].tasks;
     appvars.proposal_details = data[1].proposal_details;
-    var proposal = data[0].proposals[0];
+    var proposal = serverData[0].proposals[0];
     var data = {
-      proposals: proposal,
-      proposal_details: data[1].proposal_details,
+      proposal: proposals.proposals[1],
+      planitId: planitId,
+      task: appvars.task,
+      taskId: taskId,
       title: 'Proposal Update',
       update: true,
-      cost_estimate: cost_estimate,
+      user: appvars.user,
     };
     displayTemplate('main', 'proposalupdate', data);
   });
 }
-
-
-//Unsure if id is needed as well
 
 function updateProposalPut(event, id) {
   if (event) event.preventDefault();
