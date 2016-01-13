@@ -32,7 +32,7 @@
       View Planit
     </button>
     {{#if editable}}
-      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{task.id}});">
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{planit.id}}, {{task.id}});">
         Edit Task
       </button>
       <button type="button" class="btn btn-danger form-submit-btn" onclick="deleteTask({{task.id}});">
