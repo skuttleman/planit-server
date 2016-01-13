@@ -55,9 +55,12 @@ function viewTask(planitId, id) {
     })
   ]).then(function(serverData) {
     appvars.planit = serverData[1].planits[0];
+    appvars.task = serverData[0].tasks[0];
+    appvars.proposals = serverData[0].proposals;
     data = {
       planit: appvars.planit,
-      task: serverData[0].tasks[0],
+      task: appvars.task,
+      proposals: appvars.proposals,
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
