@@ -28,7 +28,9 @@ route.post('/', function(request, response, next) {
 
 // R
 route.get('/:id', function(request, response, next) {
-  knex('proposals').where({ id: request.params.id }).then(function(proposals) {
+  knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
+  .innerJoin('members', 'proposals.member_id', 'members.id')
+  .where({ 'proposals.id': request.params.id }).then(function(proposals) {
     response.json({ success: true, proposals: proposals });
   }).catch(next);
 });
@@ -71,7 +73,9 @@ route.delete('/:id', function(request, response, next) {
 // L
 route.get('/', function(request, response, next) {
   if (request.routeChain && request.routeChain.taskId) {
-    knex('proposals').where({ task_id: request.routeChain.taskId }).then(function(proposals) {
+    knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
+    .innerJoin('members', 'proposals.member_id', 'members.id')
+    .where({ 'proposals.task_id': request.routeChain.taskId }).then(function(proposals) {
       response.json({ success: true, proposals: proposals });
     }).catch(next);
   }

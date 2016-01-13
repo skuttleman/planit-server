@@ -45,7 +45,8 @@ route.get('/:id', function(request, response, next) {
     .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
     .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
     knex('planits').where({ id: where.planit_id }),
-    knex('proposals').where({ task_id: request.params.id })
+    knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
+    .innerJoin('members', 'proposals.member_id', 'members.id').where({ task_id: request.params.id })
   ]).then(function(data) {
     var tasks = data[0];
     var memberId = data[1][0].member_id;
