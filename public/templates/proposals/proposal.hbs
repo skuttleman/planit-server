@@ -13,20 +13,20 @@
       Return to Task View
     </button>
     {{#if respondable}}
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="setProposalStatus({{proposal.id}}, true);">
+      <button type="button" class="btn btn-success form-submit-btn" onclick="setProposalStatus({{proposal.id}}, true);">
         Accept Proposal
       </button>
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="setProposalStatus({{proposal.id}}, false);">
+      <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="setProposalStatus({{proposal.id}}, false);">
         Reject Proposal
       </button>
     {{/if}}
     {{#if deletable}}
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="deleteProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
-        Delete Proposal
+      <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deleteProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
+        Eject Proposal
       </button>
     {{/if}}
     {{#if editable}}
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="updateProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
         Update Proposal
       </button>
     {{/if}}

@@ -40,6 +40,9 @@
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
         Create Proposal
       </button>
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
+        Return to Orbit
+      </button>
     {{/if}}
     {{#if proposals.length}}
       <h1>Proposals</h1>
@@ -66,8 +69,6 @@
     {{else}}
       <h1>No Proposals for this Task</h1>
     {{/if}}
-    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
-      Return to Orbit
-    </button>
+
   </div>
 </div>
