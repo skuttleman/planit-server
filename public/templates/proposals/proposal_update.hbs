@@ -1,0 +1,16 @@
+<div class="main-container">
+  <h1>{{title}}</h1>
+  <div class="inner-container-column">
+    <form class="form proposal-form">
+      <label class="description-margin" for="details">Tell us about your qualifications and interest:</label>
+      <textarea name="details" rows="8" cols="40">{{proposal.details}}</textarea>
+      <label for="cost_estimate">Your bid:</label>
+      <input type="number" name="cost_estimate" value="{{proposal.cost_estimate}}" />
+      {{#if update}}
+        <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updateProposalPut(event, {{proposal.id}});" />
+      {{else}}
+        <input class="btn btn-custom form-submit-btn" type="submit" value="Create" onclick="createProposalPost(event);" />
+      {{/if}}
+    </form>
+  </div>
+</div>

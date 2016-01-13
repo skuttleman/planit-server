@@ -7,7 +7,7 @@ body {
   background-color: #000;
   font-family: 'Source Code Pro', sans-serif;
   color: #fff;
-  cursor: url('../images/cursor.png'), pointer;
+  cursor: pointer;
 }
 
 h1 {
@@ -16,10 +16,6 @@ h1 {
 
 input, textarea {
   background-color: black;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 /* Nav */
@@ -90,7 +86,6 @@ nav p {
 	background-repeat: repeat-x;
 	border-color: #BD411B;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  cursor: pointer;
 }
 
 .btn-custom:hover,
@@ -101,7 +96,6 @@ nav p {
 .btn-custom[disabled] {
 	color: #FFFFFF;
 	background-color: #BD411B;
-  cursor: pointer;
 }
 
 .btn-custom {
@@ -118,7 +112,6 @@ nav p {
 	background-repeat: repeat-x;
 	border-color: #BD411B;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  cursor: pointer;
 }
 
 .btn-custom:hover,
@@ -129,7 +122,6 @@ nav p {
 .btn-custom[disabled] {
 	color: #FFFFFF;
 	background-color: #BD411B;
-  cursor: pointer;
 }
 
 .form-submit-btn {
@@ -259,10 +251,17 @@ footer li {
   margin: 20px 0;
 }
 
+
+
 .description-margin {
   margin-top: 20px;
 }
 
-.edit-planit-btn {
+.edit-planit-btn .edit-proposal-btn {
   align-self: flex-start;
+}
+
+#errorMessage {
+  color: red;
+  font-size: 24px;
 }

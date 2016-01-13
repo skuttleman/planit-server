@@ -326,7 +326,8 @@ function createPlanitPost(event) {
   }).done(function(data) {
     viewPlanit(data.planits[0].id);
   }).fail(function(err) {
-    customAlert('All fields must be filled out in order to create a planit');
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+    // customAlert('All fields must be filled out in order to create a planit');
   });
 }
 
@@ -570,6 +571,21 @@ function rejectedProposal(id){
   
 }
 
+$(document).ready(function() {
+    console.log( "ready!" );
+});
+
+
+
+// $(".createplanit").click(function() {
+// 	var title = $('.titletest');
+// 	if(!title.val()) {
+// 		alert('nice')
+//     }
+//     else{
+//     	alert('enter a title fool')
+//     }
+// })
 function createTask(planitId) {
   Promise.all([
     $.ajax({
