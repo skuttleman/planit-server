@@ -129,6 +129,10 @@ nav p {
   align-self: flex-end;
 }
 
+.upper-right-btn {
+  order: -1;
+}
+
 /* Splash Page */
 
 h2 {
