@@ -4,7 +4,7 @@
     {{#each members}}
       {{#unless is_banned}}
         <figure>
-          <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
+          <img class="pointer" onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
           <figcaption>{{display_name}}</figcaption>
         </figure>
       {{else}}

@@ -1,29 +1,10 @@
 (function() {
-  var partials = [
-    // general views
-    { name: 'header', file: '/templates/header.hbs' },
-    { name: 'footer', file: '/templates/footer.hbs' },
-    { name: 'splashpage', file: '/templates/splash-page.hbs' },
-    // members views
-    { name: 'members', file: '/templates/members/members.hbs' },
-    { name: 'member', file: '/templates/members/member.hbs' },
-    { name: 'memberupdate', file: '/templates/members/member-update.hbs' },
-    { name: 'missioncontrol', file: '/templates/mission-control/dashboard.hbs' },
-    // planits views
-    { name: 'planits', file: '/templates/planits/planits.hbs' },
-    { name: 'planit', file: '/templates/planits/planit.hbs' },
-    { name: 'planitupdate', file: '/templates/planits/planit-update.hbs' },
-    // tasks views
-    { name: 'task', file: '/templates/tasks/task.hbs' },
-    { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' },
-    // proposal views
-    { name: 'proposal', file: '/templates/proposals/proposal.hbs' }
-
-  ].map(promisifyPartial);
-
-  partials.push(promiseToLoad());
-  return Promise.all(partials);
-})().then(pageLoaded);
+  $.get('/partials').done(function(partials) {
+    var promises = partials.map(promisifyPartial);
+    promises.push(promiseToLoad());
+    Promise.all(promises).then(pageLoaded);
+  });
+})();
 
 function promisifyPartial(partial) {
   return new Promise(function(success, failure) {
@@ -112,6 +93,25 @@ function findBy(array, key, value) {
   })[0];
 }
 
+function padTwo(number) {
+  var string = String(number);
+  while (string.length < 2) string = '0' + string;
+  return string;
+}
+
+function month() {
+  return [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+}
+
+function day() {
+  return [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+  ];
+}
+
 function formatDateInput(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -122,10 +122,59 @@ function formatDateInput(date) {
   return returnDate;
 }
 
-function padTwo(number) {
-  var string = String(number);
-  while (string.length < 2) string = '0' + string;
-  return string;
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateTimeInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') + 'T' +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateShort(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getMonth() + 1,
+    dateObject.getDate(),
+    dateObject.getYear() + 1900,
+  ].join('/');
+  return returnDate;
+}
+
+function formatDateLong(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    day()[dateObject.getDay()],
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+  ].join(' ');
+  return returnDate;
+}
+
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
 }
 
 function login() {
@@ -286,9 +335,13 @@ function listPlanits() {
   $.ajax({
     url: '/planits',
     method: 'get'
-  }).done(function(planits) {
-    planits.user = appvars.user;
-    displayTemplate('main', 'planits', planits);
+  }).done(function(data) {
+    data.user = appvars.user;
+    data.planits.forEach(function(planit) {
+      planit.startDate = formatDateShort(planit.start_date);
+      planit.endDate = formatDateShort(planit.end_date);
+    });
+    displayTemplate('main', 'planits', data);
   });
 }
 
@@ -297,12 +350,16 @@ function viewPlanit(id) {
     url: '/planits/' + id,
     method: 'get'
   }).done(function(planits) {
+    appvars.planit = planits.planits[0];
+    appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
+    appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
     data = {
-      planit: planits.planits[0],
+      planit: appvars.planit,
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });
@@ -329,8 +386,10 @@ function updatePlanit(id) {
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
-      endDate: formatDateInput(planit.end_date)
+      endDate: formatDateInput(planit.end_date),
+      formattedCurrency: Number(planit.budget).toFixed(2)
     };
+    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
@@ -545,8 +604,8 @@ function createTask(planitId) {
       planit: appvars.planit,
       title: 'Create a Task',
       skills: appvars.skills,
-      startTime: formatDateInput(Date.now()),
-      endTime: formatDateInput(Date.now())
+      startTime: formatDateTimeInput(appvars.planit.start_date),
+      endTime: formatDateTimeInput(appvars.planit.start_date)
     };
     // TODO: MODULARIZE FORM ROUTE
     displayTemplate('main', 'taskupdate', data);
@@ -556,19 +615,18 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  console.log(formData);
-  // $.ajax({
-  //   url: '/planits/' + planitId + '/tasks',
-  //   method: 'post',
-  //   data: formData,
-  //   xhrFields: {
-  //     withCredentials: true
-  //   }
-  // }).done(function(data) {
-  //   viewTask(data.tasks[0].id);
-  // }).fail(function(err) {
-  //   customAlert('All fields must be filled out to create a task');
-  // });
+  $.ajax({
+    url: '/planits/' + planitId + '/tasks',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewTask(planitId, data.tasks[0].id);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out correctly to create a task');
+  });
 }
 
 function viewTask(planitId, id) {
@@ -586,7 +644,9 @@ function viewTask(planitId, id) {
     data = {
       planit: appvars.planit,
       task: serverData[0].tasks[0],
-      user: appvars.user
+      user: appvars.user,
+      editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
+      deletable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin')
     };
     displayTemplate('main', 'task', data);
   });
@@ -616,8 +676,8 @@ function updateTask(planitId, id) {
       task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
-      startDate: formatDateInput(task.start_date),
-      endDate: formatDateInput(task.end_date)
+      startTime: formatDateTimeInput(task.start_time),
+      endTime: formatDateTimeInput(task.end_time)
     };
     displayTemplate('main', 'taskupdate', data);
   });

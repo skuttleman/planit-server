@@ -18,15 +18,14 @@ input, textarea {
   background-color: black;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /* Nav */
 
 nav img {
 	margin: 20px 0px 10px 90px;
-  cursor: pointer;
-}
-
-nav p {
-  cursor: pointer;
 }
 
 #display_name {
@@ -40,17 +39,14 @@ nav p {
 .dropdown-menu {
   padding: 10px;
 	background-color: black;
-  cursor: pointer;
   z-index: 1000;
 }
 
 .dropdown-menu > li:hover {
   background-color: #383938;
-
 }
 
 .dropdown-menu li {
-  cursor: pointer;
   z-index: 10000;
 }
 
@@ -94,6 +90,7 @@ nav p {
 	background-repeat: repeat-x;
 	border-color: #BD411B;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .btn-custom:hover,
@@ -104,6 +101,7 @@ nav p {
 .btn-custom[disabled] {
 	color: #FFFFFF;
 	background-color: #BD411B;
+  cursor: pointer;
 }
 
 .btn-custom {
@@ -120,6 +118,7 @@ nav p {
 	background-repeat: repeat-x;
 	border-color: #BD411B;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .btn-custom:hover,
@@ -130,6 +129,7 @@ nav p {
 .btn-custom[disabled] {
 	color: #FFFFFF;
 	background-color: #BD411B;
+  cursor: pointer;
 }
 
 .form-submit-btn {

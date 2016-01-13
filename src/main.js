@@ -55,6 +55,25 @@ function findBy(array, key, value) {
   })[0];
 }
 
+function padTwo(number) {
+  var string = String(number);
+  while (string.length < 2) string = '0' + string;
+  return string;
+}
+
+function month() {
+  return [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+}
+
+function day() {
+  return [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+  ];
+}
+
 function formatDateInput(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -65,8 +84,57 @@ function formatDateInput(date) {
   return returnDate;
 }
 
-function padTwo(number) {
-  var string = String(number);
-  while (string.length < 2) string = '0' + string;
-  return string;
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateTimeInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') + 'T' +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateShort(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getMonth() + 1,
+    dateObject.getDate(),
+    dateObject.getYear() + 1900,
+  ].join('/');
+  return returnDate;
+}
+
+function formatDateLong(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    day()[dateObject.getDay()],
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+  ].join(' ');
+  return returnDate;
+}
+
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
 }

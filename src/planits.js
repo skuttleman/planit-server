@@ -37,9 +37,13 @@ function listPlanits() {
   $.ajax({
     url: '/planits',
     method: 'get'
-  }).done(function(planits) {
-    planits.user = appvars.user;
-    displayTemplate('main', 'planits', planits);
+  }).done(function(data) {
+    data.user = appvars.user;
+    data.planits.forEach(function(planit) {
+      planit.startDate = formatDateShort(planit.start_date);
+      planit.endDate = formatDateShort(planit.end_date);
+    });
+    displayTemplate('main', 'planits', data);
   });
 }
 
@@ -48,12 +52,16 @@ function viewPlanit(id) {
     url: '/planits/' + id,
     method: 'get'
   }).done(function(planits) {
+    appvars.planit = planits.planits[0];
+    appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
+    appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
     data = {
-      planit: planits.planits[0],
+      planit: appvars.planit,
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });
@@ -80,8 +88,10 @@ function updatePlanit(id) {
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
-      endDate: formatDateInput(planit.end_date)
+      endDate: formatDateInput(planit.end_date),
+      formattedCurrency: Number(planit.budget).toFixed(2)
     };
+    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
