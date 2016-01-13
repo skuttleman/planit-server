@@ -544,10 +544,10 @@ function updateProposalPut(event, id) {
   });
 }
 
-function deleteProposal(id) {
+function deleteProposal(planitId, taskId, id) {
   customConfirm('Are you sure you want to delete this proposal?', function() {
     $.ajax({
-      url: '/proposals/' + id,
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
       method: 'delete',
       xhrFields: {
         withCredentials: true
@@ -556,7 +556,7 @@ function deleteProposal(id) {
       if (id == appvars.user.id) {
         logout();
       } else {
-        displayTemplate('main', 'splashpage');
+        viewTask(planitId, taskId);
       }
     });
   });
