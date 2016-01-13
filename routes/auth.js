@@ -30,9 +30,7 @@ passport.use(new LinkedIn({
   scope: ['r_emailaddress', 'r_basicprofile'],
   state: true
 }, function(accessToken, refreshToken, profile, done) {
-  incorporateUser(profile, done).catch(function(error) {
-    done(error);
-  });
+  incorporateUser(profile, done).catch(done);
 }));
 
 route.get('/auth', function(request, response) {
