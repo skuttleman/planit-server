@@ -32,16 +32,16 @@
       View Planit
     </button>
     {{#if editable}}
-      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{task.id}});">
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{planit.id}}, {{task.id}});">
         Edit Task
       </button>
-      <button type="button" class="btn btn-danger form-submit-btn" onclick="deleteTask({{task.id}});">
+      <button type="button" class="btn btn-danger form-submit-btn" onclick="deleteTask({{planit.id}}, {{task.id}});">
         Jettison Task
       </button>
     {{else}}
-        <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{task.id}});">
-          Submit Proposal
-        </button>
+      <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{task.id}});">
+        Submit Proposal
+      </button>
     {{/if}}
   </div>
 </div>

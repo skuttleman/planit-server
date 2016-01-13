@@ -6,7 +6,7 @@
     <p id="errorMessage"></p>
       <label for="title">Title:</label>
       <input type="text" name="title" value="{{planit.title}}" />
-      <div class="planit-dropdown pointer">
+      <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}
           {{category}}
@@ -32,7 +32,7 @@
       <input type="text" name="street_address" value="{{planit.street_address}}"><br>
       <label for="city">City:</label>
       <input type="text" name="city" value="{{planit.city}}" />
-      <div class="planit-dropdown pointer">
+      <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
           {{#if planit.state}}
             {{planit.state}}
