@@ -33,7 +33,7 @@ function partials() {
     { name: 'taskupdate', file: '/templates/tasks/task-update.hbs' },
     // proposal views
     { name: 'proposal', file: '/templates/proposals/proposal.hbs' },
-    { name: 'proposalupdate', file: 'templates/proposals/proposal_update'}
+    { name: 'proposalupdate', file: '/templates/proposals/proposal_update.hbs'}
   ];
 }
 
