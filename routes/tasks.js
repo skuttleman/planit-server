@@ -29,9 +29,7 @@ route.post('/', function(request, response, next) {
       }
     }).then(function(tasks) {
       response.json({ success: true, tasks: tasks });
-    }).catch(function(err) {
-      response.status(404).send(err);
-    });
+    }).catch(next);
   }
 });
 
@@ -56,7 +54,7 @@ route.get('/:id', function(request, response, next) {
       delete task.task_id;
     });
     response.json({ success: true, tasks: tasks });
-  });
+  }).catch(next);
 });
 
 // U
@@ -77,7 +75,9 @@ route.put('/:id', function(request, response, next) {
       });
     }).then(function(tasks) {
       response.json({ success: true, tasks: tasks });
-    });
+    }).catch(next);
+  } else {
+    next('You must be logged in');
   }
 });
 
@@ -86,7 +86,7 @@ route.delete('/:id', function(request, response, next) {
   if (request.user.id) {
     knex('tasks').where({ id: request.params.id }).del().then(function() {
       response.json({ success: true });
-    });
+    }).catch(next);
   }
 });
 
@@ -103,7 +103,7 @@ route.get('/', function(request, response, next) {
       delete task.task_id;
     });
     response.json({ success: true, tasks: tasks });
-  });
+  }).catch(next);
 });
 
 function digest(body, id) {
