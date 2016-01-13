@@ -35,6 +35,7 @@ module.exports=require('express').Router();
 // });
 //
 // // R
+// - LF - pretty sure this route is horked
 // route.get('/:id', function(request, response, next) {
 //   var where = {
 //     'proposals.id': request.params.id
@@ -49,9 +50,9 @@ module.exports=require('express').Router();
 //     var memberId = data[1][0].member_id;
 //     console.log('memberid', memberId);
 //     proposals.forEach(function(proposalId) {
-//       proposalId.id = proposalId.proposalId_id;
-//       proposalId.member_id = memberId;
-//       delete proposalId.proposalId_id;
+//       proposal.id = proposalId.proposalId_id;
+//       proposal.task_id = memberId;
+//       delete proposal.proposal_id;
 //     });
 //     response.json({ success: true, proposals: proposals });
 //   }).catch(function(err) {
@@ -91,14 +92,12 @@ module.exports=require('express').Router();
 // // L
 // route.get('/', function(request, response, next) {
 //   var where = {};
-//   if (request.routeChain && request.routeChain.proposalId) where.proposalId_id = request.routeChain.proposalId;
+//   if (request.routeChain && request.routeChain.proposalId) where.proposal_id = request.routeChain.proposalId;
 //   knex('proposals').select('proposals.id as proposalId_id', 'proposals.*', 'proposal_details.*', 'skills.*')
-//   .leftJoin('proposal_details', 'proposals.id', 'proposal_details.id')
-//   .leftJoin('skills', 'proposals.skill_id', 'skills.id')
 //   .where(where).then(function(proposals) {
 //     proposals.forEach(function(proposalId) {
-//       proposalId.id = proposalId.proposalId_id;
-//       delete proposalId.proposalId_id;
+//       proposal.id = proposal.proposal_id;
+//       delete proposal.proposal_id;
 //     });
 //     response.json({ success: true, proposals: proposals });
 //   });
