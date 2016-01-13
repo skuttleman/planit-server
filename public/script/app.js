@@ -145,6 +145,10 @@ function formatDateLong(date) {
   return returnDate;
 }
 
+function formatCurrency(budget) {
+  return '$ ' + Number(budget).toFixed(2);
+}
+
 function login() {
   window.open('/auth/linkedin', '_self');
 }
@@ -325,7 +329,8 @@ function viewPlanit(id) {
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
-      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal')
+      deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });
@@ -352,8 +357,10 @@ function updatePlanit(id) {
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
-      endDate: formatDateInput(planit.end_date)
+      endDate: formatDateInput(planit.end_date),
+      formattedCurrency: Number(planit.budget).toFixed(2)
     };
+    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
