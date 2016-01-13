@@ -44,16 +44,15 @@ route.get('/:id', function(request, response, next) {
     knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
     .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
     .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
-    knex('planits').where({ id: where.planit_id })
+    knex('planits').where({ id: where.planit_id }),
+    knex('proposals').where({ task_id: request.params.id })
   ]).then(function(data) {
     var tasks = data[0];
     var memberId = data[1][0].member_id;
-    tasks.forEach(function(task) {
-      task.id = task.task_id;
-      task.member_id = memberId;
-      delete task.task_id;
-    });
-    response.json({ success: true, tasks: tasks });
+    tasks[0].id = tasks[0].task_id;
+    tasks[0].member_id = memberId;
+    delete tasks[0].task_id;
+    response.json({ success: true, tasks: tasks, proposals: data[2] });
   }).catch(next);
 });
 

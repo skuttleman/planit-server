@@ -28,9 +28,6 @@
       <h4>End Time:</h4>
       <p>{{task.end_time}}</p>
     </div>
-    <button type="button" class="btn btn-custom form-submit-btn" onclick="viewPlanit({{planit.id}});">
-      Return to Orbit
-    </button>
     {{#if editable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{planit.id}}, {{task.id}});">
         Edit Task
@@ -43,40 +40,33 @@
         Create Proposal
       </button>
     {{/if}}
-
     {{#if proposals.length}}
       <h1>Proposals</h1>
-      <table class="table table-striped proposals-table">
+      <table class="table table-striped planits-table">
         <thead>
           <tr>
-            <td>TYPE</td>
-            <td>|DATE</td>
-            <td>|TITLE</td>
+            <td>CREW MEMBER</td>
             <td>|RATE</td>
-            <td>|# NEEDED</td>
-            <td>|DESCRIPTION</td>
+            <td>|DETAILS</td>
           </tr>
         </thead>
         <tbody>
-        {{#each tasks}}
+        {{#each proposals}}
           <tr>
-              {{#compare skill_name 'other'}}
-                <td>{{skill_description}}</td>
-              {{else}}
-                <td>{{skill_name}}</td>
-              {{/compare}}
-              <td>{{description}}</td>
-              <td>{{budget}}</td>
-              <td>{{head_count}}</td>
-              <td>{{start_time}}</td>
-              <td><button class="btn btn-custom" onclick="viewTask({{../planit.id}}, {{id}});">View</button></td>
+            <td>{{../member.display_name}}</td>
+            <td>{{cost_estimate}}</td>
+            <td>{{details}}</td>
+            <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
           </tr>
-          {{/each}}
+        {{/each}}
+
         </tbody>
       </table>
     {{else}}
-      <h1>No Tasks for this Planit</h1>
+      <h1>No Proposals for this Task</h1>
     {{/if}}
-
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
+      Return to Orbit
+    </button>
   </div>
 </div>

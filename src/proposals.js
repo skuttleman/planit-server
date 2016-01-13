@@ -41,14 +41,15 @@ function listProposals() {
   });
 }
 
-function viewProposal(id) {
+function viewProposal(planitId, taskId, id) {
   $.ajax({
     url: '/proposals/' + id,
     method: 'get'
   }).done(function(proposals) {
     data = {
       proposal: proposals.proposals[0],
-      //? tasks: Tasks.tasks,
+      planitId: planitId,
+      taskId: taskId,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == proposals.proposals[0].member_id || appvars.user.role_name !== 'normal')
