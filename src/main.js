@@ -138,3 +138,15 @@ function formatDateLong(date) {
 function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(2);
 }
+
+function validateBudget(budget) {
+  var rule = '[1-9]\d*)$/';
+  var budgetVal = $('planit-budget').val();
+  if(rule.test(budgetVal)){
+    budgetVal.style.background ='#ccffcc';
+    return true;
+  } else {
+    budgetVal.style.background ='#e35152';
+    return false;
+  } 
+}
