@@ -32,7 +32,9 @@ route.post('/', function(request, response, next) {
 // R
 route.get('/:id', function(request, response, next) {
   var where = {};
-  if (request.routeChain && request.routeChain.memberId) where.member_id = request.routeChain.memberId;
+  if (request.routeChain && request.routeChain.memberId) {
+    where.member_id = request.routeChain.memberId;
+  }
   where['planits.id'] = request.params.id;
   Promise.all([
     knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
@@ -44,55 +46,49 @@ route.get('/:id', function(request, response, next) {
     .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
     .where('tasks.planit_id', request.params.id)
   ]).then(function(data) {
-    var planits = data[0];
-    var tasks = data[1];
-
-    response.json({ planits: planits, tasks: tasks });
-  });
+    response.json({ planits: data[0], tasks: data[1] });
+  }).catch(next);
 });
 
 // U
 route.put('/:id', function(request, response, next) {
   methods.getPermission(request.user.id).then(function(permission) {
-    knex('planits').where('id', request.params.id).then(function(planits) {
+    return knex('planits').where('id', request.params.id).then(function(planits) {
       var planit = planits[0];
       if (request.user.id == planit.member_id || request.user.role_name == 'admin') {
-        knex('planits').where('id', request.params.id).update(request.body).then(function() {
+        return knex('planits').where('id', request.params.id).update(request.body).then(function() {
           response.json({ success: true });
-        }).catch(function(err) {
-          console.error(err);
-          next(err);
         });
       } else {
         next('You do not have permission to perform this action');
       }
     });
-  });
+  }).catch(next);
 });
 
 // D
 route.delete('/:id', function(request, response, next) {
   methods.getPermission(request.user.id).then(function(permission) {
-    knex('planits').where('id', request.params.id).then(function(planits) {
+    return knex('planits').where('id', request.params.id).then(function(planits) {
       var planit = planits[0];
       if (request.user.id == planit.member_id || request.user.role_name == 'admin') {
-        knex('planits').where('id', request.params.id).del().then(function() {
+        return knex('planits').where('id', request.params.id).del().then(function() {
           response.json({ success: true });
-        }).catch(function(err) {
-          next(err);
         });
       } else {
         next('You do not have permission to perform this action');
       }
     });
-  });
+  }).catch(next);
 });
 
 // L
 route.get('/', function(request, response, next) {
   var where = {};
-  if (request.routeChain && request.routeChain.memberId) where.member_id = request.routeChain.memberId;
+  if (request.routeChain && request.routeChain.memberId) {
+    where.member_id = request.routeChain.memberId;
+  }
   knex('planits').where(where).orderBy('start_date', 'asc').then(function(planits) {
     response.json({ planits: planits });
-  });
+  }).catch(next);
 });
