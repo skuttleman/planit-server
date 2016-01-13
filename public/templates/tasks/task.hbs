@@ -28,6 +28,9 @@
       <h4>End Time:</h4>
       <p>{{task.end_time}}</p>
     </div>
+    <button type="button" class="btn btn-custom form-submit-btn" onclick="viewPlanit({{planit.id}});">
+      View Planit
+    </button>
     {{#if editable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{task.id}});">
         Edit Task

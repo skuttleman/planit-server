@@ -122,6 +122,34 @@ function formatDateInput(date) {
   return returnDate;
 }
 
+function formatDateTime(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
+function formatDateTimeInput(date) {
+  var dateObject = new Date(date);
+  var returnDate = [
+    dateObject.getYear() + 1900,
+    padTwo(dateObject.getMonth() + 1),
+    padTwo(dateObject.getDate())
+  ].join('-') + 'T' +
+  [
+    padTwo(dateObject.getHours()),
+    padTwo(dateObject.getMinutes())
+  ].join(':');
+  return returnDate;
+}
+
 function formatDateShort(date) {
   var dateObject = new Date(date);
   var returnDate = [
@@ -560,8 +588,8 @@ function createTask(planitId) {
       planit: appvars.planit,
       title: 'Create a Task',
       skills: appvars.skills,
-      startTime: formatDateInput(Date.now()),
-      endTime: formatDateInput(Date.now())
+      startTime: formatDateTimeInput(appvars.planit.start_date),
+      endTime: formatDateTimeInput(appvars.planit.start_date)
     };
     // TODO: MODULARIZE FORM ROUTE
     displayTemplate('main', 'taskupdate', data);
@@ -571,19 +599,18 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  console.log(formData);
-  // $.ajax({
-  //   url: '/planits/' + planitId + '/tasks',
-  //   method: 'post',
-  //   data: formData,
-  //   xhrFields: {
-  //     withCredentials: true
-  //   }
-  // }).done(function(data) {
-  //   viewTask(data.tasks[0].id);
-  // }).fail(function(err) {
-  //   customAlert('All fields must be filled out to create a task');
-  // });
+  $.ajax({
+    url: '/planits/' + planitId + '/tasks',
+    method: 'post',
+    data: formData,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data) {
+    viewTask(planitId, data.tasks[0].id);
+  }).fail(function(err) {
+    customAlert('All fields must be filled out correctly to create a task');
+  });
 }
 
 function viewTask(planitId, id) {
@@ -633,8 +660,8 @@ function updateTask(planitId, id) {
       task_types: appvars.task_types,
       title: 'Update Task',
       update: true,
-      startDate: formatDateInput(task.start_date),
-      endDate: formatDateInput(task.end_date)
+      startTime: formatDateTimeInput(task.start_time),
+      endTime: formatDateTimeInput(task.end_time)
     };
     displayTemplate('main', 'taskupdate', data);
   });
