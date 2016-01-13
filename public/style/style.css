@@ -14,8 +14,11 @@ h1 {
   text-align: center;
 }
 
-textarea {
-  color: #555;
+textarea, input {
+ font-family: Arial;
+ font-size: 1.2em ;
+ color: #555;
+ font-weight: bold
 }
 
 /* Nav */
