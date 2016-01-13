@@ -670,6 +670,7 @@ function updateTask(planitId, id) {
   ]).then(function(serverData) {
     appvars.skills = serverData[1].skills;
     var task = serverData[0].tasks[0];
+    appvars.skills.push({ id:0, name: 'other' });
     console.log(task);
     var planit = serverData[2].planits[0];
     var data = {
