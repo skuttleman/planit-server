@@ -31,8 +31,6 @@
       <label for="street_address">Street Address:</label>
       <input class="form-control" type="text" name="street_address" value="{{planit.street_address}}"><br>
       <label for="city">City:</label>
-      <input type="text" name="city" value="{{planit.city}}" />
-
       <input class="form-control" type="text" name="city" value="{{planit.city}}" />
       <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
@@ -58,7 +56,7 @@
       {{#if update}}
         <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
       {{else}}
-        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);" />
+        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);"/>
       {{/if}}
     </form>
   </div>
