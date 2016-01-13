@@ -63,44 +63,33 @@ function updateProposal(planitId, taskId, id) {
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'get'
-  }),
-  $.ajax({
-    url: '/proposal/details',
-    method: 'get'
-  }),
-    $.ajax({
-      url: '/tasks' + taskId,
-      method: 'get'
-      })
+  })
   ]).then(function(serverData) {
-    appvars.task = serverData[2].tasks;
-    appvars.proposal_details = data[1].proposal_details;
+    appvars.proposal = serverData[0].proposals[0];
     var proposal = serverData[0].proposals[0];
     var data = {
-      proposal: proposals.proposals[1],
       planitId: planitId,
-      task: appvars.task,
       taskId: taskId,
       title: 'Proposal Update',
+      proposal: appvars.proposal,
       update: true,
-      user: appvars.user,
     };
     displayTemplate('main', 'proposalupdate', data);
   });
 }
 
-function updateProposalPut(event, id) {
+function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
   $.ajax({
-    url: '/proposals/' + id,
+    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
     method: 'put',
     data: formData,
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data) {
-    viewProposal(id);
+    viewProposal(planitId, taskId, id);
   });
 }
 
