@@ -63,6 +63,12 @@ function viewTask(planitId, id) {
       planit: appvars.planit,
       task: appvars.task,
       proposals: appvars.proposals,
+      approvedProposals: appvars.proposals.filter(function(proposal) {
+        return proposal.is_approved;
+      }),
+      pendingProposals: appvars.proposals.filter(function(proposal) {
+        return proposal.is_approved !== true && proposal.is_approved !== false;
+      }),
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       submittable: appvars.user && appvars.planit.member_id != appvars.user.id
