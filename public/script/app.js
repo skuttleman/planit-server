@@ -304,31 +304,34 @@ function createPlanit() {
     appvars.planit_types = types.planit_types
     var data = {
       planit_types: appvars.planit_types,
-      title: 'planit Creation',
+      title: 'Create a planit (event)',
       states: appvars.states,
       startDate: formatDateInput(Date.now()),
       endDate: formatDateInput(Date.now())
     };
     displayTemplate('main', 'planitupdate', data);
+    // addFormSubmitListener();
   });
 }
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewPlanit(data.planits[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
-    // customAlert('All fields must be filled out in order to create a planit');
+  validateForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewPlanit(data.planits[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      // customAlert('All fields must be filled out in order to create a planit');
+    });
   });
 }
 
@@ -759,9 +762,17 @@ function selectSkill(id) {
   }
 }
 
-function validateForm(event) {
-  if(highlightBudget() === false || highlightDate() === false || highlightZip() === false) {
-    event.preventDefault();
+function validateForm(then) {
+  // event.preventDefault();
+  console.log('validate!');
+  console.log(highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
+  if(!highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightZip()) {
+    // event.preventDefault();
+  } else {
+    then();
   }
 }
 
@@ -781,10 +792,8 @@ function highlightBudget() {
 }
 
 function dateErrorOn() {
-  if (true) {
-    $('span[class="date-error error-text"]').remove();
-    $('label[for="date"]').next().removeClass('error-highlight');
-  }
+  $('span[class="date-error error-text"]').remove();
+  $('label[for="date"]').next().removeClass('error-highlight');
   return true;
 }
 
@@ -798,16 +807,26 @@ function dateErrorOff() {
 function highlightDate() {
   if($('.end-date').val() >= $('.start-date').val()){
     dateErrorOff();
+    return true;
   } else {
     dateErrorOn();
+    return false;
   }
 }
 
 function highlightPastDate(){
-  if(Date.parse($('.start-date').val()) >= Date.now()){
+  console.log(Date.parse($('.start-date').val()), Date.now());
+  // var startDateRound = Date.parse($('.start-date').val());
+  var startDate =formatDateInput(Date.parse($('.start-date').val()));
+  var dateNow = formatDateInput(Date.now());
+  console.log('start date ' + startDate);
+  console.log('date now ' + dateNow);
+  if(startDate >= dateNow){
     dateErrorOff();
+    return true;
   } else {
     dateErrorOn();
+    return false;
   }
 }
 

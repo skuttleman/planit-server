@@ -1,11 +1,11 @@
 
 <div class="main-container">
-  <h1>Create a planit (event)</h1>
+  <h1>{{title}}</h1>
   <div class="inner-container-column">
-    <form class="form planit-form" onsubmit="validateForm()">
+    <form class="form planit-form">
     <p id="errorMessage"></p>
       <label for="title">Title:</label>
-      <input class="form-control" type="text" name="title" value="{{planit.title}}" />
+      <input class="form-control" type="text" name="title" value="{{planit.title}}" required />
       <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}

@@ -1,6 +1,14 @@
-function validateForm(event) {
-  if(highlightBudget() === false || highlightDate() === false || highlightZip() === false) {
-    event.preventDefault();
+function validateForm(then) {
+  // event.preventDefault();
+  console.log('validate!');
+  console.log(highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
+  if(!highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightZip()) {
+    // event.preventDefault();
+  } else {
+    then();
   }
 }
 
@@ -20,10 +28,8 @@ function highlightBudget() {
 }
 
 function dateErrorOn() {
-  if (true) {
-    $('span[class="date-error error-text"]').remove();
-    $('label[for="date"]').next().removeClass('error-highlight');
-  }
+  $('span[class="date-error error-text"]').remove();
+  $('label[for="date"]').next().removeClass('error-highlight');
   return true;
 }
 
@@ -37,16 +43,26 @@ function dateErrorOff() {
 function highlightDate() {
   if($('.end-date').val() >= $('.start-date').val()){
     dateErrorOff();
+    return true;
   } else {
     dateErrorOn();
+    return false;
   }
 }
 
 function highlightPastDate(){
-  if(Date.parse($('.start-date').val()) >= Date.now()){
+  console.log(Date.parse($('.start-date').val()), Date.now());
+  // var startDateRound = Date.parse($('.start-date').val());
+  var startDate =formatDateInput(Date.parse($('.start-date').val()));
+  var dateNow = formatDateInput(Date.now());
+  console.log('start date ' + startDate);
+  console.log('date now ' + dateNow);
+  if(startDate >= dateNow){
     dateErrorOff();
+    return true;
   } else {
     dateErrorOn();
+    return false;
   }
 }
 
