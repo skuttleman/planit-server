@@ -836,8 +836,6 @@ function selectSkill(id) {
 }
 
 function validateForm(then) {
-  // event.preventDefault();
-  console.log(highlightTitle(), highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
   if(!highlightTitle() ||
       !highlightBudget() ||
       !highlightDate() ||
@@ -960,7 +958,6 @@ function dateErrorOff() {
 }
 
 function highlightDate() {
-  console.log($('.end-date').val(),  $('.start-date').val());
   if($('.end-date').val() >= $('.start-date').val()){
     dateErrorOff();
     return true;
@@ -973,13 +970,10 @@ function highlightDate() {
 function highlightPastDate(){
   var startDate = formatDateInput($('.start-date').val());
   var dateNow = formatDateInput(Date.now());
-  console.log(startDate, dateNow);
   if(startDate >= dateNow){
-    console.log('should be ok');
     dateErrorOff();
     return true;
   } else {
-    console.log('should be bad');
     dateErrorOn();
     return false;
   }
@@ -997,3 +991,54 @@ function highlightZip() {
     return false;
   }
 }
+
+// Validations specifically for tasks form
+
+function highlightHeadCount() {
+  if(parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ){
+    $('span[class="head-count-error error-text"]').remove();
+    $('.head-count').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="head-count-error error-text"]').remove();
+    $('label[for="head_count"]').append('<span class="head-count-error error-text"> Number must be between 0 and 99.</span>');
+    $('.head-count').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
+  }
+}
+
+// function timeErrorOn() {
+//   $('span[class="time-error error-text"]').remove();
+//   $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
+//   $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+//   return true;
+// }
+//
+// function timeErrorOff() {
+//   $('span[class="time-error error-text"]').remove();
+//   $('label[for="start_time"]').next().removeClass('error-highlight');
+//   $('label[for="end_time"]').next().removeClass('error-highlight');
+//   return false;
+// }
+
+// function highlightTime() {
+//   console.log($('.end-time').val(),  $('.start-time').val());
+//   if($('.end-time').val() >= $('.start-time').val()){
+//     timeErrorOff();
+//     return true;
+//   } else {
+//     timeErrorOn();
+//     return false;
+//   }
+// }
+
+// function highlightPastTime(){
+//   console.log('.start-time').val(), realDate(Date.now());
+//   if($('.start-time').val() >= realDate(Date.now())){
+//     timeErrorOff();
+//     return true;
+//   } else {
+//     timeErrorOn();
+//     return false;
+//   }
+// }
