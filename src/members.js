@@ -3,14 +3,16 @@ function login() {
 }
 
 function logout() {
+  historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: null });
+    displayTemplate('header', 'header', { user: appvars.user });
     displayTemplate('main', 'splashpage');
   });
 }
 
 function listMembers() {
+  historyUpdate(listMembers, arguments);
   $.ajax({
     url: '/members',
     method: 'get'
@@ -21,6 +23,7 @@ function listMembers() {
 }
 
 function viewServiceRecord(id) {
+  historyUpdate(viewServiceRecord, arguments);
   $.ajax({
     url: '/members/' + id,
     method: 'get'
@@ -37,6 +40,7 @@ function viewServiceRecord(id) {
 }
 
 function updateMember(id) {
+  historyUpdate(updateMember, arguments);
   Promise.all([
     $.ajax({
       url: '/members/' + id,

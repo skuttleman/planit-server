@@ -9,6 +9,7 @@ var appvars = {
 };
 
 function pageLoaded() {
+  if (!appvars.history) historyInit();
   $.ajax({
     url: '/auth',
     method: 'get'

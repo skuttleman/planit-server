@@ -23,14 +23,8 @@ route.use('/:id/reviews', reviews);
 
 // R
 route.get('/:id', function(request, response, next) {
-  Promise.all([
-    knex('members').where({ id: request.params.id }),
-    knex('skills').innerJoin('member_skills', 'skills.id', 'member_skills.skill_id')
-    .where('member_skills.member_id', request.params.id)
-  ]).then(function(data) {
-    var members = data[0];
-    var skills = data[1];
-    response.json({ members: members, skills: skills });
+  route.readOne(request.params.id).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -64,12 +58,8 @@ route.delete('/:id', function(request, response, next) {
 
 // L
 route.get('/', function(request, response, next) {
-  knex('members').then(function(members) {
-    members.forEach(function(member) {
-      var name = member.display_name.split(' ');
-      member.display_name = [name[0], name[1][0]].join(' ');
-    });
-    response.json({ members: members });
+  route.readAll().then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -101,3 +91,17 @@ function prepSkillsUpdate(memberId, data) {
     return Promise.all(ret);
   });
 }
+
+route.readOne = function(id) {
+  return methods.readMember(id);
+};
+
+route.readAll = function() {
+  return knex('members').then(function(members) {
+    members.forEach(function(member) {
+      var name = member.display_name.split(' ');
+      member.display_name = [name[0], name[1][0]].join(' ');
+    });
+    return Promise.resolve({ members: members });
+  });
+};
