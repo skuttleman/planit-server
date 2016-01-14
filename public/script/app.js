@@ -898,7 +898,7 @@ function highlightZip() {
     $('.zip').removeClass('error-highlight');
     return true;
   } else {
-    $('span[class="planit-zip-error error-text"]').remove();
+    $('span[class="zip-error error-text"]').remove();
     $('label[for="zipcode"]').append('<span class="zip-error error-text"> Zip Code must be 5 digits.</span>');
     $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
