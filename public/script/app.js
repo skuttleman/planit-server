@@ -664,15 +664,15 @@ function setProposalStatus(id, status){
 
 
 
-// $(".createplanit").click(function() {
-// 	var title = $('.titletest');
-// 	if(!title.val()) {
-// 		alert('nice')
-//     }
-//     else{
-//     	alert('enter a title fool')
-//     }
-// })
+$(".createplanit").click(function() {
+	var title = $('.titletest');
+	if(!title.val()) {
+		alert('nice')
+    }
+    else{
+    	alert('enter a title fool')
+    }
+})
 
 function createTask(planitId) {
   historyUpdate(createTask, arguments);
@@ -716,7 +716,7 @@ function createTaskPost(event, planitId) {
     $('#errorMessage').hide();
     viewTask(planitId, data.tasks[0].id);
   }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid').setTimeout(3000);
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid');
   });
 }
 
@@ -903,19 +903,33 @@ function highlightDescription(){
   }
 }
 
-// function highlightCategory(){
-//   if ($('.planit-type').val()) {
-//     $('span[class="planit-type-error error-text"]').remove();
-//     // $('.title').removeClass('error-highlight');
-//     return true;
-//   }
-//   else {
-//     $('span[class="planit-type-error error-text"]').remove();
-//     $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
-//     // $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
-//   return false;
-//   }
-// }
+function highlightCategory(){
+  var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
+  console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
+  if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
+    $('span[class="planit-type planit-type-error error-text"]').remove();
+    $('.planit-type').removeClass('error-highlight');
+    return true;
+  }
+  else {
+    $('span[class="planit-type-error error-text"]').remove();
+    $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
+    $('.planit-type').addClass('error-highlight');
+  return false;
+  }
+  // console.log(typeof $('.planit-type').val())
+  // if($('.planit-type').val() >= 6 && $('.planit-type').val() <= 10) {
+  //   $('span[class="planit-type planit-type-error error-text"]').remove();
+  //   $('.planit-type').removeClass('error-highlight');
+  //   return true;
+  // }
+  // else {
+  //   $('span[class="planit-type-error error-text"]').remove();
+  //   $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
+  //   $('.planit-type').addClass('error-highlight');
+  // return false;
+  // }
+}
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
