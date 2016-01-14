@@ -3,7 +3,6 @@
   <h1>{{title}}</h1>
   <div class="inner-container-column">
     <form class="form planit-form">
-    <p id="errorMessage"></p>
       <label for="title">Title:</label>
       <input class="form-control" type="text" name="title" value="{{planit.title}}" />
       <div class="planit-dropdown">
@@ -52,7 +51,7 @@
       <input class="form-control" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}">
       <label class="description-margin" for="description">Description:</label>
       <textarea class="form-control" name="description" rows="8" cols="40">{{planit.description}}</textarea>
-
+      <p id="errorMessage"></p>
       {{#if update}}
         <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
       {{else}}
