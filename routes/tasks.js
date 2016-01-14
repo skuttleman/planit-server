@@ -38,22 +38,11 @@ route.get('/:id', function(request, response, next) {
   var where = {
     'tasks.id': request.params.id
   };
-  if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
-  else response.json({ sucess: false });
-  Promise.all([
-    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
-    .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-    .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
-    knex('planits').where({ id: where.planit_id }),
-    knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-    .innerJoin('members', 'proposals.member_id', 'members.id').where({ task_id: request.params.id })
-  ]).then(function(data) {
-    var tasks = data[0];
-    var memberId = data[1][0].member_id;
-    tasks[0].id = tasks[0].task_id;
-    tasks[0].member_id = memberId;
-    delete tasks[0].task_id;
-    response.json({ success: true, tasks: tasks, proposals: data[2] });
+  if (request.routeChain && request.routeChain.planitId) {
+    where.planit_id = request.routeChain.planitId;
+  }
+  route.readOne(where).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -67,8 +56,6 @@ route.put('/:id', function(request, response, next) {
     ]).then(function(data) {
       var task = data[0][0];
       var skillDescription = data[1][0];
-      console.log(data);
-      console.log(body);
       return updateOrCreate(body.description, skillDescription, request.params.id)
       .then(function() {
         return Promise.resolve(data[0]);
@@ -94,15 +81,8 @@ route.delete('/:id', function(request, response, next) {
 route.get('/', function(request, response, next) {
   var where = {};
   if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
-  knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
-  .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-  .leftJoin('skills', 'tasks.skill_id', 'skills.id')
-  .where(where).then(function(tasks) {
-    tasks.forEach(function(task) {
-      task.id = task.task_id;
-      delete task.task_id;
-    });
-    response.json({ success: true, tasks: tasks });
+  route.readAll(where).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -128,3 +108,47 @@ function updateOrCreate(text, record, id) {
     return Promise.resolve();
   }
 }
+
+function statisticize(tasks, proposals, where) {
+  return knex('tasks').sum('proposals.cost_estimate as allocated')
+  .innerJoin('proposals', 'proposals.task_id', 'tasks.id')
+  .where({ 'tasks.id': where['tasks.id'], is_accepted: true })
+  .then(function(allocated) {
+    tasks[0].allocated = allocated[0].allocated || 0;
+    tasks[0].budget_remainging = tasks[0].budget - tasks[0].allocated;
+    var accepted = proposals.filter(function(proposal) {
+      return proposal.is_accepted;
+    }).length;
+    tasks[0].positions_remaining = tasks[0].head_count - accepted;
+    return Promise.resolve(tasks);
+  });
+}
+
+route.readOne = function(where) {
+  return Promise.all([
+    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
+    .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
+    .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
+    proposals.readAll({ task_id: where['tasks.id'] })
+  ]).then(function(data) {
+    var tasks = data[0], proposals = data[1].proposals;
+    tasks[0].id = tasks[0].task_id;
+    delete tasks[0].task_id;
+    return statisticize(tasks, proposals, where).then(function(tasks) {
+      return Promise.resolve({ tasks: tasks, proposals: proposals });
+    });
+  })
+};
+
+route.readAll = function(where) {
+  return knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
+  .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
+  .leftJoin('skills', 'tasks.skill_id', 'skills.id')
+  .where(where).then(function(tasks) {
+    tasks.forEach(function(task) {
+      task.id = task.task_id;
+      delete task.task_id;
+    });
+    return Promise.resolve({ tasks: tasks });
+  });
+};

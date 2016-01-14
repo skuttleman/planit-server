@@ -30,10 +30,23 @@ function partials() {
   });
 }
 
+function readMember(id) {
+  return Promise.all([
+    knex('members').where({ id: id }),
+    knex('skills').innerJoin('member_skills', 'skills.id', 'member_skills.skill_id')
+    .where('member_skills.member_id', id)
+  ]).then(function(data) {
+    var members = data[0];
+    var skills = data[1];
+    return Promise.resolve({ members: members, skills: skills });
+  });
+}
+
 module.exports = {
   getPermission: getPermission,
   chomp: chomp,
-  partials: partials
+  partials: partials,
+  readMember: readMember
 };
 
 function walk(dir, done) {
