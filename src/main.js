@@ -136,17 +136,5 @@ function formatDateLong(date) {
 }
 
 function formatCurrency(budget) {
-  return '$ ' + Number(budget).toFixed(2);
-}
-
-function validateBudget() {
-  var rule = /^\d+(?:\.\d{1,2})?$/;
-  console.log($('.planit-budget').val());
-  console.log(rule.test($('.planit-budget').val()));
-  if(rule.test($('.planit-budget').val())){
-    return true;
-  } else {
-    $('.planit-budget').addClass('error-highlight');
-    return false;
-  }
+  return '$ ' + Number(budget).toFixed(0);
 }
