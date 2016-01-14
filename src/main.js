@@ -161,7 +161,7 @@ function highlightBudget() {
 }
 
 function highlightDate() {
-  if($('.planit-end-date').val() > $('.planit-start-date').val()){
+  if($('.planit-end-date').val() >= $('.planit-start-date').val()){
     $('span[class="planit-date-error error-text"]').remove();
     $('.planit-end-date').removeClass('error-highlight');
     $('.planit-start-date').removeClass('error-highlight');
