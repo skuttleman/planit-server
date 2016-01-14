@@ -76,7 +76,7 @@ function day() {
 }
 
 function formatDateInput(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
@@ -114,7 +114,7 @@ function formatDateTimeInput(date) {
 }
 
 function formatDateShort(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getMonth() + 1,
     dateObject.getDate(),
@@ -124,7 +124,7 @@ function formatDateShort(date) {
 }
 
 function formatDateLong(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -138,4 +138,8 @@ function formatDateLong(date) {
 
 function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(0);
+}
+
+function realDate(date) {
+  return new Date((new Date(date).getTimezoneOffset() * 60000) + new Date(date).getTime());
 }

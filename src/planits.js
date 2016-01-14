@@ -7,31 +7,34 @@ function createPlanit() {
     appvars.planit_types = types.planit_types
     var data = {
       planit_types: appvars.planit_types,
-      title: 'planit Creation',
+      title: 'Create a planit (event)',
       states: appvars.states,
       startDate: formatDateInput(Date.now()),
       endDate: formatDateInput(Date.now())
     };
     displayTemplate('main', 'planitupdate', data);
+    // addFormSubmitListener();
   });
 }
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewPlanit(data.planits[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
-    // customAlert('All fields must be filled out in order to create a planit');
+  validateForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewPlanit(data.planits[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      // customAlert('All fields must be filled out in order to create a planit');
+    });
   });
 }
 
