@@ -39,11 +39,11 @@
       <table class="table table-striped planits-table">
         <thead>
           <tr>
-            <td>TYPE</td>
-            <td>|BUDGET</td>
-            <td>|# NEEDED</td>
-            <td>|START DATE</td>
-            <td>|DETAILS</td>
+            <th>TYPE</th>
+            <th>|BUDGET</th>
+            <th>|# NEEDED</th>
+            <th>|START DATE</th>
+            <th>|DETAILS</th>
           </tr>
         </thead>
         <tbody>
@@ -56,7 +56,7 @@
                 {{description}}
               {{/if}}
               </td>
-              <td>{{budget}}</td>
+              <td>${{budget}}</td>
               <td>{{head_count}}</td>
               <td>{{start_time}}</td>
               <td><button class="btn btn-custom" onclick="viewTask({{../planit.id}}, {{id}});">View</button></td>
