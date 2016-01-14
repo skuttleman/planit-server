@@ -107,16 +107,16 @@ function pageLoaded() {
       customAlert('You cannot login because your account has been banned.');
     } else {
       appvars.user = data.user;
-      displayTemplate('header', 'header', data);
-      if (data.user && data.user.firstLogin) {
-        updateMember(data.user.id);
-      } else {
+      if (data.user) {
+        displayTemplate('header', 'header', data);
         // TODO: go to mission control
+      } else {
+        displayTemplate('header', 'header', data);
       }
+      displayTemplate('footer', 'footer', { user: data.user });
     }
   });
   displayTemplate('main', 'splashpage');
-  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {
@@ -236,8 +236,9 @@ function logout() {
   historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: appvars.user });
+    displayTemplate('header', 'header');
     displayTemplate('main', 'splashpage');
+    displayTemplate('footer', 'footer');
   });
 }
 
@@ -388,10 +389,11 @@ function createPlanitPost(event) {
   });
 }
 
-function listPlanits() {
+function listPlanits(memberId) {
+  var url = memberId ? '/members/' + memberId + '/planits' : '/planits';
   historyUpdate(listPlanits, arguments);
   $.ajax({
-    url: '/planits',
+    url: url,
     method: 'get'
   }).done(function(data) {
     data.user = appvars.user;
@@ -479,11 +481,7 @@ function deletePlanit(id) {
         withCredentials: true
       }
     }).done(function(data) {
-      if (id == appvars.user.id) {
-        logout();
-      } else {
-        displayTemplate('main', 'splashpage');
-      }
+      listPlanits();
     });
   });
 }

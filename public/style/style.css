@@ -18,6 +18,10 @@ body {
   cursor: pointer;
 }
 
+.pull-left {
+  cursor: pointer;
+}
+
 h1 {
   text-align: center;
 }
