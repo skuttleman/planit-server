@@ -747,7 +747,7 @@ function viewTask(planitId, id) {
       }),
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
-      submittable: appvars.user && appvars.planit.member_id != appvars.user.id
+      submittable: appvars.user && appvars.planit.member_id != appvars.user.id && appvars.task.positions_remaining
     };
     console.log(data);
     displayTemplate('main', 'task', data);
