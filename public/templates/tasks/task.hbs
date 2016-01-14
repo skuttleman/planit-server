@@ -47,53 +47,51 @@
         Return to Orbit
       </button>
     {{/if}}
-
-    {{#if proposals.length}}
-      {{!-- {{#if approvedProposals}} --}}
-        <h1>Proposals</h1>
-        <table class="table table-striped planits-table">
-          <thead>
-            <tr>
-              <td>CREW MEMBER</td>
-              <td>|RATE</td>
-              <td>|DETAILS</td>
-            </tr>
-          </thead>
-          <tbody>
-          {{#each proposals}}
-            <tr>
-              <td>{{display_name}}</td>
-              <td>{{cost_estimate}}</td>
-              <td>{{details}}</td>
-              <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
-            </tr>
-          {{/each}}
-          </tbody>
-        </table>
-      {{!-- {{else if pendingProposals}}
+    {{#if approvedProposals.length}}
+      <h1>Approved Proposals</h1>
+      <table class="table table-striped planits-table">
+        <thead>
+          <tr>
+            <th class="col-sm-2">CREW MEMBER</th>
+            <th class="col-sm-2">|RATE</th>
+            <th class="col-sm-8">|DETAILS</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each approvedProposals}}
+          <tr>
+            <td>{{display_name}}</td>
+            <td>{{cost_estimate}}</td>
+            <td>{{details}}</td>
+            <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+    {{#if pendingProposals.length}}
       <h1>Pending Proposals</h1>
-        <table class="table table-striped planits-table">
-          <thead>
-            <tr>
-              <td>CREW MEMBER</td>
-              <td>|RATE</td>
-              <td>|DETAILS</td>
-            </tr>
-          </thead>
-          <tbody>
-          {{#each proposals}}
-            <tr>
-              <td>{{display_name}}</td>
-              <td>{{cost_estimate}}</td>
-              <td>{{details}}</td>
-              <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
-            </tr>
-          {{/each}}
-          </tbody>
-        </table> --}}
-      {{else}}
-        <h1>No Proposals for this Task</h1>
-      {{/if}}
-    {{!-- {{/if}}   --}}
+      <table class="table table-striped planits-table">
+        <thead>
+          <tr>
+            <th class="col-sm-2">CREW MEMBER</th>
+            <th class="col-sm-2">|RATE</th>
+            <th class="col-sm-8">|DETAILS</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each pendingProposals}}
+          <tr>
+            <td>{{display_name}}</td>
+            <td>{{cost_estimate}}</td>
+            <td>{{details}}</td>
+            <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <h1>No Proposals for this Task</h1>
+    {{/if}}
   </div>
 </div>
