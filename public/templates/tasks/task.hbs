@@ -14,7 +14,7 @@
     {{/if}}
     <div class="task-details">
       <h4>Rate:</h4>
-      <p>{{task.budget}}</p>
+      <p>{{formattedCurrency}}</p>
     </div>
     <div class="task-details">
       <h4># Needed:</h4>
@@ -61,7 +61,7 @@
         {{#each approvedProposals}}
           <tr>
             <td>{{display_name}}</td>
-            <td>{{cost_estimate}}</td>
+            <td>${{cost_estimate}}</td>
             <td>{{details}}</td>
             <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
           </tr>
@@ -83,7 +83,7 @@
         {{#each pendingProposals}}
           <tr>
             <td>{{display_name}}</td>
-            <td>{{cost_estimate}}</td>
+            <td>${{cost_estimate}}</td>
             <td>{{details}}</td>
             <td><button class="btn btn-custom" onclick="viewProposal({{../planit.id}}, {{../task.id}}, {{id}});">View Proposal</button></td>
           </tr>

@@ -77,6 +77,7 @@ function viewProposal(planitId, taskId, id) {
       planit: serverData.planit,
       taskId: taskId,
       user: appvars.user,
+      formattedCurrency: formatCurrency(serverData.proposal.cost_estimate),
       respondable: appvars.user && (appvars.user.id == serverData.planit.member_id || appvars.user.role_name == 'admin') && !serverData.proposal.is_accepted,
       editable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name !== 'normal')

@@ -583,6 +583,7 @@ function viewProposal(planitId, taskId, id) {
       planit: serverData.planit,
       taskId: taskId,
       user: appvars.user,
+      formattedCurrency: formatCurrency(serverData.proposal.cost_estimate),
       respondable: appvars.user && (appvars.user.id == serverData.planit.member_id || appvars.user.role_name == 'admin') && !serverData.proposal.is_accepted,
       editable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == serverData.proposal.member_id || appvars.user.role_name !== 'normal')
@@ -745,6 +746,7 @@ function viewTask(planitId, id) {
       pendingProposals: appvars.proposals.filter(function(proposal) {
         return proposal.is_accepted !== true && proposal.is_accepted !== false;
       }),
+      formattedCurrency: formatCurrency(appvars.task.budget),
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       submittable: appvars.user && appvars.planit.member_id != appvars.user.id

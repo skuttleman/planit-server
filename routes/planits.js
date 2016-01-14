@@ -88,8 +88,9 @@ route.get('/', function(request, response, next) {
 route.readOne = function(where) {
   return Promise.all([
     knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
+    .innerJoin('members', 'planits.member_id', 'members.id')
     .leftJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
-    .where(where),
+    .where(where).where('end_date', '>=', new Date(Date.now())).whereNot('is_banned', true),
     tasks.readAll({ planit_id: where['planits.id'] })
   ]).then(function(data) {
     var planits = data[0];
@@ -106,8 +107,9 @@ route.readOne = function(where) {
 
 route.readAll = function(where) {
   return knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
+  .innerJoin('members', 'planits.member_id', 'members.id')
   .innerJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
-  .where(where)
+  .where(where).where('end_date', '>=', new Date(Date.now())).whereNot('is_banned', true)
   .orderBy('start_date', 'asc')
   .then(function(planits) {
     return Promise.resolve({ planits: planits });
