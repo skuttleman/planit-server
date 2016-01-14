@@ -5,7 +5,10 @@ function validateForm(then) {
       !highlightBudget() ||
       !highlightDate() ||
       !highlightPastDate() ||
-      !highlightZip()) {
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
   } else {
     then();
   }
