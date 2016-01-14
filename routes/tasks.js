@@ -115,7 +115,7 @@ route.readOne = function(where) {
 };
 
 route.readAll = function(where) {
-  return knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
+  return knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
   .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
   .leftJoin('skills', 'tasks.skill_id', 'skills.id')
   .where(where).then(function(tasks) {
