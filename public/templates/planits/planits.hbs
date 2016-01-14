@@ -4,20 +4,20 @@
     <table class="table table-striped planits-table">
       <thead>
         <tr>
-          <th>START DATE</th>
-          <th>TITLE</th>
-          <th>TYPE</th>
-          <th>CITY</th>
-          <th>STATE</th>
-          <th>DETAILS</th>
+          <th class="col-md-1">START DATE</th>
+          <th class="col-md-5">TITLE</th>
+          <th class="col-md-3">TYPE</th>
+          <th class="col-md-1">CITY</th>
+          <th class="col-md-1">STATE</th>
+          <th class="col-md-1">DETAILS</th>
         </tr>
-      </thead>
+      </thead>  
       <tbody>
         {{#planits}}
           <tr>
             <td>{{startDate}}</td>
             <td>{{title}}</td>
-            <td>{{type}}</td>
+            <td>{{planit_type_name}}</td>
             <td>{{city}}</td>
             <td>{{state}}</td>
             <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
