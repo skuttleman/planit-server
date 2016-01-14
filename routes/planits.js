@@ -90,7 +90,7 @@ route.readOne = function(where) {
     knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
     .leftJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
     .where(where),
-    tasks.readAll(where)
+    tasks.readAll({ planit_id: where['planits.id'] })
   ]).then(function(data) {
     var planits = data[0];
     var tasks = data[1].tasks;

@@ -130,17 +130,17 @@ function permissable(id) {
         planit: planits[0]
       });
     });
-  }).catch(function(err) {
-    console.log(err);
   });
 }
 
 function acceptProposal(proposal) {
-  return knex('proposals').where({ task_id: proposal.task_id }).then(function(proposals) {
+  return methods.readTask({ 'tasks.id': proposal.task_id }).then(function(data) {
+    var task = data.tasks[0];
+    var proposals = data.proposals;
     var promises = proposals.map(function(eachProposal) {
       if (eachProposal.id == proposal.id) {
         return knex('proposals').where({ id: proposal.id }).update({ is_accepted: true });
-      } else {
+      } else if (task.positions_remaining <= 1) {
         return rejectProposal(eachProposal);
       }
     });
@@ -153,18 +153,13 @@ function rejectProposal(proposal) {
 }
 
 route.readOne = function(where) {
-  return knex('proposals').where(where)
-  .then(function(proposals) {
+  return knex('proposals').where(where).then(function(proposals) {
     return methods.readMember(proposals[0].member_id).then(function(members) {
-      return Promise.resolve({ proposals: proposals, members: members });
+      return Promise.resolve({ proposals: proposals, members: [members] });
     });
   });
 };
 
 route.readAll = function(where) {
-  return knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-  .innerJoin('members', 'proposals.member_id', 'members.id').where(where)
-  .orderBy('proposals.cost_estimate', 'asc').then(function(proposals) {
-    return Promise.resolve({ proposals: proposals });
-  });
+  return methods.readProposals(where);
 };
