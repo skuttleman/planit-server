@@ -177,22 +177,51 @@ function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(0);
 }
 
-function validateForm() {
-  validateBudget();
-  event.preventDefault();
+function validateForm(event) {
+  if(highlightBudget() === false || highlightDate() === false || highlightZip() === false) {
+    event.preventDefault();
+  }
 }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
   var decimal = /'.'/;
   if(digitsOnly.test($('.planit-budget').val())){
-    $('span[class="error-color"]').remove();
-    $('.planit-budget').removeClass('error-highlight').addClass('form-control');
+    $('span[class="planit-budget-error error-text"]').remove();
+    $('.planit-budget').removeClass('error-highlight');
     return true;
   } else {
-    $('span[class="error-color"]').remove();
-    $('label[for="budget"]').append('<span class="error-color"> Value must a whole number more than zero.</span>');
+    $('span[class="planit-budget-error error-text"]').remove();
+    $('label[for="budget"]').append('<span class="planit-budget-error error-text"> Value must a whole number more than zero.</span>');
     $('.planit-budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
+  }
+}
+
+function highlightDate() {
+  if($('.planit-end-date').val() > $('.planit-start-date').val()){
+    $('span[class="planit-date-error error-text"]').remove();
+    $('.planit-end-date').removeClass('error-highlight');
+    $('.planit-start-date').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="planit-date-error error-text"]').remove();
+    $('label[for="date"]').append('<span class="planit-date-error error-text"> End date cannot be earlier than start date.</span>');
+    $('.planit-start-date').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    $('.planit-end-date').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
+  }
+}
+
+function highlightZip() {
+  if($('.planit-end-date').val().length !== 5){
+    $('span[class="planit-zip-error error-text"]').remove();
+    $('.planit-zip').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="planit-zip-error error-text"]').remove();
+    $('label[for="date"]').append('<span class="planit-zip-error error-text"> Zip Code must be 5 digits.</span>');
+    $('.planit-zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }
