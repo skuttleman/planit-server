@@ -16,14 +16,66 @@ function highlightTitle(){
     $('span[class="title-error error-text"]').remove();
     $('.title').removeClass('error-highlight');
     return true;
-  }
-  else {
+  } else {
     $('span[class="title-error error-text"]').remove();
     $('label[for="title"]').append('<span class="title-error error-text"> Title Required.</span>');
     $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
 }
+
+function highlightAddress(){
+  if ($('.address').val()) {
+    $('span[class="address-error error-text"]').remove();
+    $('.address').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="address-error error-text"]').remove();
+    $('label[for="street_address"]').append('<span class="address-error error-text"> Address Required.</span>');
+    $('.address').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+function highlightCity(){
+  if ($('.city').val()) {
+    $('span[class="city-error error-text"]').remove();
+    $('.city').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="city-error error-text"]').remove();
+    $('label[for="city"]').append('<span class="city-error error-text"> City Required.</span>');
+    $('.city').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+function highlightDescription(){
+  if ($('.description').val()) {
+    $('span[class="description-error error-text"]').remove();
+    $('.description').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="description-error error-text"]').remove();
+    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+// function highlightCategory(){
+//   if ($('.planit-type').val()) {
+//     $('span[class="planit-type-error error-text"]').remove();
+//     // $('.title').removeClass('error-highlight');
+//     return true;
+//   }
+//   else {
+//     $('span[class="planit-type-error error-text"]').remove();
+//     $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
+//     // $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+//   return false;
+//   }
+// }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;

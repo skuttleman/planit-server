@@ -301,6 +301,6 @@ footer li {
   color: red;
 }
 
-input.error-highlight {
+.error-highlight {
   background-color: yellow;
 }
