@@ -48,8 +48,8 @@
         </ul>
       </div>
       <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" required/>
-      <label for="zipcode">Zipcode:</label>
-      <input class="planit-zip form-control" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}">
+      <label for="zipcode">Zip Code:</label>
+      <input class="planit-zip form-control" type="text" name="zipcode" id="zipcode"  onblur="highlightZip()" value="{{planit.zipcode}}">
       <label class="description-margin" for="description">Description:</label>
       <textarea class="form-control" name="description" rows="8" cols="40" required>{{planit.description}}</textarea>
 

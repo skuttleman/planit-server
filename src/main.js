@@ -168,7 +168,7 @@ function highlightDate() {
     return true;
   } else {
     $('span[class="planit-date-error error-text"]').remove();
-    $('label[for="date"]').append('<span class="planit-date-error error-text"> End date cannot be earlier than start date.</span>');
+    $('label[for="date"]').append('<span class="planit-date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
     $('.planit-start-date').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     $('.planit-end-date').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
@@ -176,13 +176,13 @@ function highlightDate() {
 }
 
 function highlightZip() {
-  if($('.planit-end-date').val().length !== 5){
+  if($('.planit-zip').val().length === 5){
     $('span[class="planit-zip-error error-text"]').remove();
     $('.planit-zip').removeClass('error-highlight');
     return true;
   } else {
     $('span[class="planit-zip-error error-text"]').remove();
-    $('label[for="date"]').append('<span class="planit-zip-error error-text"> Zip Code must be 5 digits.</span>');
+    $('label[for="zipcode"]').append('<span class="planit-zip-error error-text"> Zip Code must be 5 digits.</span>');
     $('.planit-zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
