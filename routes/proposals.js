@@ -163,8 +163,8 @@ route.readOne = function(where) {
 
 route.readAll = function(where) {
   return knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-  .innerJoin('members', 'proposals.member_id', 'members.id')
-  .where(where).then(function(proposals) {
+  .innerJoin('members', 'proposals.member_id', 'members.id').where(where)
+  .orderBy('proposals.cost_estimate', 'asc').then(function(proposals) {
     return Promise.resolve({ proposals: proposals });
   });
 };
