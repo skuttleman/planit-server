@@ -192,6 +192,7 @@ footer li {
   width: 80%;
   height: 100%;
   padding: 20px;
+  border-radius: 5px;
   display: flex;
   flex-flow: row wrap;
   background-color: rgba(45, 45, 45, 0.8);
@@ -201,6 +202,7 @@ footer li {
   width: 80%;
   height: 100%;
   padding: 20px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   background-color: rgba(45, 45, 45, 0.8);
@@ -258,8 +260,6 @@ footer li {
   position: relative;
   margin: 20px 0;
 }
-
-
 
 .description-margin {
   margin-top: 20px;
