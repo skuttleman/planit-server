@@ -13,12 +13,12 @@
           {{#each skills}}
             {{#if memberHas}}
               <label for="skill_{{id}}">
-                <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" checked="checked" />
+                <input type="checkbox" class="pointer" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" checked="checked" />
                 {{name}}
               </label>
             {{else}}
               <label for="skill_{{id}}">
-                <input type="checkbox" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" />
+                <input type="checkbox" class="pointer" id="skill_{{id}}" name="skill_{{id}}" value="{{id}}" />
                 {{name}}
               </label>
             {{/if}}

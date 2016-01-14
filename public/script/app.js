@@ -164,7 +164,7 @@ function day() {
 }
 
 function formatDateInput(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
@@ -202,7 +202,7 @@ function formatDateTimeInput(date) {
 }
 
 function formatDateShort(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getMonth() + 1,
     dateObject.getDate(),
@@ -212,7 +212,7 @@ function formatDateShort(date) {
 }
 
 function formatDateLong(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -226,6 +226,10 @@ function formatDateLong(date) {
 
 function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(0);
+}
+
+function realDate(date) {
+  return new Date((new Date(date).getTimezoneOffset() * 60000) + new Date(date).getTime());
 }
 
 function login() {
@@ -361,31 +365,34 @@ function createPlanit() {
     appvars.planit_types = types.planit_types
     var data = {
       planit_types: appvars.planit_types,
-      title: 'planit Creation',
+      title: 'Create a planit (event)',
       states: appvars.states,
       startDate: formatDateInput(Date.now()),
       endDate: formatDateInput(Date.now())
     };
     displayTemplate('main', 'planitupdate', data);
+    // addFormSubmitListener();
   });
 }
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewPlanit(data.planits[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid')
-    // customAlert('All fields must be filled out in order to create a planit');
+  validateForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewPlanit(data.planits[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      // customAlert('All fields must be filled out in order to create a planit');
+    });
   });
 }
 
@@ -821,11 +828,84 @@ function selectSkill(id) {
   }
 }
 
-function validateForm(event) {
-  if(highlightBudget() === false || highlightDate() === false || highlightZip() === false) {
-    event.preventDefault();
+function validateForm(then) {
+  // event.preventDefault();
+  console.log(highlightTitle(), highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightZip()) {
+  } else {
+    then();
   }
 }
+
+function highlightTitle(){
+  if ($('.title').val()) {
+    $('span[class="title-error error-text"]').remove();
+    $('.title').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="title-error error-text"]').remove();
+    $('label[for="title"]').append('<span class="title-error error-text"> Title Required.</span>');
+    $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+function highlightAddress(){
+  if ($('.address').val()) {
+    $('span[class="address-error error-text"]').remove();
+    $('.address').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="address-error error-text"]').remove();
+    $('label[for="street_address"]').append('<span class="address-error error-text"> Address Required.</span>');
+    $('.address').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+function highlightCity(){
+  if ($('.city').val()) {
+    $('span[class="city-error error-text"]').remove();
+    $('.city').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="city-error error-text"]').remove();
+    $('label[for="city"]').append('<span class="city-error error-text"> City Required.</span>');
+    $('.city').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+function highlightDescription(){
+  if ($('.description').val()) {
+    $('span[class="description-error error-text"]').remove();
+    $('.description').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="description-error error-text"]').remove();
+    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+  }
+}
+
+// function highlightCategory(){
+//   if ($('.planit-type').val()) {
+//     $('span[class="planit-type-error error-text"]').remove();
+//     // $('.title').removeClass('error-highlight');
+//     return true;
+//   }
+//   else {
+//     $('span[class="planit-type-error error-text"]').remove();
+//     $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
+//     // $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+//   return false;
+//   }
+// }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
@@ -843,33 +923,41 @@ function highlightBudget() {
 }
 
 function dateErrorOn() {
-  if (true) {
-    $('span[class="date-error error-text"]').remove();
-    $('label[for="date"]').next().removeClass('error-highlight');
-  }
+  $('span[class="date-error error-text"]').remove();
+  $('label[for="date"]').append('<span class="date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
+  $('label[for="date"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return true;
 }
 
 function dateErrorOff() {
   $('span[class="date-error error-text"]').remove();
-  $('label[for="date"]').append('<span class="date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
-  $('label[for="date"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  $('label[for="date"]').next().removeClass('error-highlight');
   return false;
 }
 
 function highlightDate() {
+  console.log($('.end-date').val(),  $('.start-date').val());
   if($('.end-date').val() >= $('.start-date').val()){
     dateErrorOff();
+    return true;
   } else {
     dateErrorOn();
+    return false;
   }
 }
 
 function highlightPastDate(){
-  if(Date.parse($('.start-date').val()) >= Date.now()){
+  var startDate = formatDateInput($('.start-date').val());
+  var dateNow = formatDateInput(Date.now());
+  console.log(startDate, dateNow);
+  if(startDate >= dateNow){
+    console.log('should be ok');
     dateErrorOff();
+    return true;
   } else {
+    console.log('should be bad');
     dateErrorOn();
+    return false;
   }
 }
 
@@ -879,7 +967,7 @@ function highlightZip() {
     $('.zip').removeClass('error-highlight');
     return true;
   } else {
-    $('span[class="planit-zip-error error-text"]').remove();
+    $('span[class="zip-error error-text"]').remove();
     $('label[for="zipcode"]').append('<span class="zip-error error-text"> Zip Code must be 5 digits.</span>');
     $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
