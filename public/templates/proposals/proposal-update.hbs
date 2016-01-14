@@ -3,7 +3,7 @@
   <div class="inner-container-column">
     <form class="form proposal-form">
       <label class="description-margin" for="details">Tell us about your qualifications and interest:</label>
-      <textarea name="details" rows="8" cols="40">{{proposal.details}}</textarea>
+      <textarea class="pointer" name="details" rows="8" cols="40">{{proposal.details}}</textarea>
       <label for="cost_estimate">Your bid:</label>
       <input type="number" class="form-control" name="cost_estimate" value="{{proposal.cost_estimate}}" />
       {{#if update}}

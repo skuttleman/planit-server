@@ -3,7 +3,7 @@
   <div class="inner-container-row">
     {{#each members}}
       {{#unless is_banned}}
-        <figure>
+        <figure class="pointer">
           <img onclick="viewServiceRecord({{id}});" src="{{profile_image}}" alt="{{display_name}} image" />
           <figcaption>{{display_name}}</figcaption>
         </figure>
