@@ -170,38 +170,38 @@ function highlightHeadCount() {
   }
 }
 
-// function timeErrorOn() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
-//   $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
-//   return true;
-// }
-//
-// function timeErrorOff() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"]').next().removeClass('error-highlight');
-//   $('label[for="end_time"]').next().removeClass('error-highlight');
-//   return false;
-// }
+function timeErrorOn() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
+  $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return true;
+}
 
-// function highlightTime() {
-//   console.log($('.end-time').val(),  $('.start-time').val());
-//   if($('.end-time').val() >= $('.start-time').val()){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function timeErrorOff() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"]').next().removeClass('error-highlight');
+  $('label[for="end_time"]').next().removeClass('error-highlight');
+  return false;
+}
 
-// function highlightPastTime(){
-//   console.log('.start-time').val(), realDate(Date.now());
-//   if($('.start-time').val() >= realDate(Date.now())){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function highlightTime() {
+  console.log($('.end-time').val(),  $('.start-time').val());
+  if($('.end-time').val() >= $('.start-time').val()){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}
+
+function highlightPastTime(){
+  console.log('.start-time').val(), realDate(Date.now());
+  if($('.start-time').val() >= realDate(Date.now())){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}
