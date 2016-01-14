@@ -23,11 +23,11 @@
       </div>
       <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" required/>
       <label for="budget">Budget ($):</label>
-      <input class="planit-budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{formattedCurrency}}" required/>
+      <input class="budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{formattedCurrency}}" required/>
       <label for="date">Start Date:</label>
-      <input class="planit-start-date form-control" type="date" name="start_date" value="{{startDate}}" required/>
+      <input class="start-date form-control" type="date" name="start_date" onblur="highlightPastDate()" value="{{startDate}}" required/>
       <label for="date">End Date:</label>
-      <input class="planit-end-date form-control" type="date" name="end_date" onblur="highlightDate()" value="{{endDate}}" required/>
+      <input class="end-date form-control" type="date" name="end_date" onblur="highlightDate()" value="{{endDate}}" required/>
       <label for="street_address">Street Address:</label>
       <input class="form-control" type="text" name="street_address" value="{{planit.street_address}}">
       <label for="city">City:</label>
@@ -49,7 +49,7 @@
       </div>
       <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" required/>
       <label for="zipcode">Zip Code:</label>
-      <input class="planit-zip form-control" type="text" name="zipcode" id="zipcode"  onblur="highlightZip()" value="{{planit.zipcode}}">
+      <input class="zip form-control" type="text" name="zipcode" id="zipcode"  onblur="highlightZip()" value="{{planit.zipcode}}">
       <label class="description-margin" for="description">Description:</label>
       <textarea class="form-control" name="description" rows="8" cols="40" required>{{planit.description}}</textarea>
 
