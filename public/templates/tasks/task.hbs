@@ -90,8 +90,11 @@
         {{/each}}
         </tbody>
       </table>
-    {{else}}
-      <h1>No Proposals for this Task</h1>
     {{/if}}
+    {{#unless approvedProposals.length}}
+      {{#unless pendingProposals.length}}
+        <h1>No Proposals for this Task</h1>
+      {{/unless}}
+    {{/unless}}
   </div>
 </div>
