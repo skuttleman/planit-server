@@ -22,7 +22,7 @@ route.put('/:id/accept', function(request, response, next) {
         response.json({ success: true, planitId: data.planit.id, taskId: data.proposal.task_id });
       });
     } else {
-      next('You do not have permission to preform this action.');
+      next('You do not have permission to perform this action.');
     }
   }).catch(next);
 });
@@ -35,7 +35,7 @@ route.put('/:id/reject', function(request, response, next) {
         response.json({ success: true });
       });
     } else {
-      next('You do not have permission to preform this action.');
+      next('You do not have permission to perform this action.');
     }
   }).catch(next);
 });
