@@ -35,10 +35,11 @@ function createPlanitPost(event) {
   });
 }
 
-function listPlanits() {
+function listPlanits(memberId) {
+  var url = memberId ? '/members/' + memberId + '/planits' : '/planits';
   historyUpdate(listPlanits, arguments);
   $.ajax({
-    url: '/planits',
+    url: url,
     method: 'get'
   }).done(function(data) {
     data.user = appvars.user;
@@ -126,11 +127,7 @@ function deletePlanit(id) {
         withCredentials: true
       }
     }).done(function(data) {
-      if (id == appvars.user.id) {
-        logout();
-      } else {
-        displayTemplate('main', 'splashpage');
-      }
+      listPlanits();
     });
   });
 }
