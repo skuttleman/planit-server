@@ -2,7 +2,6 @@
 <form class="main-container">
   <div class="inner-container-column">
     <label>{{planit.title}}</label>
-    <p id="errorMessage"></p>
     <div class="planit-dropdown">
       <button class="skill-btn btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown">
         {{#if skill}}
@@ -29,6 +28,7 @@
     <input class="edit-planit-text form-control" type="datetime-local" name="start_time" id="start_time" value="{{startTime}}" />
     <label for="end_time">End Time:</label>
     <input class="edit-planit-text form-control" type="datetime-local" name="end_time" id="end_time" value="{{endTime}}" />
+    <p id="errorMessage"></p>
     {{#if update}}
       <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updateTaskPut(event, {{planit.id}}, {{task.id}});" />
     {{else}}

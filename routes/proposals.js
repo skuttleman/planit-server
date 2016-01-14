@@ -22,7 +22,7 @@ route.put('/:id/accept', function(request, response, next) {
         response.json({ success: true, planitId: data.planit.id, taskId: data.proposal.task_id });
       });
     } else {
-      next('You do not have permission to preform this action.');
+      next('You do not have permission to perform this action.');
     }
   }).catch(next);
 });
@@ -32,10 +32,10 @@ route.put('/:id/reject', function(request, response, next) {
   permissable(request.params.id).then(function(data) {
     if (request.user && (request.user.id == data.planit.member_id || request.user.role_name == 'admin')) {
       return rejectProposal(data.proposal).then(function() {
-        response.json({ success: true });
+        response.json({ success: true, planitId: data.planit.id, taskId: data.proposal.task_id });
       });
     } else {
-      next('You do not have permission to preform this action.');
+      next('You do not have permission to perform this action.');
     }
   }).catch(next);
 });
@@ -140,7 +140,7 @@ function acceptProposal(proposal) {
     var promises = proposals.map(function(eachProposal) {
       if (eachProposal.id == proposal.id) {
         return knex('proposals').where({ id: proposal.id }).update({ is_accepted: true });
-      } else if (task.positions_remaining <= 1) {
+      } else if (task.positions_remaining <= 1 && !eachProposal.is_accepted) {
         return rejectProposal(eachProposal);
       }
     });

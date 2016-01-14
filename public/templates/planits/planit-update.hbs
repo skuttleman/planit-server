@@ -8,7 +8,7 @@
       <input class="form-control title" type="text" name="title" value="{{planit.title}}" onblur="highlightTitle()" required />
       <label for="category">Category:</label>
       <div class="planit-dropdown">
-        <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown" onblur=''>
         {{#if category}}
           {{category}}
         {{else}}
@@ -18,11 +18,11 @@
         </button>
         <ul class="dropdown-menu">
           {{#each planit_types}}
-            <li onclick="selectPlanitType({{id}});">{{name}}</li>
+            <li onclick="selectPlanitType({{id}});highlightCategory()">{{name}}</li>
           {{/each}}
         </ul>
       </div>
-      <input class="planit-type hidden pointer" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" onblur="highlightCategory()" required/>
+      <input class="planit-type hidden pointer" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" required/>
       <label for="budget">Budget ($):</label>
       <input class="budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{formattedCurrency}}" required/>
       <label for="date">Start Date:</label>
@@ -53,7 +53,6 @@
       <input class="zip form-control" type="text" name="zipcode" id="zipcode"  onblur="highlightZip()" value="{{planit.zipcode}}">
       <label class="description-margin" for="description">Description:</label>
       <textarea class="description form-control" name="description" rows="8" cols="40" onblur="highlightDescription()" required>{{planit.description}}</textarea>
-
       {{#if update}}
         <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" required/>
       {{else}}

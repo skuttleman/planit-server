@@ -40,7 +40,7 @@ function createTaskPost(event, planitId) {
     $('#errorMessage').hide();
     viewTask(planitId, data.tasks[0].id);
   }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid').setTimeout(3000);
+    $('#errorMessage').text('Enter all fields. Empty fields or invalid');
   });
 }
 
@@ -63,10 +63,17 @@ function viewTask(planitId, id) {
       planit: appvars.planit,
       task: appvars.task,
       proposals: appvars.proposals,
+      approvedProposals: appvars.proposals.filter(function(proposal) {
+        return proposal.is_accepted;
+      }),
+      pendingProposals: appvars.proposals.filter(function(proposal) {
+        return proposal.is_accepted !== true && proposal.is_accepted !== false;
+      }),
       user: appvars.user,
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       submittable: appvars.user && appvars.planit.member_id != appvars.user.id
     };
+    console.log(data);
     displayTemplate('main', 'task', data);
   });
 }
