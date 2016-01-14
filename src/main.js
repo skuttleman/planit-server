@@ -25,10 +25,10 @@ function pageLoaded() {
       } else {
         displayTemplate('header', 'header', data);
       }
+      displayTemplate('footer', 'footer', { user: data.user });
     }
   });
   displayTemplate('main', 'splashpage');
-  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {

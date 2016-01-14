@@ -35,10 +35,11 @@ function createPlanitPost(event) {
   });
 }
 
-function listPlanits() {
+function listPlanits(memberId) {
+  var url = memberId ? '/members/' + memberId + '/planits' : '/planits';
   historyUpdate(listPlanits, arguments);
   $.ajax({
-    url: '/planits',
+    url: url,
     method: 'get'
   }).done(function(data) {
     data.user = appvars.user;

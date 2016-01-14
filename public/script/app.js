@@ -113,10 +113,10 @@ function pageLoaded() {
       } else {
         displayTemplate('header', 'header', data);
       }
+      displayTemplate('footer', 'footer', { user: data.user });
     }
   });
   displayTemplate('main', 'splashpage');
-  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {
@@ -236,8 +236,9 @@ function logout() {
   historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: appvars.user });
+    displayTemplate('header', 'header');
     displayTemplate('main', 'splashpage');
+    displayTemplate('footer', 'footer');
   });
 }
 
@@ -388,10 +389,11 @@ function createPlanitPost(event) {
   });
 }
 
-function listPlanits() {
+function listPlanits(memberId) {
+  var url = memberId ? '/members/' + memberId + '/planits' : '/planits';
   historyUpdate(listPlanits, arguments);
   $.ajax({
-    url: '/planits',
+    url: url,
     method: 'get'
   }).done(function(data) {
     data.user = appvars.user;

@@ -6,8 +6,9 @@ function logout() {
   historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: appvars.user });
+    displayTemplate('header', 'header');
     displayTemplate('main', 'splashpage');
+    displayTemplate('footer', 'footer');
   });
 }
 
