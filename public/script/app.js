@@ -164,7 +164,7 @@ function day() {
 }
 
 function formatDateInput(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
@@ -202,7 +202,7 @@ function formatDateTimeInput(date) {
 }
 
 function formatDateShort(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getMonth() + 1,
     dateObject.getDate(),
@@ -212,7 +212,7 @@ function formatDateShort(date) {
 }
 
 function formatDateLong(date) {
-  var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     day()[dateObject.getDay()],
     month()[dateObject.getMonth()],
@@ -226,6 +226,10 @@ function formatDateLong(date) {
 
 function formatCurrency(budget) {
   return '$ ' + Number(budget).toFixed(0);
+}
+
+function realDate(date) {
+  return new Date((new Date(date).getTimezoneOffset() * 60000) + new Date(date).getTime());
 }
 
 function login() {
@@ -826,15 +830,28 @@ function selectSkill(id) {
 
 function validateForm(then) {
   // event.preventDefault();
-  console.log('validate!');
-  console.log(highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
-  if(!highlightBudget() ||
+  console.log(highlightTitle(), highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
+  if(!highlightTitle() ||
+      !highlightBudget() ||
       !highlightDate() ||
       !highlightPastDate() ||
       !highlightZip()) {
-    // event.preventDefault();
   } else {
     then();
+  }
+}
+
+function highlightTitle(){
+  if ($('.title').val()) {
+    $('span[class="title-error error-text"]').remove();
+    $('.title').removeClass('error-highlight');
+    return true;
+  }
+  else {
+    $('span[class="title-error error-text"]').remove();
+    $('label[for="title"]').append('<span class="title-error error-text"> Title Required.</span>');
+    $('.title').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
   }
 }
 
@@ -855,18 +872,19 @@ function highlightBudget() {
 
 function dateErrorOn() {
   $('span[class="date-error error-text"]').remove();
-  $('label[for="date"]').next().removeClass('error-highlight');
+  $('label[for="date"]').append('<span class="date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
+  $('label[for="date"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return true;
 }
 
 function dateErrorOff() {
   $('span[class="date-error error-text"]').remove();
-  $('label[for="date"]').append('<span class="date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
-  $('label[for="date"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  $('label[for="date"]').next().removeClass('error-highlight');
   return false;
 }
 
 function highlightDate() {
+  console.log($('.end-date').val(),  $('.start-date').val());
   if($('.end-date').val() >= $('.start-date').val()){
     dateErrorOff();
     return true;
@@ -877,16 +895,15 @@ function highlightDate() {
 }
 
 function highlightPastDate(){
-  console.log(Date.parse($('.start-date').val()), Date.now());
-  // var startDateRound = Date.parse($('.start-date').val());
-  var startDate =formatDateInput(Date.parse($('.start-date').val()));
+  var startDate = formatDateInput($('.start-date').val());
   var dateNow = formatDateInput(Date.now());
-  console.log('start date ' + startDate);
-  console.log('date now ' + dateNow);
+  console.log(startDate, dateNow);
   if(startDate >= dateNow){
+    console.log('should be ok');
     dateErrorOff();
     return true;
   } else {
+    console.log('should be bad');
     dateErrorOn();
     return false;
   }

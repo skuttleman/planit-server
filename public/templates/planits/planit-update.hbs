@@ -5,7 +5,7 @@
     <form class="form planit-form">
     <p id="errorMessage"></p>
       <label for="title">Title:</label>
-      <input class="form-control" type="text" name="title" value="{{planit.title}}" required />
+      <input class="form-control title" type="text" name="title" value="{{planit.title}}" onblur="highlightTitle()" required />
       <div class="planit-dropdown">
         <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}
@@ -27,7 +27,7 @@
       <label for="date">Start Date:</label>
       <input class="start-date form-control" type="date" name="start_date" onblur="highlightPastDate()" value="{{startDate}}" required/>
       <label for="date">End Date:</label>
-      <input class="end-date form-control" type="date" name="end_date" onblur="highlightDate()" value="{{endDate}}" required/>
+      <input class="end-date form-control" type="date" name="end_date"  onblur="highlightDate()" value="{{endDate}}" required/>
       <label for="street_address">Street Address:</label>
       <input class="form-control" type="text" name="street_address" value="{{planit.street_address}}">
       <label for="city">City:</label>
