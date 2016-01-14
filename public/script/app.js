@@ -174,17 +174,25 @@ function formatDateLong(date) {
 }
 
 function formatCurrency(budget) {
-  return '$ ' + Number(budget).toFixed(2);
+  return '$ ' + Number(budget).toFixed(0);
 }
 
-function validateBudget() {
-  var rule = /^\d+(?:\.\d{1,2})?$/;
-  console.log($('.planit-budget').val());
-  console.log(rule.test($('.planit-budget').val()));
-  if(rule.test($('.planit-budget').val())){
+function validateForm() {
+  validateBudget();
+  event.preventDefault();
+}
+
+function highlightBudget() {
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.planit-budget').val())){
+    $('span[class="error-color"]').remove();
+    $('.planit-budget').removeClass('error-highlight').addClass('form-control');
     return true;
   } else {
-    $('.planit-budget').addClass('error-highlight');
+    $('span[class="error-color"]').remove();
+    $('label[for="budget"]').append('<span class="error-color"> Value must a whole number more than zero.</span>');
+    $('.planit-budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }

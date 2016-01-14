@@ -1,8 +1,8 @@
 
 <div class="main-container">
-  <h1>{{title}}</h1>
+  <h1>Create a planit (event)</h1>
   <div class="inner-container-column">
-    <form class="form planit-form">
+    <form class="form planit-form" onsubmit="validateForm()">
     <p id="errorMessage"></p>
       <label for="title">Title:</label>
       <input class="form-control" type="text" name="title" value="{{planit.title}}" />
@@ -21,19 +21,19 @@
           {{/each}}
         </ul>
       </div>
-      <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" />
+      <input class="planit-type hidden" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" required/>
       <label for="budget">Budget:</label>
-      <input class="planit-budget form-control" type="number" min="0" name="budget" onblur="validateBudget(budget)" value="{{formattedCurrency}}" />
+      <input class="planit-budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{formattedCurrency}}" required/>
       <label for="date">Start Date:</label>
-      <input class="form-control" type="date" name="start_date" value="{{startDate}}" />
+      <input class="form-control" type="date" name="start_date" value="{{startDate}}" required/>
       <label for="date">End Date:</label>
-      <input class="form-control" type="date" name="end_date" value="{{endDate}}" />
+      <input class="form-control" type="date" name="end_date" value="{{endDate}}" required/>
       <label for="street_address">Street Address:</label>
-      <input class="form-control" type="text" name="street_address" value="{{planit.street_address}}"><br>
+      <input class="form-control" type="text" name="street_address" value="{{planit.street_address}}">
       <label for="city">City:</label>
-      <input class="form-control" type="text" name="city" value="{{planit.city}}" />
+      <input class="form-control" type="text" name="city" value="{{planit.city}}" required/>
       <div class="planit-dropdown">
-        <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown" required>
           {{#if planit.state}}
             {{planit.state}}
           {{else}}
@@ -47,16 +47,16 @@
           {{/each}}
         </ul>
       </div>
-      <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" />
+      <input class="planit-state hidden" type="text" name="state" value="{{planit.state}}" required/>
       <label for="zipcode">Zipcode:</label>
       <input class="form-control" type="text" name="zipcode" id="zipcode"  value="{{planit.zipcode}}">
       <label class="description-margin" for="description">Description:</label>
-      <textarea class="form-control" name="description" rows="8" cols="40">{{planit.description}}</textarea>
+      <textarea class="form-control" name="description" rows="8" cols="40" required>{{planit.description}}</textarea>
 
       {{#if update}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" />
+        <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" required/>
       {{else}}
-        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);" />
+        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);"/>
       {{/if}}
     </form>
   </div>
