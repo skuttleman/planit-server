@@ -9,7 +9,7 @@
     {{else}}
       <div class="task_details">
         <h4>Type:</h4>
-        <p>{{task.name}}</p>
+        <p>{{task.skill_name}}</p>
       </div>
     {{/if}}
     <div class="task-details">
@@ -34,6 +34,9 @@
       </button>
       <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deleteTask({{planit.id}}, {{task.id}});">
         Eject Task
+      </button>
+      <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
+        Return to Orbit
       </button>
     {{/if}}
     {{#if submittable}}
