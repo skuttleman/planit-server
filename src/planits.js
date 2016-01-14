@@ -1,4 +1,5 @@
 function createPlanit() {
+  historyUpdate(createPlanit, arguments);
   $.ajax({
     url: '/types/planit_types',
     method: 'get'
@@ -35,6 +36,7 @@ function createPlanitPost(event) {
 }
 
 function listPlanits() {
+  historyUpdate(listPlanits, arguments);
   $.ajax({
     url: '/planits',
     method: 'get'
@@ -49,6 +51,7 @@ function listPlanits() {
 }
 
 function viewPlanit(id) {
+  historyUpdate(viewPlanit, arguments);
   $.ajax({
     url: '/planits/' + id,
     method: 'get'
@@ -69,6 +72,7 @@ function viewPlanit(id) {
 }
 
 function updatePlanit(id) {
+  historyUpdate(updatePlanit, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + id,

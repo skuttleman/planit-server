@@ -1,4 +1,5 @@
 function createProposal(planitId, taskId) {
+  historyUpdate(createProposal, arguments);
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
@@ -32,17 +33,19 @@ function createProposalPost(event, planitId, taskId) {
   });
 }
 
-function listProposals() {
-  $.ajax({
-    url: '/proposals',
-    method: 'get'
-  }).done(function(proposals) {
-    Proposals.user = appvars.user;
-    displayTemplate('main', 'proposals', proposals);
-  });
-}
+// function listProposals() {
+//   historyUpdate(listProposals, arguments);
+//   $.ajax({
+//     url: '/proposals',
+//     method: 'get'
+//   }).done(function(proposals) {
+//     Proposals.user = appvars.user;
+//     displayTemplate('main', 'proposals', proposals);
+//   });
+// }
 
 function viewProposal(planitId, taskId, id) {
+  historyUpdate(viewProposal, arguments);
   Promise.all([
     $.ajax({
       url: '/proposals/' + id,
@@ -83,6 +86,7 @@ function viewProposal(planitId, taskId, id) {
 }
 
 function updateProposal(planitId, taskId, id) {
+  historyUpdate(updateProposal, arguments);
   Promise.all([
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
