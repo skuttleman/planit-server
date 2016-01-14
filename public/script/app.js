@@ -36,6 +36,56 @@ function displayTemplate(selector, partial, data) {
   $(selector).html(template(data));
 }
 
+function historyBack() {
+  if (appvars.historyPosition > 0) {
+    historyLoad(--appvars.historyPosition);
+    updateHistoryButtons();
+  }
+}
+
+function historyNext() {
+  if (appvars.historyPosition < appvars.history.length - 1) {
+    historyLoad(++appvars.historyPosition);
+    updateHistoryButtons();
+  }
+}
+
+function historyUpdate(process, params) {
+  if (appvars.historyBlockUpdate) {
+    appvars.historyBlockUpdate = false;
+  } else {
+    appvars.history.length = appvars.historyPosition + 1;
+    appvars.history.push({ process: process, params: params });
+    appvars.historyPosition++;
+    updateHistoryButtons();
+  }
+}
+
+function historyInit() {
+  appvars.history = [{ process: pageLoaded, params: {} }];
+  appvars.historyPosition = 0;
+  updateHistoryButtons();
+}
+
+function historyLoad(position) {
+  appvars.historyBlockUpdate = true;
+  var goTo = appvars.history[position];
+  goTo.process.apply(null, goTo.params);
+}
+
+function updateHistoryButtons() {
+  if (appvars.historyPosition == 0) {
+    // back button disabled
+  } else {
+    // back button enabled
+  }
+  if (appvars.historyPosition < appvars.history.length - 1) {
+    // next button enabled
+  } else {
+    // next button disabled
+  }
+}
+
 var appvars = {
   states: [
     "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI",
@@ -47,6 +97,7 @@ var appvars = {
 };
 
 function pageLoaded() {
+  if (!appvars.history) historyInit();
   $.ajax({
     url: '/auth',
     method: 'get'
@@ -174,19 +225,7 @@ function formatDateLong(date) {
 }
 
 function formatCurrency(budget) {
-  return '$ ' + Number(budget).toFixed(2);
-}
-
-function validateBudget() {
-  var rule = /^\d+(?:\.\d{1,2})?$/;
-  console.log($('.planit-budget').val());
-  console.log(rule.test($('.planit-budget').val()));
-  if(rule.test($('.planit-budget').val())){
-    return true;
-  } else {
-    $('.planit-budget').addClass('error-highlight');
-    return false;
-  }
+  return '$ ' + Number(budget).toFixed(0);
 }
 
 function login() {
@@ -194,14 +233,16 @@ function login() {
 }
 
 function logout() {
+  historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: null });
+    displayTemplate('header', 'header', { user: appvars.user });
     displayTemplate('main', 'splashpage');
   });
 }
 
 function listMembers() {
+  historyUpdate(listMembers, arguments);
   $.ajax({
     url: '/members',
     method: 'get'
@@ -212,6 +253,7 @@ function listMembers() {
 }
 
 function viewServiceRecord(id) {
+  historyUpdate(viewServiceRecord, arguments);
   $.ajax({
     url: '/members/' + id,
     method: 'get'
@@ -228,6 +270,7 @@ function viewServiceRecord(id) {
 }
 
 function updateMember(id) {
+  historyUpdate(updateMember, arguments);
   Promise.all([
     $.ajax({
       url: '/members/' + id,
@@ -309,6 +352,7 @@ function deleteMember(id) {
 }
 
 function createPlanit() {
+  historyUpdate(createPlanit, arguments);
   $.ajax({
     url: '/types/planit_types',
     method: 'get'
@@ -345,6 +389,7 @@ function createPlanitPost(event) {
 }
 
 function listPlanits() {
+  historyUpdate(listPlanits, arguments);
   $.ajax({
     url: '/planits',
     method: 'get'
@@ -359,6 +404,7 @@ function listPlanits() {
 }
 
 function viewPlanit(id) {
+  historyUpdate(viewPlanit, arguments);
   $.ajax({
     url: '/planits/' + id,
     method: 'get'
@@ -379,6 +425,7 @@ function viewPlanit(id) {
 }
 
 function updatePlanit(id) {
+  historyUpdate(updatePlanit, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + id,
@@ -453,6 +500,7 @@ function selectPlanitType(id) {
 }
 
 function createProposal(planitId, taskId) {
+  historyUpdate(createProposal, arguments);
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
@@ -486,17 +534,19 @@ function createProposalPost(event, planitId, taskId) {
   });
 }
 
-function listProposals() {
-  $.ajax({
-    url: '/proposals',
-    method: 'get'
-  }).done(function(proposals) {
-    Proposals.user = appvars.user;
-    displayTemplate('main', 'proposals', proposals);
-  });
-}
+// function listProposals() {
+//   historyUpdate(listProposals, arguments);
+//   $.ajax({
+//     url: '/proposals',
+//     method: 'get'
+//   }).done(function(proposals) {
+//     Proposals.user = appvars.user;
+//     displayTemplate('main', 'proposals', proposals);
+//   });
+// }
 
 function viewProposal(planitId, taskId, id) {
+  historyUpdate(viewProposal, arguments);
   Promise.all([
     $.ajax({
       url: '/proposals/' + id,
@@ -537,6 +587,7 @@ function viewProposal(planitId, taskId, id) {
 }
 
 function updateProposal(planitId, taskId, id) {
+  historyUpdate(updateProposal, arguments);
   Promise.all([
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
@@ -602,12 +653,24 @@ function setProposalStatus(id, status){
   }).fail(customAlert);
 }
 
-$(document).ready(function() {
-    console.log( "ready!" );
-});
+// $(document).ready(function() {
+//     console.log( "ready!" );
+// });
 
+
+
+$(".createplanit").click(function() {
+	var title = $('.titletest');
+	if(!title.val()) {
+		alert('nice')
+    }
+    else{
+    	alert('enter a title fool')
+    }
+})
 
 function createTask(planitId) {
+  historyUpdate(createTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId,
@@ -653,6 +716,7 @@ function createTaskPost(event, planitId) {
 }
 
 function viewTask(planitId, id) {
+  historyUpdate(viewTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId + '/tasks/' + id,
@@ -679,6 +743,7 @@ function viewTask(planitId, id) {
 }
 
 function updateTask(planitId, id) {
+  historyUpdate(updateTask, arguments);
   Promise.all([
     $.ajax({
       url: 'planits/' + planitId + '/tasks/' + id,
@@ -697,7 +762,6 @@ function updateTask(planitId, id) {
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
     var planit = serverData[2].planits[0];
-    console.log(task);
     var data = {
       task: task,
       planit: planit,
@@ -756,5 +820,70 @@ function selectSkill(id) {
   } else {
     $description.addClass('hidden');
     $description.val('');
+  }
+}
+
+function validateForm(event) {
+  if(highlightBudget() === false || highlightDate() === false || highlightZip() === false) {
+    event.preventDefault();
+  }
+}
+
+function highlightBudget() {
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.budget').val())){
+    $('span[class="budget-error error-text"]').remove();
+    $('.budget').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="budget-error error-text"]').remove();
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number more than zero.</span>');
+    $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
+  }
+}
+
+function dateErrorOn() {
+  if (true) {
+    $('span[class="date-error error-text"]').remove();
+    $('label[for="date"]').next().removeClass('error-highlight');
+  }
+  return true;
+}
+
+function dateErrorOff() {
+  $('span[class="date-error error-text"]').remove();
+  $('label[for="date"]').append('<span class="date-error error-text"> Cannot end earlier than start date or be in the past.</span>');
+  $('label[for="date"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return false;
+}
+
+function highlightDate() {
+  if($('.end-date').val() >= $('.start-date').val()){
+    dateErrorOff();
+  } else {
+    dateErrorOn();
+  }
+}
+
+function highlightPastDate(){
+  if(Date.parse($('.start-date').val()) >= Date.now()){
+    dateErrorOff();
+  } else {
+    dateErrorOn();
+  }
+}
+
+function highlightZip() {
+  if($('.zip').val().length === 5){
+    $('span[class="zip-error error-text"]').remove();
+    $('.zip').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="planit-zip-error error-text"]').remove();
+    $('label[for="zipcode"]').append('<span class="zip-error error-text"> Zip Code must be 5 digits.</span>');
+    $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
   }
 }

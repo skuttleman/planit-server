@@ -25,8 +25,47 @@ textarea, input {
 
 }
 
+label {
+  margin-top: 20px;
+}
 
+/* Main Container */
 
+.main-container-splash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner-container-row {
+  width: 80%;
+  height: 100%;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: row wrap;
+  background-color: rgba(45, 45, 45, 0.8);
+}
+
+.inner-container-column {
+  width: 80%;
+  height: 100%;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(45, 45, 45, 0.8);
+}
 
 /* Nav */
 
@@ -42,8 +81,13 @@ nav img {
 }
 
 /* Also used in other forms */
+
+nav .dropdown-menu {
+  float: left;
+}
+
 .dropdown-menu {
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 10px;
 	background-color: black;
   z-index: 1000;
@@ -155,15 +199,6 @@ h2 {
   margin-top: 150px;
 }
 
-/* Main Container */
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 /* For Sticky Footer */
 
 #wrap {
@@ -194,25 +229,6 @@ footer ul{
 footer li {
   margin: 10px;
 }
-
-.inner-container-row {
-  width: 80%;
-  height: 100%;
-  padding: 20px;
-  display: flex;
-  flex-flow: row wrap;
-  background-color: rgba(45, 45, 45, 0.8);
-}
-
-.inner-container-column {
-  width: 80%;
-  height: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(45, 45, 45, 0.8);
-}
-
 
 /* List Members Styles */
 
@@ -254,19 +270,21 @@ footer li {
   background-color: #e4e4e4;
 }
 
-/* Edit planit */
+/* forms */
 
-.planit-form {
+.planit-form, .proposal-form {
   display: flex;
   flex-direction: column;
+}
+
+.planit-form input{
+  align-self: flex-start;
 }
 
 .planit-dropdown {
   position: relative;
   margin: 20px 0;
 }
-
-
 
 .description-margin {
   margin-top: 20px;
@@ -276,16 +294,17 @@ footer li {
   align-self: flex-start;
 }
 
-.proposal-form {
-  display: flex;
-  flex-direction: column;
-}
+/* this should be a class with dash case */
 
 #errorMessage {
   color: red;
   font-size: 24px;
 }
 
-input.error-highlight {
+.error-text {
   color: red;
+}
+
+input.error-highlight {
+  background-color: yellow;
 }

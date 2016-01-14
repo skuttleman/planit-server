@@ -1,23 +1,25 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-  <img onclick="pageLoaded();" src="../images/brand_logo_v2.png">
+  <span onclick="historyBack()">BACK</span>
+  <span onclick="historyNext()">NEXT</span>
+  <img onclick="pageLoaded()" src="../images/brand_logo_v2.png">
   {{#if user}}
-  <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-    <span class="glyphicon glyphicon-th-list"></span>
-    <span class="caret"></span>
-	</button>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+      <span class="glyphicon glyphicon-th-list"></span>
+      <span class="caret"></span>
+  	</button>
     <ul class="dropdown-menu">
       <li onclick="missionControl()">Mission Control</li>
       <li onclick="listMembers()">Browse Members</li>
-      <li onclick="viewServiceRecord({{user.id}});">Service Record</li>
+      <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
       <li onclick="updateMember({{user.id}})">Edit Service Record</li>
-      <li onclick="listPlanits();">Browse planits</li>
-      <li onclick="createPlanit();">Create a planit</li>
-      <li onclick="logout();">Logout</li>
+      <li onclick="listPlanits()">Browse planits</li>
+      <li onclick="createPlanit()">Create a planit</li>
+      <li onclick="logout()">Logout</li>
     </ul>
-  </div>
-  <span id="display_name">{{user.display_name}}</span>
+    </div>
+    <span id="display_name">{{user.display_name}}</span>
   {{else}}
-  <p class="pull-right" name="login_button" onclick="login();">Login with LinkedIn</p>
+    <p class="pull-right" name="login_button" onclick="login()">Login with LinkedIn</p>
   {{/if}}
 </nav>

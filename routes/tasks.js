@@ -1,5 +1,6 @@
 var route = require('express').Router();
 var proposals = require('./proposals');
+var methods = require('../methods');
 var knex = require('../db/knex');
 module.exports = route;
 
@@ -38,23 +39,12 @@ route.get('/:id', function(request, response, next) {
   var where = {
     'tasks.id': request.params.id
   };
-  if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
-  else response.json({ sucess: false });
-  Promise.all([
-    knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.name as skill_name')
-    .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-    .leftJoin('skills', 'tasks.skill_id', 'skills.id').where(where),
-    knex('planits').where({ id: where.planit_id }),
-    knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-    .innerJoin('members', 'proposals.member_id', 'members.id').where({ task_id: request.params.id })
-  ]).then(function(data) {
-    var tasks = data[0];
-    var memberId = data[1][0].member_id;
-    tasks[0].id = tasks[0].task_id;
-    tasks[0].member_id = memberId;
-    delete tasks[0].task_id;
-    response.json({ success: true, tasks: tasks, proposals: data[2] });
-  }).catch(next);
+  if (request.routeChain && request.routeChain.planitId) {
+    where.planit_id = request.routeChain.planitId;
+  }
+  route.readOne(where).then(function(data) {
+    response.json(data);
+  });
 });
 
 // U
@@ -67,8 +57,6 @@ route.put('/:id', function(request, response, next) {
     ]).then(function(data) {
       var task = data[0][0];
       var skillDescription = data[1][0];
-      console.log(data);
-      console.log(body);
       return updateOrCreate(body.description, skillDescription, request.params.id)
       .then(function() {
         return Promise.resolve(data[0]);
@@ -94,15 +82,8 @@ route.delete('/:id', function(request, response, next) {
 route.get('/', function(request, response, next) {
   var where = {};
   if (request.routeChain && request.routeChain.planitId) where.planit_id = request.routeChain.planitId;
-  knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
-  .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-  .leftJoin('skills', 'tasks.skill_id', 'skills.id')
-  .where(where).then(function(tasks) {
-    tasks.forEach(function(task) {
-      task.id = task.task_id;
-      delete task.task_id;
-    });
-    response.json({ success: true, tasks: tasks });
+  route.readAll(where).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -128,3 +109,20 @@ function updateOrCreate(text, record, id) {
     return Promise.resolve();
   }
 }
+
+route.readOne = function(where) {
+  return methods.readTask(where);
+};
+
+route.readAll = function(where) {
+  return knex('tasks').select('tasks.id as task_id', 'tasks.*', 'skill_description.*', 'skills.*')
+  .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
+  .leftJoin('skills', 'tasks.skill_id', 'skills.id')
+  .where(where).then(function(tasks) {
+    tasks.forEach(function(task) {
+      task.id = task.task_id;
+      delete task.task_id;
+    });
+    return Promise.resolve({ tasks: tasks });
+  });
+};

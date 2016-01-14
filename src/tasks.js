@@ -1,4 +1,5 @@
 function createTask(planitId) {
+  historyUpdate(createTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId,
@@ -44,6 +45,7 @@ function createTaskPost(event, planitId) {
 }
 
 function viewTask(planitId, id) {
+  historyUpdate(viewTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId + '/tasks/' + id,
@@ -70,6 +72,7 @@ function viewTask(planitId, id) {
 }
 
 function updateTask(planitId, id) {
+  historyUpdate(updateTask, arguments);
   Promise.all([
     $.ajax({
       url: 'planits/' + planitId + '/tasks/' + id,
@@ -88,7 +91,6 @@ function updateTask(planitId, id) {
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
     var planit = serverData[2].planits[0];
-    console.log(task);
     var data = {
       task: task,
       planit: planit,
