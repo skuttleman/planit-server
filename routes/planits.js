@@ -86,11 +86,12 @@ route.get('/', function(request, response, next) {
 });
 
 route.readOne = function(where) {
+  console.log(where);
   return Promise.all([
     knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
-    .innerJoin('members', 'planits.member_id', 'members.id')
-    .leftJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
-    .where(where).where('end_date', '>=', new Date(Date.now())).whereNot('is_banned', true),
+    .innerJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
+    .where(where)
+    .orderBy('start_date', 'asc'),
     tasks.readAll({ planit_id: where['planits.id'] })
   ]).then(function(data) {
     var planits = data[0];
@@ -98,7 +99,7 @@ route.readOne = function(where) {
     return knex('planits').sum('tasks.budget as allocated')
     .innerJoin('tasks', 'tasks.planit_id', 'planits.id')
     .where(where).then(function(allocated) {
-      planits[0].allocated = allocated[0].allocated;
+      planits[0].allocated = allocated[0].allocated || 0;
       planits[0].budget_remaining = planits[0].budget - planits[0].allocated;
       return Promise.resolve({ planits: planits, tasks: tasks });
     });

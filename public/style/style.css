@@ -10,6 +10,11 @@ body {
   cursor: default;
 }
 
+h1 {
+  text-align: center;
+  font-weight: bold;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -20,11 +25,6 @@ body {
 
 .pull-left {
   cursor: pointer;
-}
-
-h1 {
-  text-align: center;
-  font-weight: bold;
 }
 
 textarea, input {
@@ -144,7 +144,8 @@ nav p {
 
 .btn-main {
 	color: #FFFFFF;
-  font-size: 1.5em;
+  font-size: 2.5em;
+  padding: 10px 60px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #BD411B;
 	*background-color: #BD411B;
@@ -206,6 +207,8 @@ nav p {
 /* Splash Page */
 
 h2 {
+  font-size: 3em;
+  letter-spacing: 2px;
   margin-bottom: 30px;
 }
 
@@ -217,7 +220,6 @@ h2 {
 .features {
   margin-top: 40px;
   width: 100%;
-  /*height: 280px;*/
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -234,7 +236,7 @@ h2 {
 }
 
 .features article h1{
-  font-size: 1.2em;
+  font-size: 1.6em;
 }
 
 .features article img{
