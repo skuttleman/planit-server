@@ -107,11 +107,11 @@ function pageLoaded() {
       customAlert('You cannot login because your account has been banned.');
     } else {
       appvars.user = data.user;
-      displayTemplate('header', 'header', data);
-      if (data.user && data.user.firstLogin) {
-        updateMember(data.user.id);
-      } else {
+      if (data.user) {
+        displayTemplate('header', 'header', data);
         // TODO: go to mission control
+      } else {
+        displayTemplate('header', 'header', data);
       }
     }
   });
@@ -479,11 +479,7 @@ function deletePlanit(id) {
         withCredentials: true
       }
     }).done(function(data) {
-      if (id == appvars.user.id) {
-        logout();
-      } else {
-        displayTemplate('main', 'splashpage');
-      }
+      listPlanits();
     });
   });
 }

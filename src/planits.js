@@ -126,11 +126,7 @@ function deletePlanit(id) {
         withCredentials: true
       }
     }).done(function(data) {
-      if (id == appvars.user.id) {
-        logout();
-      } else {
-        displayTemplate('main', 'splashpage');
-      }
+      listPlanits();
     });
   });
 }
