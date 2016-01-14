@@ -1,14 +1,14 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-  <span onclick="historyBack()">BACK</span>
-  <span onclick="historyNext()">NEXT</span>
-  <img onclick="pageLoaded()" src="../images/brand_logo_v2.png">
+  <span class="pointer" onclick="historyBack()">BACK</span>
+  <span class="pointer" onclick="historyNext()">NEXT</span>
+  <img class="pointer" onclick="pageLoaded()" src="../images/brand_logo_v2.png">
   {{#if user}}
-    <div class="dropdown">
+    <div class="dropdown pointer">
       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
       <span class="glyphicon glyphicon-th-list"></span>
       <span class="caret"></span>
   	</button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu pointer">
       <li onclick="missionControl()">Mission Control</li>
       <li onclick="listMembers()">Browse Members</li>
       <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
@@ -20,6 +20,6 @@
     </div>
     <span id="display_name">{{user.display_name}}</span>
   {{else}}
-    <p class="pull-right" name="login_button" onclick="login()">Login with LinkedIn</p>
+    <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
   {{/if}}
 </nav>
