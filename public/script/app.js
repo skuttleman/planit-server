@@ -36,6 +36,56 @@ function displayTemplate(selector, partial, data) {
   $(selector).html(template(data));
 }
 
+function historyBack() {
+  if (appvars.historyPosition > 0) {
+    historyLoad(--appvars.historyPosition);
+    updateHistoryButtons();
+  }
+}
+
+function historyNext() {
+  if (appvars.historyPosition < appvars.history.length - 1) {
+    historyLoad(++appvars.historyPosition);
+    updateHistoryButtons();
+  }
+}
+
+function historyUpdate(process, params) {
+  if (appvars.historyBlockUpdate) {
+    appvars.historyBlockUpdate = false;
+  } else {
+    appvars.history.length = appvars.historyPosition + 1;
+    appvars.history.push({ process: process, params: params });
+    appvars.historyPosition++;
+    updateHistoryButtons();
+  }
+}
+
+function historyInit() {
+  appvars.history = [{ process: pageLoaded, params: {} }];
+  appvars.historyPosition = 0;
+  updateHistoryButtons();
+}
+
+function historyLoad(position) {
+  appvars.historyBlockUpdate = true;
+  var goTo = appvars.history[position];
+  goTo.process.apply(null, goTo.params);
+}
+
+function updateHistoryButtons() {
+  if (appvars.historyPosition == 0) {
+    // back button disabled
+  } else {
+    // back button enabled
+  }
+  if (appvars.historyPosition < appvars.history.length - 1) {
+    // next button enabled
+  } else {
+    // next button disabled
+  }
+}
+
 var appvars = {
   states: [
     "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI",
@@ -47,6 +97,7 @@ var appvars = {
 };
 
 function pageLoaded() {
+  if (!appvars.history) historyInit();
   $.ajax({
     url: '/auth',
     method: 'get'
@@ -56,16 +107,16 @@ function pageLoaded() {
       customAlert('You cannot login because your account has been banned.');
     } else {
       appvars.user = data.user;
-      displayTemplate('header', 'header', data);
-      if (data.user && data.user.firstLogin) {
-        updateMember(data.user.id);
-      } else {
+      if (data.user) {
+        displayTemplate('header', 'header', data);
         // TODO: go to mission control
+      } else {
+        displayTemplate('header', 'header', data);
       }
+      displayTemplate('footer', 'footer', { user: data.user });
     }
   });
   displayTemplate('main', 'splashpage');
-  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {
@@ -182,14 +233,17 @@ function login() {
 }
 
 function logout() {
+  historyInit();
   appvars.user = undefined;
   $.get('/auth/logout').done(function() {
-    displayTemplate('header', 'header', { user: null });
+    displayTemplate('header', 'header');
     displayTemplate('main', 'splashpage');
+    displayTemplate('footer', 'footer');
   });
 }
 
 function listMembers() {
+  historyUpdate(listMembers, arguments);
   $.ajax({
     url: '/members',
     method: 'get'
@@ -200,6 +254,7 @@ function listMembers() {
 }
 
 function viewServiceRecord(id) {
+  historyUpdate(viewServiceRecord, arguments);
   $.ajax({
     url: '/members/' + id,
     method: 'get'
@@ -216,6 +271,7 @@ function viewServiceRecord(id) {
 }
 
 function updateMember(id) {
+  historyUpdate(updateMember, arguments);
   Promise.all([
     $.ajax({
       url: '/members/' + id,
@@ -297,6 +353,7 @@ function deleteMember(id) {
 }
 
 function createPlanit() {
+  historyUpdate(createPlanit, arguments);
   $.ajax({
     url: '/types/planit_types',
     method: 'get'
@@ -335,9 +392,11 @@ function createPlanitPost(event) {
   });
 }
 
-function listPlanits() {
+function listPlanits(memberId) {
+  var url = memberId ? '/members/' + memberId + '/planits' : '/planits';
+  historyUpdate(listPlanits, arguments);
   $.ajax({
-    url: '/planits',
+    url: url,
     method: 'get'
   }).done(function(data) {
     data.user = appvars.user;
@@ -350,6 +409,7 @@ function listPlanits() {
 }
 
 function viewPlanit(id) {
+  historyUpdate(viewPlanit, arguments);
   $.ajax({
     url: '/planits/' + id,
     method: 'get'
@@ -370,6 +430,7 @@ function viewPlanit(id) {
 }
 
 function updatePlanit(id) {
+  historyUpdate(updatePlanit, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + id,
@@ -423,11 +484,7 @@ function deletePlanit(id) {
         withCredentials: true
       }
     }).done(function(data) {
-      if (id == appvars.user.id) {
-        logout();
-      } else {
-        displayTemplate('main', 'splashpage');
-      }
+      listPlanits();
     });
   });
 }
@@ -444,6 +501,7 @@ function selectPlanitType(id) {
 }
 
 function createProposal(planitId, taskId) {
+  historyUpdate(createProposal, arguments);
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
@@ -477,17 +535,19 @@ function createProposalPost(event, planitId, taskId) {
   });
 }
 
-function listProposals() {
-  $.ajax({
-    url: '/proposals',
-    method: 'get'
-  }).done(function(proposals) {
-    Proposals.user = appvars.user;
-    displayTemplate('main', 'proposals', proposals);
-  });
-}
+// function listProposals() {
+//   historyUpdate(listProposals, arguments);
+//   $.ajax({
+//     url: '/proposals',
+//     method: 'get'
+//   }).done(function(proposals) {
+//     Proposals.user = appvars.user;
+//     displayTemplate('main', 'proposals', proposals);
+//   });
+// }
 
 function viewProposal(planitId, taskId, id) {
+  historyUpdate(viewProposal, arguments);
   Promise.all([
     $.ajax({
       url: '/proposals/' + id,
@@ -528,6 +588,7 @@ function viewProposal(planitId, taskId, id) {
 }
 
 function updateProposal(planitId, taskId, id) {
+  historyUpdate(updateProposal, arguments);
   Promise.all([
   $.ajax({
     url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
@@ -593,9 +654,9 @@ function setProposalStatus(id, status){
   }).fail(customAlert);
 }
 
-$(document).ready(function() {
-    console.log( "ready!" );
-});
+// $(document).ready(function() {
+//     console.log( "ready!" );
+// });
 
 
 
@@ -609,8 +670,8 @@ $(document).ready(function() {
 //     }
 // })
 
-
 function createTask(planitId) {
+  historyUpdate(createTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId,
@@ -656,6 +717,7 @@ function createTaskPost(event, planitId) {
 }
 
 function viewTask(planitId, id) {
+  historyUpdate(viewTask, arguments);
   Promise.all([
     $.ajax({
       url: '/planits/' + planitId + '/tasks/' + id,
@@ -682,6 +744,7 @@ function viewTask(planitId, id) {
 }
 
 function updateTask(planitId, id) {
+  historyUpdate(updateTask, arguments);
   Promise.all([
     $.ajax({
       url: 'planits/' + planitId + '/tasks/' + id,
@@ -700,7 +763,6 @@ function updateTask(planitId, id) {
     var task = serverData[0].tasks[0];
     appvars.skills.push({ id:0, name: 'other' });
     var planit = serverData[2].planits[0];
-    console.log(task);
     var data = {
       task: task,
       planit: planit,

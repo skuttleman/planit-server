@@ -9,6 +9,7 @@ var appvars = {
 };
 
 function pageLoaded() {
+  if (!appvars.history) historyInit();
   $.ajax({
     url: '/auth',
     method: 'get'
@@ -18,16 +19,16 @@ function pageLoaded() {
       customAlert('You cannot login because your account has been banned.');
     } else {
       appvars.user = data.user;
-      displayTemplate('header', 'header', data);
-      if (data.user && data.user.firstLogin) {
-        updateMember(data.user.id);
-      } else {
+      if (data.user) {
+        displayTemplate('header', 'header', data);
         // TODO: go to mission control
+      } else {
+        displayTemplate('header', 'header', data);
       }
+      displayTemplate('footer', 'footer', { user: data.user });
     }
   });
   displayTemplate('main', 'splashpage');
-  displayTemplate('footer', 'footer');
 }
 
 function getFormData(selector) {

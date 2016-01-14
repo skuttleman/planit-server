@@ -31,22 +31,14 @@ route.post('/', function(request, response, next) {
 
 // R
 route.get('/:id', function(request, response, next) {
-  var where = {};
+  var where = {
+    'planits.id': request.params.id
+  };
   if (request.routeChain && request.routeChain.memberId) {
     where.member_id = request.routeChain.memberId;
   }
-  where['planits.id'] = request.params.id;
-  Promise.all([
-    knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
-    .leftJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
-    .where(where),
-    knex('tasks')
-    .select('tasks.*', 'skills.name as skill_name', 'skill_description.description as description')
-    .leftJoin('skills', 'tasks.skill_id', 'skills.id')
-    .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
-    .where('tasks.planit_id', request.params.id)
-  ]).then(function(data) {
-    response.json({ planits: data[0], tasks: data[1] });
+  route.readOne(where).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -88,7 +80,32 @@ route.get('/', function(request, response, next) {
   if (request.routeChain && request.routeChain.memberId) {
     where.member_id = request.routeChain.memberId;
   }
-  knex('planits').where(where).orderBy('start_date', 'asc').then(function(planits) {
-    response.json({ planits: planits });
+  route.readAll(where).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
+
+route.readOne = function(where) {
+  return Promise.all([
+    knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
+    .leftJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
+    .where(where),
+    tasks.readAll({ planit_id: where['planits.id'] })
+  ]).then(function(data) {
+    var planits = data[0];
+    var tasks = data[1].tasks;
+    return knex('planits').sum('tasks.budget as allocated')
+    .innerJoin('tasks', 'tasks.planit_id', 'planits.id')
+    .where(where).then(function(allocated) {
+      planits[0].allocated = allocated[0].allocated;
+      planits[0].budget_remaining = planits[0].budget - planits[0].allocated;
+      return Promise.resolve({ planits: planits, tasks: tasks });
+    });
+  });
+};
+
+route.readAll = function(where) {
+  return knex('planits').where(where || {}).orderBy('start_date', 'asc').then(function(planits) {
+    return Promise.resolve({ planits: planits });
+  });
+};

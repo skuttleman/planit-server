@@ -1,5 +1,6 @@
 var route = require('express').Router();
 var knex = require('../db/knex');
+var methods = require('../methods');
 
 module.exports = route;
 
@@ -10,6 +11,7 @@ route.use('/:id', function(request, response, next) {
   request.routeChain.proposals = request.params.id;
   next();
 });
+
 
 
 // Accept Proposal
@@ -53,10 +55,8 @@ route.post('/', function(request, response, next) {
 
 // R
 route.get('/:id', function(request, response, next) {
-  knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-  .innerJoin('members', 'proposals.member_id', 'members.id')
-  .where({ 'proposals.id': request.params.id }).then(function(proposals) {
-    response.json({ success: true, proposals: proposals });
+  route.readOne({ 'proposals.id': request.params.id }).then(function(data) {
+    response.json(data);
   }).catch(next);
 });
 
@@ -100,11 +100,11 @@ route.delete('/:id', function(request, response, next) {
 // L
 route.get('/', function(request, response, next) {
   if (request.routeChain && request.routeChain.taskId) {
-    knex('proposals').select('proposals.*', 'members.display_name', 'members.profile_image')
-    .innerJoin('members', 'proposals.member_id', 'members.id')
-    .where({ 'proposals.task_id': request.routeChain.taskId }).then(function(proposals) {
-      response.json({ success: true, proposals: proposals });
+    route.readAll({ 'proposals.task_id': request.routeChain.taskId }).then(function(data) {
+      response.json(data);
     }).catch(next);
+  } else {
+    respons.json({ success: false });
   }
 });
 
@@ -130,17 +130,17 @@ function permissable(id) {
         planit: planits[0]
       });
     });
-  }).catch(function(err) {
-    console.log(err);
   });
 }
 
 function acceptProposal(proposal) {
-  return knex('proposals').where({ task_id: proposal.task_id }).then(function(proposals) {
+  return methods.readTask({ 'tasks.id': proposal.task_id }).then(function(data) {
+    var task = data.tasks[0];
+    var proposals = data.proposals;
     var promises = proposals.map(function(eachProposal) {
       if (eachProposal.id == proposal.id) {
         return knex('proposals').where({ id: proposal.id }).update({ is_accepted: true });
-      } else {
+      } else if (task.positions_remaining <= 1) {
         return rejectProposal(eachProposal);
       }
     });
@@ -151,3 +151,15 @@ function acceptProposal(proposal) {
 function rejectProposal(proposal) {
   return knex('proposals').where({ id: proposal.id }).update({ is_accepted: false });
 }
+
+route.readOne = function(where) {
+  return knex('proposals').where(where).then(function(proposals) {
+    return methods.readMember(proposals[0].member_id).then(function(members) {
+      return Promise.resolve({ proposals: proposals, members: [members] });
+    });
+  });
+};
+
+route.readAll = function(where) {
+  return methods.readProposals(where);
+};
