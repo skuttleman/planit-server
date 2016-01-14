@@ -46,7 +46,15 @@ route.get('/:id', function(request, response, next) {
     .leftJoin('skill_description', 'tasks.id', 'skill_description.id')
     .where('tasks.planit_id', request.params.id)
   ]).then(function(data) {
-    response.json({ planits: data[0], tasks: data[1] });
+    var planits = data[0], tasks = data[1];
+    return knex('planits').sum('tasks.budget as allocated').innerJoin('tasks', 'tasks.planit_id', 'planits.id')
+    .where({ 'planits.id': request.params.id }).then(function(allocated) {
+      console.log('allocated', allocated);
+      var planit = data[0][0];
+      planit.allocated = allocated[0].allocated;
+      planit.budget_remaining = planit.budget - planit.allocated;
+      response.json({ planits: data[0], tasks: data[1] });
+    });
   }).catch(next);
 });
 
