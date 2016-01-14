@@ -105,7 +105,11 @@ route.readOne = function(where) {
 };
 
 route.readAll = function(where) {
-  return knex('planits').where(where || {}).orderBy('start_date', 'asc').then(function(planits) {
+  return knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
+  .innerJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')
+  .where(where)
+  .orderBy('start_date', 'asc')
+  .then(function(planits) {
     return Promise.resolve({ planits: planits });
   });
 };

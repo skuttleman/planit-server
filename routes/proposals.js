@@ -104,7 +104,7 @@ route.get('/', function(request, response, next) {
       response.json(data);
     }).catch(next);
   } else {
-    respons.json({ success: false });
+    response.json({ success: false });
   }
 });
 
