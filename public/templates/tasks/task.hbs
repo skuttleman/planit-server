@@ -43,10 +43,10 @@
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
         Create Proposal
       </button>
-      <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
-        Return to Orbit
-      </button>
     {{/if}}
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
+      Return to Orbit
+    </button>
     {{#if approvedProposals.length}}
       <h1>Approved Proposals</h1>
       <table class="table table-striped planits-table">
