@@ -1,6 +1,8 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-  <span class="pointer" onclick="historyBack()">BACK</span>
-  <span class="pointer" onclick="historyNext()">NEXT</span>
+  <button type="button" onclick="historyBack()" class="btn btn-default history-button"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
+  <button type="button" onclick="historyNext()" class="btn btn-default history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
+{{!--   <span class="pointer" onclick="historyBack()">BACK</span>
+  <span class="pointer" onclick="historyNext()">NEXT</span> --}}
   <img class="pointer" onclick="pageLoaded()" src="../images/brand_logo_v2.png">
   {{#if user}}
     <div class="dropdown pointer">

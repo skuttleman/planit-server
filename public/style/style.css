@@ -82,6 +82,17 @@ nav img {
 	margin-right: 20px;
 }
 
+.history-button {
+  background-color: #2C2D31;
+  color: white;
+  border-color: black;
+  margin-left: 15px;
+}
+
+.history-arrows {
+  margin:7px;
+}
+
 /* Also used in other forms */
 
 nav .dropdown-menu {
