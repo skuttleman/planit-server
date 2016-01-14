@@ -829,8 +829,6 @@ function selectSkill(id) {
 }
 
 function validateForm(then) {
-  // event.preventDefault();
-  console.log(highlightTitle(), highlightBudget(), highlightDate(), highlightPastDate(), highlightZip());
   if(!highlightTitle() ||
       !highlightBudget() ||
       !highlightDate() ||
@@ -952,13 +950,10 @@ function highlightDate() {
 function highlightPastDate(){
   var startDate = formatDateInput($('.start-date').val());
   var dateNow = formatDateInput(Date.now());
-  console.log(startDate, dateNow);
   if(startDate >= dateNow){
-    console.log('should be ok');
     dateErrorOff();
     return true;
   } else {
-    console.log('should be bad');
     dateErrorOn();
     return false;
   }
@@ -973,6 +968,22 @@ function highlightZip() {
     $('span[class="zip-error error-text"]').remove();
     $('label[for="zipcode"]').append('<span class="zip-error error-text"> Zip Code must be 5 digits.</span>');
     $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    return false;
+  }
+}
+
+// Validations specifically for tasks form
+
+function highlightHeadCount() {
+  console.log($('.head-count').val().length);
+  if(parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ){
+    $('span[class="head-count-error error-text"]').remove();
+    $('.head-count').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="head-count-error error-text"]').remove();
+    $('label[for="head_count"]').append('<span class="head-count-error error-text"> Number must be between 0 and 99.</span>');
+    $('.head-count').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }
