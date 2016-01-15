@@ -100,8 +100,7 @@ function updatePlanit(id) {
       states: appvars.states,
       category: findBy(appvars.planit_types, 'id', planit.planit_type_id).name,
       startDate: formatDateInput(planit.start_date),
-      endDate: formatDateInput(planit.end_date),
-      formattedCurrency: Number(planit.budget).toFixed(2)
+      endDate: formatDateInput(planit.end_date)
     };
     displayTemplate('main', 'planitupdate', data);
   });

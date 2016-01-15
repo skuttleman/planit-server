@@ -100,7 +100,7 @@ function updateProposal(planitId, taskId, id) {
 
 function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
-  validatePlanitForm(function() {
+  validateProposalForm(function() {
     var formData = getFormData('form');
     $.ajax({
       url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,

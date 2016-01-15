@@ -5,7 +5,7 @@
       <label class="description-margin" for="details">Tell us about your qualifications and interest:</label>
       <textarea class="pointer description" name="details" rows="8" cols="40" onblur="highlightDescription()">{{proposal.details}}</textarea>
       <label for="cost_estimate">Your bid ($):</label>
-      <input type="number" class="bid form-control" name="cost_estimate" onblur="highlightBid()" value="$"+"{{proposal.cost_estimate}}" />
+      <input type="number" class="bid form-control" name="cost_estimate" onblur="highlightBid()" value="{{proposal.cost_estimate}}" />
       {{#if update}}
         <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Update Proposal" onclick="updateProposalPut(event, {{planitId}}, {{taskId}}, {{proposal.id}});" />
       {{else}}
