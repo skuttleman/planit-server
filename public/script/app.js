@@ -413,7 +413,7 @@ function createPlanit() {
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  validateForm(function() {
+  validatePlanitForm(function() {
     var formData = getFormData('form');
     $.ajax({
       url: '/planits',
