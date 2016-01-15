@@ -28,7 +28,8 @@
       </table>
       <button type="button" class="btn btn-custom" name="planit-details" onclick="createPlanit({{id}});">Create a planit</button>
     </article>
-    <article class="right-column col-lg-4 pull-left">
+    <!-- <article class="right-column col-lg-4 pull-left">
+      {{!--submitted proposals box --}}
       <h3>My Sent Proposals</h3>
       <table class="table table-striped planits-table">
         <thead>
@@ -39,19 +40,20 @@
           </tr>
         </thead>
         <tbody>
-          {{#if editable}}
-      {{!--submitted proposals box --}}
-      {{#proposals}}
+        {{#if editable}}
+        {{#proposals}}
           <tr>
             <td>{{start_date}}</td>
             <td>{{title}}</td>
             <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
             <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">Edit</button></td>
           </tr>
-          {{/proposals}}
-          {{/if}}
+        {{/proposals}}
+        {{/if}}
         </tbody>
       </table>
+
+      {{!--recieved proposals box--}}
       <h3>Proposal Recieved</h3>
       <table class="table table-striped planits-table">
         <thead>
@@ -63,9 +65,7 @@
         </thead>
         <tbody>
         {{#if editable}}
-
-  {{!--recieved proposals box--}}
-          {{#proposals}}
+        {{#proposals}}
           <tr>
               <td>{{start_date}}</td>
               <td>{{title}}</td>
@@ -77,6 +77,6 @@
           {{/if}}
         </tbody>
       </table>
-    </article>
+    </article> -->
   </div>
 </div>

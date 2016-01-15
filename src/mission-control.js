@@ -3,6 +3,10 @@ function missionControl(id) {
   $.ajax({
     url: '/members/' + id,
     method: 'get'
+  }),
+  $.ajax({
+    url: '/members/' + id + '/planits',
+    method: 'get'
   })
   // ,$.ajax({
   //   url: '/members/' + id + '/planits/',
