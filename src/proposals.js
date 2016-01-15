@@ -35,17 +35,6 @@ function createProposalPost(event, planitId, taskId) {
   });
 }
 
-// function listProposals() {
-//   historyUpdate(listProposals, arguments);
-//   $.ajax({
-//     url: '/proposals',
-//     method: 'get'
-//   }).done(function(proposals) {
-//     Proposals.user = appvars.user;
-//     displayTemplate('main', 'proposals', proposals);
-//   });
-// }
-
 function viewProposal(planitId, taskId, id) {
   historyUpdate(viewProposal, arguments);
   Promise.all([
@@ -111,16 +100,18 @@ function updateProposal(planitId, taskId, id) {
 
 function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewProposal(planitId, taskId, id);
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewProposal(planitId, taskId, id);
+    });
   });
 }
 

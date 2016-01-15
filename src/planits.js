@@ -29,10 +29,10 @@ function createPlanitPost(event) {
         withCredentials: true
       }
     }).done(function(data) {
-      $('#errorMessage').hide();
+      // $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('.error-message').text('Enter all fields.')
+      // $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -103,7 +103,6 @@ function updatePlanit(id) {
       endDate: formatDateInput(planit.end_date),
       formattedCurrency: Number(planit.budget).toFixed(2)
     };
-    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
@@ -123,7 +122,7 @@ function updatePlanitPut(event, id) {
     }).done(function(data) {
       viewPlanit(id);
     });
-  });  
+  });
 }
 
 function deletePlanit(id) {

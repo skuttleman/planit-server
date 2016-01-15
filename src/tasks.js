@@ -119,16 +119,18 @@ function updateTask(planitId, id) {
 
 function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, id);
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, id);
+    });
   });
 }
 
