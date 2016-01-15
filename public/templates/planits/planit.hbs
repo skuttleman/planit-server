@@ -39,27 +39,27 @@
       <table class="table table-striped planits-table">
         <thead>
           <tr>
-            <th>TYPE</th>
+            <th>START TIME</th>
+            <th>|TYPE</th>
             <th>|BUDGET</th>
             <th>|# NEEDED</th>
-            <th>|START DATE</th>
             <th>|DETAILS</th>
           </tr>
         </thead>
         <tbody>
         {{#each tasks}}
           <tr>
+            <td>{{formattedTime}}</td>
             <td>
               {{#if skill_name}}
                 {{skill_name}}
               {{else}}
                 {{description}}
               {{/if}}
-              </td>
-              <td>${{budget}}</td>
-              <td>{{head_count}}</td>
-              <td>{{start_time}}</td>
-              <td><button class="btn btn-custom" onclick="viewTask({{../planit.id}}, {{id}});">View</button></td>
+            </td>
+            <td>${{budget}}</td>
+            <td>{{head_count}}</td>
+            <td><button class="btn btn-custom" onclick="viewTask({{../planit.id}}, {{id}});">View</button></td>
           </tr>
           {{/each}}
         </tbody>

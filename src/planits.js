@@ -63,13 +63,16 @@ function viewPlanit(id) {
     appvars.planit = planits.planits[0];
     appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
     appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
+    planits.tasks.forEach(function(task) {
+      task.formattedTime = formatDateTimeShort(task.start_time);
+    });
     data = {
       planit: appvars.planit,
       tasks: planits.tasks,
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
-      formattedCurrency: formatCurrency(appvars.planit.budget)
+      formattedCurrency: formatCurrency(appvars.planit.budget),
     };
     displayTemplate('main', 'planit', data);
   });
