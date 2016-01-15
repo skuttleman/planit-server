@@ -945,7 +945,7 @@ function highlightDescription(){
     return true;
   } else {
     $('span[class="description-error error-text"]').remove();
-    $('label[for="description"], label[for="details"],').append('<span class="description-error error-text"> Description Required.</span>');
+    $('label[for="description"], label[for="details"]').append('<span class="description-error error-text"> Description Required.</span>');
     $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
@@ -988,7 +988,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must be a whole number more than zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
@@ -1100,14 +1100,16 @@ function highlightPastTime(){
 // Validations specific to proposals form
 
 function highlightBid() {
-  if(true){
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.bid').val())){
     $('span[class="bid-error error-text"]').remove();
     $('.bid').removeClass('error-highlight');
     return true;
   } else {
     $('span[class="bid-error error-text"]').remove();
-    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Zip Code must be 5 digits.</span>');
-    $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a whole number more than zero.</span>');
+    $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }
