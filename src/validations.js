@@ -107,9 +107,6 @@ function highlightDescription(){
   }
 }
 
-<<<<<<< HEAD
-function highlightCategory(){
-=======
 function highlightDropDown() {
   var $dropdown = $('button.drop-down');
   $('p.planit-type-error error-text').remove();
@@ -128,7 +125,6 @@ function highlightDropDown() {
   return returnValue;
 }
 // function highlightCategory(){
->>>>>>> 61cde8f4261f2580ad525054dc95cc30eb61397e
 //   var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
 //   console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
 //   if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
