@@ -5,7 +5,7 @@
 
 
   {{#if user}}
-    
+
     <span id="display_name">{{user.display_name}}</span>
   {{else}}
     <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
@@ -16,7 +16,6 @@
       <span class="caret"></span>
   	</button>
     <ul class="dropdown-menu pointer">
-      <li onclick="missionControl({{user.id}})">Mission Control</li>
       <li onclick="listMembers()">Browse Members</li>
       <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
       <li onclick="updateMember({{user.id}})">Edit Service Record</li>
