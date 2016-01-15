@@ -1064,7 +1064,6 @@ function timeErrorOff() {
 }
 
 function highlightTime() {
-  console.log($('.end-time').val(),  $('.start-time').val());
   if($('.end-time').val() >= $('.start-time').val()){
     timeErrorOff();
     return true;
@@ -1075,7 +1074,7 @@ function highlightTime() {
 }
 
 function highlightPastTime(){
-  console.log('.start-time').val(), realDate(Date.now());
+  console.log('current time: ' + realDate(Date.now()));
   if($('.start-time').val() >= realDate(Date.now())){
     timeErrorOff();
     return true;
