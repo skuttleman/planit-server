@@ -74,15 +74,25 @@ function historyLoad(position) {
 }
 
 function updateHistoryButtons() {
+  console.log(history);
+  console.log(appvars.historyPosition)
   if (appvars.historyPosition == 0) {
     // back button disabled
+    $('#back-but').addClass('no-history-back')
+    $('#back-but').removeClass('history-back')
   } else {
     // back button enabled
+    $('#back-but').addClass('history-back')
+    $('#back-but').removeClass('no-history-back')
   }
-  if (appvars.historyPosition < appvars.history.length - 1) {
+  if (appvars.historyPosition < appvars.history.length - 1 || appvars.historyPosition == 0 && appvars.historyPosition < appvars.history.length - 1) {
     // next button enabled
+    $('#next-but').addClass('history-next')
+    $('#next-but').removeClass('no-history-next')
   } else {
     // next button disabled
+    $('#next-but').addClass('no-history-next')
+    $('#next-but').removeClass('history-back')
   }
 }
 
@@ -397,13 +407,18 @@ function missionControl(id) {
   $.ajax({
     url: '/members/' + id,
     method: 'get'
-  }).done(function(members) {
-    data = {
+  })
+  // ,$.ajax({
+  //   url: '/members/' + id + '/planits/',
+  //   method: 'get'
+  // }).
+  .done(function(members, planits) {
+    var data = {
       member: members.members[0],
-      // skills: members.skills,
       // user: appvars.user,
       // deletable: appvars.user && (appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin'),
-      // bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
+      // bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id,
+      // planits: planits.planit[0]
     };
     displayTemplate('main', 'dashboard', data);
   });
@@ -725,6 +740,16 @@ $(".createplanit").click(function() {
     }
 })
 
+
+// $('btn-xs').hover(function() {
+// 	// conditions if have not navigated yet
+// 	if() {
+// 		$('btn-xs').toggleClass('.no-history-button:hover')
+// 	}
+// 	else{
+// 		$('btn-xs').toggleClass('.history-button:hover')
+// 	}
+// })
 function createTask(planitId) {
   historyUpdate(createTask, arguments);
   Promise.all([
@@ -1029,33 +1054,6 @@ function highlightDropDown() {
   });
   return returnValue;
 }
-// function highlightCategory(){
-//   var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
-//   console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
-//   if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
-//     $('span[class="planit-type planit-type-error error-text"]').remove();
-//     $('.planit-type').removeClass('error-highlight');
-//     return true;
-//   }
-//   else {
-//     $('span[class="planit-type-error error-text"]').remove();
-//     $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
-//     $('.planit-type').addClass('error-highlight');
-//   return false;
-//   }
-  // console.log(typeof $('.planit-type').val())
-  // if($('.planit-type').val() >= 6 && $('.planit-type').val() <= 10) {
-  //   $('span[class="planit-type planit-type-error error-text"]').remove();
-  //   $('.planit-type').removeClass('error-highlight');
-  //   return true;
-  // }
-  // else {
-  //   $('span[class="planit-type-error error-text"]').remove();
-  //   $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
-  //   $('.planit-type').addClass('error-highlight');
-  // return false;
-  // }
-// }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;

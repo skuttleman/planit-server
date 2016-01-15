@@ -1,11 +1,16 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-  <button type="button" onclick="historyBack()" class="btn btn-default history-button"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
-  <button type="button" onclick="historyNext()" class="btn btn-default history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
-{{!--   <span class="pointer" onclick="historyBack()">BACK</span>
-  <span class="pointer" onclick="historyNext()">NEXT</span> --}}
   <img class="pointer" onclick="pageLoaded()" src="../images/brand_logo_v2.png">
+   <button type="button" id="back-but" onclick="historyBack()" class="btn btn-xs history-button"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
+  <button type="button" id="next-but" onclick="historyNext()" class="btn btn-xs history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
+
+
   {{#if user}}
-    <div class="dropdown pointer">
+    
+    <span id="display_name">{{user.display_name}}</span>
+  {{else}}
+    <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
+  {{/if}}
+  <div class="dropdown pointer">
       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
       <span class="glyphicon glyphicon-th-list"></span>
       <span class="caret"></span>
@@ -21,8 +26,4 @@
       <li onclick="logout()">Logout</li>
     </ul>
     </div>
-    <span id="display_name">{{user.display_name}}</span>
-  {{else}}
-    <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
-  {{/if}}
 </nav>
