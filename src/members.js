@@ -25,16 +25,25 @@ function listMembers() {
 
 function viewServiceRecord(id) {
   historyUpdate(viewServiceRecord, arguments);
-  $.ajax({
-    url: '/members/' + id,
-    method: 'get'
-  }).done(function(members) {
+  Promise.all([
+    $.ajax({
+      url: '/members/' + id,
+      method: 'get'
+    }),
+    $.ajax({
+      url: '/members/' + id + '/planits',
+      method: 'get'
+    })
+  ]).then(function(serverData) {
+    appvars.member = serverData[0].members[0];
+    appvars.planits = serverData[1].planits;
     data = {
-      member: members.members[0],
-      skills: members.skills,
+      member: appvars.member,
+      planits: appvars.planits,
+      skills: serverData[0].skills,
       user: appvars.user,
-      deletable: appvars.user && (appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin'),
-      bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
+      deletable: appvars.user && (appvars.user.id == appvars.member.id || appvars.user.role_name == 'admin'),
+      bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != appvars.member.id
     };
     displayTemplate('main', 'member', data);
   });

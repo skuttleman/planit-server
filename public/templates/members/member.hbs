@@ -11,6 +11,25 @@
           </li>
         {{/each}}
       </ul>
+      <table class="table table-striped planits-table">
+        <thead>
+          <tr>
+            <th>START DATE</th>
+            <th>TITLE</th>
+            <th>TYPE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each planits}}
+            <tr>
+              <td>{{start_date}}</td>
+              <td>{{title}}</td>
+              <td>{{type}}</td>
+              <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
       {{#compare user.id member.id}}
         <button class="btn btn-custom form-submit-btn" type="button" onclick="updateMember({{member.id}});">Update Service Record</button>
       {{/compare}}
