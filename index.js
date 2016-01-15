@@ -12,10 +12,10 @@ var methods = require('./methods');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(function(request, response, next) {
-  process.env.HOST = 'http://' + request.header.host;
-  next();
-});
+// app.use(function(request, response, next) {
+//   process.env.HOST = 'http://' + request.header.host;
+//   next();
+// });
 app.use(cors({
   credentials: true,
   allowedHeaders: ['Authorization'],
