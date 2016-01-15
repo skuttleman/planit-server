@@ -5,12 +5,17 @@
    <button type="button" onclick="historyBack()" class="btn btn-default history-button"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
   <button type="button" onclick="historyNext()" class="btn btn-default history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
   {{#if user}}
-    <div class="dropdown pointer">
+    
+    <span id="display_name">{{user.display_name}}</span>
+  {{else}}
+    <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
+  {{/if}}
+  <div class="dropdown pointer">
       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
       <span class="glyphicon glyphicon-th-list"></span>
       <span class="caret"></span>
-  	</button>
-    <ul class="dropdown-menu pointer menu-left">
+    </button>
+    <ul class="dropdown-menu pointer dropdown-menu-left">
       <li onclick="missionControl()">Mission Control</li>
       <li onclick="listMembers()">Browse Members</li>
       <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
@@ -21,8 +26,4 @@
       <li onclick="logout()">Logout</li>
     </ul>
     </div>
-    <span id="display_name">{{user.display_name}}</span>
-  {{else}}
-    <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
-  {{/if}}
 </nav>

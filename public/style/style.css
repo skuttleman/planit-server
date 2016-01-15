@@ -79,7 +79,7 @@ nav img {
 	float: right;
 	font-size: 18px;
 	margin-top: 20px;
-	margin-right: 20px;
+	margin-right: 50px;
 }
 
 .history-button {
@@ -88,11 +88,20 @@ nav img {
   border-color: black;
 /*  margin-left: 10px;
 */  margin-top: 15px;
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+.history-button:hover {
+  background-color: #FBA267;
+  
+
 }
 
 .history-arrows {
   margin:7px;
 }
+
 
 /* Also used in other forms */
 
@@ -108,8 +117,15 @@ nav .dropdown-menu {
   cursor: pointer;
 }
 
+.dropdown-menu > li {
+  font-size: 17px;
+  font-weight: bolder;
+}
+
 .dropdown-menu > li:hover {
-  background-color: #383938;
+/*  background-color: #383938;
+*/
+  background-color: #D68958;
 }
 
 .dropdown-menu li {
@@ -119,9 +135,9 @@ nav .dropdown-menu {
 .dropdown {
 	float: right;
 	margin-top: 15px;
-	margin-right: 40px;
+	margin-right: 20px;
 	padding-bottom: 18px;
-  left: 0;
+  
 
 }
 
