@@ -1,4 +1,5 @@
 function validatePlanitForm(then) {
+  $('.all-errors').remove();
   var falses = [
     highlightTitle(),
     highlightBudget(),
@@ -14,10 +15,13 @@ function validatePlanitForm(then) {
   });
   if (falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
 function validateTaskForm(then) {
+  $('.all-errors').remove();
   var falses = [
     highlightBudget(),
     highlightHeadCount(),
@@ -27,12 +31,15 @@ function validateTaskForm(then) {
   ].filter(function(item) {
     return !item;
   });
-  if(falses.length == 0) {
+  if (falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
 function validateProposalForm(then) {
+  $('.all-errors').remove();
   var falses = [
     highlightDescription(),
     highlightBid()
@@ -41,6 +48,8 @@ function validateProposalForm(then) {
   });
   if(falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
@@ -100,12 +109,12 @@ function highlightDescription(){
 
 function highlightDropDown() {
   var $dropdown = $('button.drop-down');
-  $('span.planit-type-error error-text').remove();
+  $('p.planit-type-error error-text').remove();
   var returnValue = true;
   Array.prototype.forEach.call($dropdown, function(dropdown) {
     if ($(dropdown).text().match(/(category|state|skill)/gi)) {
       // invalid
-      $(dropdown).before('<span class="planit-type-error error-text">' + $(dropdown).text().match(/\S/g).join('') + ' Required.</span>');
+      $(dropdown).before('<p class="planit-type-error error-text">' + $(dropdown).text().match(/\S/g).join('') + ' Required.</p>');
       $('.planit-type').addClass('error-highlight');
       returnValue = false;
     } else {
