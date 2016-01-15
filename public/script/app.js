@@ -74,6 +74,8 @@ function historyLoad(position) {
 }
 
 function updateHistoryButtons() {
+  console.log(history);
+  console.log(appvars.historyPosition)
   if (appvars.historyPosition == 0) {
     // back button disabled
     $('#back-but').addClass('no-history-back')
@@ -1063,6 +1065,7 @@ function highlightDropDown() {
   // return false;
   // }
 // }
+
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
