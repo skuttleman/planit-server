@@ -100,6 +100,18 @@ function formatDateTime(date) {
   return returnDate;
 }
 
+function formatDateTimeShort(date) {
+  var dateObject = realDate(date);
+  var returnDate = [
+    [
+      dateObject.getHours() % 12 || 12,
+      padTwo(dateObject.getMinutes())
+    ].join(':'),
+    dateObject.getHours() >= 12 ? 'PM' : 'AM'
+  ].join(' ');
+  return returnDate;
+}
+
 function formatDateTimeLong(date) {
   // var dateObject = new Date(date);
   var dateObject = realDate(date);

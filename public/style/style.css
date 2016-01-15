@@ -38,6 +38,12 @@ label {
   margin-top: 20px;
 }
 
+.text-link {
+  font-weight: 700;
+  color: #FF9933;
+  cursor: pointer;
+}
+
 /* Main Container */
 
 .main-container {

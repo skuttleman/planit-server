@@ -19,7 +19,7 @@ function createPlanit() {
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  validateForm(function() {
+  validatePlanitForm(function() {
     var formData = getFormData('form');
     $.ajax({
       url: '/planits',
@@ -63,6 +63,9 @@ function viewPlanit(id) {
     appvars.planit = planits.planits[0];
     appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
     appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
+    planits.tasks.forEach(function(task) {
+      task.formattedTime = formatDateTimeShort(task.start_time);
+    });
     data = {
       planit: appvars.planit,
       tasks: planits.tasks,
@@ -107,18 +110,20 @@ function updatePlanit(id) {
 
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  // console.log(formData);
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
-  });
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    // console.log(formData);
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewPlanit(id);
+    });
+  });  
 }
 
 function deletePlanit(id) {

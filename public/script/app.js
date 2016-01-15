@@ -188,6 +188,18 @@ function formatDateTime(date) {
   return returnDate;
 }
 
+function formatDateTimeShort(date) {
+  var dateObject = realDate(date);
+  var returnDate = [
+    [
+      dateObject.getHours() % 12 || 12,
+      padTwo(dateObject.getMinutes())
+    ].join(':'),
+    dateObject.getHours() >= 12 ? 'PM' : 'AM'
+  ].join(' ');
+  return returnDate;
+}
+
 function formatDateTimeLong(date) {
   // var dateObject = new Date(date);
   var dateObject = realDate(date);
@@ -401,7 +413,7 @@ function createPlanit() {
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  validateForm(function() {
+  validatePlanitForm(function() {
     var formData = getFormData('form');
     $.ajax({
       url: '/planits',
@@ -445,6 +457,9 @@ function viewPlanit(id) {
     appvars.planit = planits.planits[0];
     appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
     appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
+    planits.tasks.forEach(function(task) {
+      task.formattedTime = formatDateTimeShort(task.start_time);
+    });
     data = {
       planit: appvars.planit,
       tasks: planits.tasks,
@@ -489,18 +504,20 @@ function updatePlanit(id) {
 
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  // console.log(formData);
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
-  });
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    // console.log(formData);
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewPlanit(id);
+    });
+  });  
 }
 
 function deletePlanit(id) {
@@ -534,8 +551,8 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId)
-    appvars.task = details.tasks[0]
+    console.log(taskId);
+    appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
       taskId: appvars.task.id,
@@ -543,23 +560,25 @@ function createProposal(planitId, taskId) {
       planitId: planitId
     };
     displayTemplate('main', 'proposalupdate', data);
-  })
+  });
 }
 
 function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, taskId);
-  }).fail(function(err){
-    customAlert('All fields must be filled out to create a proposal')
+  validateProposalForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, taskId);
+    }).fail(function(err){
+      customAlert('All fields must be filled out to create a proposal');
+    });
   });
 }
 
@@ -729,19 +748,21 @@ function createTask(planitId) {
 
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewTask(planitId, data.tasks[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+  validateTaskForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewTask(planitId, data.tasks[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+    });
   });
 }
 
@@ -863,17 +884,19 @@ function selectSkill(id) {
 }
 
 function validatePlanitForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
-  } else {
-    then();
-  }
+  if([!highlightTitle(),
+      !highlightBudget(),
+      !highlightDate(),
+      !highlightPastDate(),
+      !highlightAddress(),
+      !highlightCity(),
+      !highlightZip(),
+      !highlightDescription].filter(function(item) {
+        return !item;
+      }).length) {
+    } else {
+      then();
+    }
 }
 
 function validateTaskForm(then) {
@@ -887,7 +910,10 @@ function validateTaskForm(then) {
 }
 
 function validateProposalForm(then) {
-  if(!highlightBudget()) {
+  if([!highlightDescription(),
+    !highlightBid()].filter(function(item) {
+    return !item;
+  }).length) {
   } else {
     then();
   }
@@ -932,6 +958,8 @@ function highlightCity(){
   }
 }
 
+// Used in planit form and proposal form
+
 function highlightDescription(){
   if ($('.description').val()) {
     $('span[class="description-error error-text"]').remove();
@@ -939,7 +967,7 @@ function highlightDescription(){
     return true;
   } else {
     $('span[class="description-error error-text"]').remove();
-    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('label[for="description"], label[for="details"]').append('<span class="description-error error-text"> Description Required.</span>');
     $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
@@ -983,7 +1011,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must be a whole number more than zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
@@ -1088,6 +1116,23 @@ function highlightPastTime(){
     return true;
   } else {
     timeErrorOn();
+    return false;
+  }
+}
+
+// Validations specific to proposals form
+
+function highlightBid() {
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.bid').val())){
+    $('span[class="bid-error error-text"]').remove();
+    $('.bid').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="bid-error error-text"]').remove();
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a positive whole number or zero.</span>');
+    $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }

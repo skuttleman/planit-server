@@ -1,15 +1,17 @@
 function validatePlanitForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
-  } else {
-    then();
-  }
+  if([!highlightTitle(),
+      !highlightBudget(),
+      !highlightDate(),
+      !highlightPastDate(),
+      !highlightAddress(),
+      !highlightCity(),
+      !highlightZip(),
+      !highlightDescription].filter(function(item) {
+        return !item;
+      }).length) {
+    } else {
+      then();
+    }
 }
 
 function validateTaskForm(then) {
@@ -23,7 +25,10 @@ function validateTaskForm(then) {
 }
 
 function validateProposalForm(then) {
-  if(!highlightBudget()) {
+  if([!highlightDescription(),
+    !highlightBid()].filter(function(item) {
+    return !item;
+  }).length) {
   } else {
     then();
   }
@@ -68,6 +73,8 @@ function highlightCity(){
   }
 }
 
+// Used in planit form and proposal form
+
 function highlightDescription(){
   if ($('.description').val()) {
     $('span[class="description-error error-text"]').remove();
@@ -75,7 +82,7 @@ function highlightDescription(){
     return true;
   } else {
     $('span[class="description-error error-text"]').remove();
-    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('label[for="description"], label[for="details"]').append('<span class="description-error error-text"> Description Required.</span>');
     $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
@@ -119,7 +126,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must be a whole number more than zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
@@ -224,6 +231,23 @@ function highlightPastTime(){
     return true;
   } else {
     timeErrorOn();
+    return false;
+  }
+}
+
+// Validations specific to proposals form
+
+function highlightBid() {
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.bid').val())){
+    $('span[class="bid-error error-text"]').remove();
+    $('.bid').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="bid-error error-text"]').remove();
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a positive whole number or zero.</span>');
+    $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }
