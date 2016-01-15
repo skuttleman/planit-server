@@ -414,7 +414,7 @@ function createPlanitPost(event) {
       $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -862,7 +862,7 @@ function selectSkill(id) {
   }
 }
 
-function validateForm(then) {
+function validatePlanitForm(then) {
   if(!highlightTitle() ||
       !highlightBudget() ||
       !highlightDate() ||
@@ -871,6 +871,23 @@ function validateForm(then) {
       !highlightCity() ||
       !highlightZip() ||
       !highlightDescription()) {
+  } else {
+    then();
+  }
+}
+
+function validateTaskForm(then) {
+  if(!highlightBudget() ||
+      !highlightHeadCount() ||
+      !highlightTime() ||
+      !highlightPastTime()){
+  } else {
+    then();
+  }
+}
+
+function validateProposalForm(then) {
+  if(!highlightBudget()) {
   } else {
     then();
   }
@@ -1049,8 +1066,11 @@ function timeErrorOff() {
 }
 
 function highlightTime() {
-  console.log($('.end-time').val(),  $('.start-time').val());
-  if($('.end-time').val() >= $('.start-time').val()){
+  var endTime = Date.parse($('.end-time').val());
+  var startTime = Date.parse($('.start-time').val());
+  console.log('start time: ' + startTime);
+  console.log('end time: ' + endTime);
+  if(endTime > startTime){
     timeErrorOff();
     return true;
   } else {
@@ -1060,8 +1080,9 @@ function highlightTime() {
 }
 
 function highlightPastTime(){
-  console.log('.start-time').val(), realDate(Date.now());
-  if($('.start-time').val() >= realDate(Date.now())){
+  var currentTime = Date.parse(realDate(Date.now()));
+  var startTime = Date.parse($('.start-time').val());
+  if(startTime >= currentTime){
     timeErrorOff();
     return true;
   } else {
