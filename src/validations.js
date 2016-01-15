@@ -185,7 +185,11 @@ function timeErrorOff() {
 }
 
 function highlightTime() {
-  if($('.end-time').val() >= $('.start-time').val()){
+  var endTime = Date.parse($('.end-time').val());
+  var startTime = Date.parse($('.start-time').val());
+  console.log('start time: ' + startTime);
+  console.log('end time: ' + endTime);
+  if(endTime > startTime){
     timeErrorOff();
     return true;
   } else {
@@ -195,8 +199,9 @@ function highlightTime() {
 }
 
 function highlightPastTime(){
-  console.log('current time: ' + realDate(Date.now()));
-  if($('.start-time').val() >= realDate(Date.now())){
+  var currentTime = Date.parse(realDate(Date.now()));
+  var startTime = Date.parse($('.start-time').val());
+  if(startTime >= currentTime){
     timeErrorOff();
     return true;
   } else {
