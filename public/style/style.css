@@ -348,7 +348,7 @@ footer li {
   align-self: flex-start;
 }
 
-/*Error Messaging*/
+/* Error Messaging */
 
 .error-message {
   color: red;
@@ -361,4 +361,10 @@ footer li {
 
 .error-highlight {
   background-color: yellow;
+}
+
+/* Mission Control */
+
+.left-column {
+  
 }
