@@ -342,7 +342,7 @@ footer li {
   align-self: flex-start;
 }
 
-/* this should be a class with dash case */
+/*Error Messaging*/
 
 .error-message {
   color: red;
