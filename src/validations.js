@@ -1,30 +1,45 @@
 function validatePlanitForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
-  } else {
+  var falses = [
+    highlightTitle(),
+    highlightBudget(),
+    highlightDate(),
+    highlightPastDate(),
+    highlightAddress(),
+    highlightCity(),
+    highlightZip(),
+    highlightDescription(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if (falses.length == 0) {
     then();
   }
 }
 
 function validateTaskForm(then) {
-  if(!highlightBudget() ||
-      !highlightHeadCount() ||
-      !highlightTime() ||
-      !highlightPastTime()){
-  } else {
+  var falses = [
+    highlightBudget(),
+    highlightHeadCount(),
+    highlightTime(),
+    highlightPastTime(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if(falses.length == 0) {
     then();
   }
 }
 
 function validateProposalForm(then) {
-  if(!highlightBudget()) {
-  } else {
+  var falses = [
+    highlightBudget(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if(falses.length == 0) {
     then();
   }
 }
@@ -81,20 +96,37 @@ function highlightDescription(){
   }
 }
 
-function highlightCategory(){
-  var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
-  console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
-  if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
-    $('span[class="planit-type planit-type-error error-text"]').remove();
-    $('.planit-type').removeClass('error-highlight');
-    return true;
-  }
-  else {
-    $('span[class="planit-type-error error-text"]').remove();
-    $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
-    $('.planit-type').addClass('error-highlight');
-  return false;
-  }
+function highlightDropDown() {
+  var $dropdown = $('button.drop-down');
+  $('span.planit-type-error error-text').remove();
+  var returnValue = true;
+  Array.prototype.forEach.call($dropdown, function(dropdown) {
+    if ($(dropdown).text().match(/(category|state|skill)/gi)) {
+      // invalid
+      $(dropdown).before('<span class="planit-type-error error-text">' + $(dropdown).text().match(/\S/g).join('') + ' Required.</span>');
+      $('.planit-type').addClass('error-highlight');
+      returnValue = false;
+    } else {
+      //valid
+      $('.planit-type').removeClass('error-highlight');
+    }
+  });
+  return returnValue;
+}
+// function highlightCategory(){
+//   var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
+//   console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
+//   if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
+//     $('span[class="planit-type planit-type-error error-text"]').remove();
+//     $('.planit-type').removeClass('error-highlight');
+//     return true;
+//   }
+//   else {
+//     $('span[class="planit-type-error error-text"]').remove();
+//     $('label[for="category"]').append('<span class="planit-type-error error-text"> Category Required.</span>');
+//     $('.planit-type').addClass('error-highlight');
+//   return false;
+//   }
   // console.log(typeof $('.planit-type').val())
   // if($('.planit-type').val() >= 6 && $('.planit-type').val() <= 10) {
   //   $('span[class="planit-type planit-type-error error-text"]').remove();
@@ -107,7 +139,7 @@ function highlightCategory(){
   //   $('.planit-type').addClass('error-highlight');
   // return false;
   // }
-}
+// }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
@@ -118,7 +150,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number, greater than or equal to zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }

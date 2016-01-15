@@ -29,18 +29,20 @@ function createTask(planitId) {
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
   var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewTask(planitId, data.tasks[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+  validateTaskForm(function() {
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewTask(planitId, data.tasks[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+    });
   });
 }
 

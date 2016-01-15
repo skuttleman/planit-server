@@ -19,7 +19,8 @@ function createPlanit() {
 
 function createPlanitPost(event) {
   if (event) event.preventDefault();
-  validateForm(function() {
+  validatePlanitForm(function() {
+    console.log('this rans');
     var formData = getFormData('form');
     $.ajax({
       url: '/planits',
