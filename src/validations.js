@@ -1,36 +1,55 @@
 function validatePlanitForm(then) {
-  if([!highlightTitle(),
-      !highlightBudget(),
-      !highlightDate(),
-      !highlightPastDate(),
-      !highlightAddress(),
-      !highlightCity(),
-      !highlightZip(),
-      !highlightDescription].filter(function(item) {
-        return !item;
-      }).length) {
-    } else {
-      then();
-    }
+  $('.all-errors').remove();
+  var falses = [
+    highlightTitle(),
+    highlightBudget(),
+    highlightDate(),
+    highlightPastDate(),
+    highlightAddress(),
+    highlightCity(),
+    highlightZip(),
+    highlightDescription(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if (falses.length == 0) {
+    then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
+  }
 }
 
 function validateTaskForm(then) {
-  if(!highlightBudget() ||
-      !highlightHeadCount() ||
-      !highlightTime() ||
-      !highlightPastTime()){
-  } else {
+  $('.all-errors').remove();
+  var falses = [
+    highlightBudget(),
+    highlightHeadCount(),
+    highlightTime(),
+    highlightPastTime(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if (falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
 function validateProposalForm(then) {
-  if([!highlightDescription(),
-    !highlightBid()].filter(function(item) {
+  $('.all-errors').remove();
+  var falses = [
+    highlightDescription(),
+    highlightBid()
+  ].filter(function(item) {
     return !item;
-  }).length) {
-  } else {
+  });
+  if(falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
@@ -88,7 +107,28 @@ function highlightDescription(){
   }
 }
 
+<<<<<<< HEAD
 function highlightCategory(){
+=======
+function highlightDropDown() {
+  var $dropdown = $('button.drop-down');
+  $('p.planit-type-error error-text').remove();
+  var returnValue = true;
+  Array.prototype.forEach.call($dropdown, function(dropdown) {
+    if ($(dropdown).text().match(/(category|state|skill)/gi)) {
+      // invalid
+      $(dropdown).before('<p class="planit-type-error error-text">' + $(dropdown).text().match(/\S/g).join('') + ' Required.</p>');
+      $('.planit-type').addClass('error-highlight');
+      returnValue = false;
+    } else {
+      //valid
+      $('.planit-type').removeClass('error-highlight');
+    }
+  });
+  return returnValue;
+}
+// function highlightCategory(){
+>>>>>>> 61cde8f4261f2580ad525054dc95cc30eb61397e
 //   var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
 //   console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
 //   if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
@@ -114,8 +154,12 @@ function highlightCategory(){
   //   $('.planit-type').addClass('error-highlight');
   // return false;
   // }
+<<<<<<< HEAD
   return true;
 }
+=======
+// }
+>>>>>>> 61cde8f4261f2580ad525054dc95cc30eb61397e
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
@@ -126,7 +170,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must be a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number, greater than or equal to zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
@@ -212,9 +256,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  console.log('start time: ' + startTime);
-  console.log('end time: ' + endTime);
-  if(endTime > startTime){
+  if (endTime > startTime){
     timeErrorOff();
     return true;
   } else {

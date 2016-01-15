@@ -400,6 +400,23 @@ function deleteMember(id) {
   });
 }
 
+function missionControl(id) {
+  historyUpdate(viewServiceRecord, arguments);
+  $.ajax({
+    url: '/members/' + id,
+    method: 'get'
+  }).done(function(members) {
+    data = {
+      member: members.members[0],
+      // skills: members.skills,
+      // user: appvars.user,
+      // deletable: appvars.user && (appvars.user.id == members.members[0].id || appvars.user.role_name == 'admin'),
+      // bannable: appvars.user && appvars.user.role_name != 'normal' && appvars.user.id != members.members[0].id
+    };
+    displayTemplate('main', 'dashboard', data);
+  });
+}
+
 function createPlanit() {
   historyUpdate(createPlanit, arguments);
   $.ajax({
@@ -431,10 +448,10 @@ function createPlanitPost(event) {
         withCredentials: true
       }
     }).done(function(data) {
-      $('#errorMessage').hide();
+      // $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('.error-message').text('Enter all fields.')
+      // $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -505,7 +522,6 @@ function updatePlanit(id) {
       endDate: formatDateInput(planit.end_date),
       formattedCurrency: Number(planit.budget).toFixed(2)
     };
-    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
@@ -525,7 +541,7 @@ function updatePlanitPut(event, id) {
     }).done(function(data) {
       viewPlanit(id);
     });
-  });  
+  });
 }
 
 function deletePlanit(id) {
@@ -589,17 +605,6 @@ function createProposalPost(event, planitId, taskId) {
     });
   });
 }
-
-// function listProposals() {
-//   historyUpdate(listProposals, arguments);
-//   $.ajax({
-//     url: '/proposals',
-//     method: 'get'
-//   }).done(function(proposals) {
-//     Proposals.user = appvars.user;
-//     displayTemplate('main', 'proposals', proposals);
-//   });
-// }
 
 function viewProposal(planitId, taskId, id) {
   historyUpdate(viewProposal, arguments);
@@ -666,16 +671,18 @@ function updateProposal(planitId, taskId, id) {
 
 function updateProposalPut(event, planitId, taskId, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewProposal(planitId, taskId, id);
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewProposal(planitId, taskId, id);
+    });
   });
 }
 
@@ -857,16 +864,18 @@ function updateTask(planitId, id) {
 
 function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, id);
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, id);
+    });
   });
 }
 
@@ -902,38 +911,57 @@ function selectSkill(id) {
 }
 
 function validatePlanitForm(then) {
-  if([!highlightTitle(),
-      !highlightBudget(),
-      !highlightDate(),
-      !highlightPastDate(),
-      !highlightAddress(),
-      !highlightCity(),
-      !highlightZip(),
-      !highlightDescription].filter(function(item) {
-        return !item;
-      }).length) {
-    } else {
-      then();
-    }
+  $('.all-errors').remove();
+  var falses = [
+    highlightTitle(),
+    highlightBudget(),
+    highlightDate(),
+    highlightPastDate(),
+    highlightAddress(),
+    highlightCity(),
+    highlightZip(),
+    highlightDescription(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if (falses.length == 0) {
+    then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
+  }
 }
 
 function validateTaskForm(then) {
-  if(!highlightBudget() ||
-      !highlightHeadCount() ||
-      !highlightTime() ||
-      !highlightPastTime()){
-  } else {
+  $('.all-errors').remove();
+  var falses = [
+    highlightBudget(),
+    highlightHeadCount(),
+    highlightTime(),
+    highlightPastTime(),
+    highlightDropDown()
+  ].filter(function(item) {
+    return !item;
+  });
+  if (falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
 function validateProposalForm(then) {
-  if([!highlightDescription(),
-    !highlightBid()].filter(function(item) {
+  $('.all-errors').remove();
+  var falses = [
+    highlightDescription(),
+    highlightBid()
+  ].filter(function(item) {
     return !item;
-  }).length) {
-  } else {
+  });
+  if(falses.length == 0) {
     then();
+  } else {
+    $('.form-submit-btn-validation').before('<p class="planit-type-error error-text all-errors">Your form has errors. Please fix and resubmit.</p>');
   }
 }
 
@@ -991,7 +1019,24 @@ function highlightDescription(){
   }
 }
 
-function highlightCategory(){
+function highlightDropDown() {
+  var $dropdown = $('button.drop-down');
+  $('p.planit-type-error error-text').remove();
+  var returnValue = true;
+  Array.prototype.forEach.call($dropdown, function(dropdown) {
+    if ($(dropdown).text().match(/(category|state|skill)/gi)) {
+      // invalid
+      $(dropdown).before('<p class="planit-type-error error-text">' + $(dropdown).text().match(/\S/g).join('') + ' Required.</p>');
+      $('.planit-type').addClass('error-highlight');
+      returnValue = false;
+    } else {
+      //valid
+      $('.planit-type').removeClass('error-highlight');
+    }
+  });
+  return returnValue;
+}
+// function highlightCategory(){
 //   var ben = ($('.ben-will-murder-you-if-remove-this-class-category'))
 //   console.log($('.ben-will-murder-you-if-remove-this-class-category').text())
 //   if (!!$('.ben-will-murder-you-if-remove-this-class-category').text().match(/category/gi)) {
@@ -1017,8 +1062,7 @@ function highlightCategory(){
   //   $('.planit-type').addClass('error-highlight');
   // return false;
   // }
-  return true;
-}
+// }
 
 function highlightBudget() {
   var digitsOnly = /^\d+(?:\d{1,2})?$/;
@@ -1029,7 +1073,7 @@ function highlightBudget() {
     return true;
   } else {
     $('span[class="budget-error error-text"]').remove();
-    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must be a whole number more than zero.</span>');
+    $('label[for="budget"]').append('<span class="budget-error error-text"> Value must a whole number, greater than or equal to zero.</span>');
     $('.budget').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
@@ -1115,9 +1159,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  console.log('start time: ' + startTime);
-  console.log('end time: ' + endTime);
-  if(endTime > startTime){
+  if (endTime > startTime){
     timeErrorOff();
     return true;
   } else {
