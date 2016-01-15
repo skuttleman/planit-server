@@ -71,10 +71,11 @@ function viewTask(planitId, id) {
       }),
       formattedCurrency: formatCurrency(appvars.task.budget),
       user: appvars.user,
+      startTime: formatDateTimeLong(appvars.task.start_time),
+      endTime: formatDateTimeLong(appvars.task.end_time),
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       submittable: appvars.user && appvars.planit.member_id != appvars.user.id && appvars.task.positions_remaining
     };
-    console.log(data);
     displayTemplate('main', 'task', data);
   });
 }
