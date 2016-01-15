@@ -718,6 +718,16 @@ $(".createplanit").click(function() {
     }
 })
 
+
+// $('btn-xs').hover(function() {
+// 	// conditions if have not navigated yet
+// 	// if() {
+// 	// 	$('btn-xs').removeClass('.history-button:hover')
+// 	// }
+// 	// else{
+// 	// 	$('btn-xs').addClass('.history-button:hover')
+// 	// }
+// })
 function createTask(planitId) {
   historyUpdate(createTask, arguments);
   Promise.all([
