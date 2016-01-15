@@ -72,7 +72,7 @@ function viewPlanit(id) {
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
-      formattedCurrency: formatCurrency(appvars.planit.budget),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });

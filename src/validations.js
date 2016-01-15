@@ -13,28 +13,17 @@ function validatePlanitForm(then) {
 }
 
 function validateTaskForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
+  if(!highlightBudget() ||
+      !highlightHeadCount() ||
+      !highlightTime() ||
+      !highlightPastTime()){
   } else {
     then();
   }
 }
 
 function validateProposalForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
+  if(!highlightBudget()) {
   } else {
     then();
   }

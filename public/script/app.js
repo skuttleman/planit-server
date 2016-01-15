@@ -466,7 +466,7 @@ function viewPlanit(id) {
       user: appvars.user,
       editable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name == 'admin'),
       deletable: appvars.user && (appvars.user.id == planits.planits[0].member_id || appvars.user.role_name !== 'normal'),
-      formattedCurrency: formatCurrency(appvars.planit.budget),
+      formattedCurrency: formatCurrency(appvars.planit.budget)
     };
     displayTemplate('main', 'planit', data);
   });
@@ -892,28 +892,17 @@ function validatePlanitForm(then) {
 }
 
 function validateTaskForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
+  if(!highlightBudget() ||
+      !highlightHeadCount() ||
+      !highlightTime() ||
+      !highlightPastTime()){
   } else {
     then();
   }
 }
 
 function validateProposalForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
+  if(!highlightBudget()) {
   } else {
     then();
   }
