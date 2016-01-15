@@ -188,6 +188,18 @@ function formatDateTime(date) {
   return returnDate;
 }
 
+function formatDateTimeShort(date) {
+  var dateObject = realDate(date);
+  var returnDate = [
+    [
+      dateObject.getHours() % 12 || 12,
+      padTwo(dateObject.getMinutes())
+    ].join(':'),
+    dateObject.getHours() >= 12 ? 'PM' : 'AM'
+  ].join(' ');
+  return returnDate;
+}
+
 function formatDateTimeLong(date) {
   // var dateObject = new Date(date);
   var dateObject = realDate(date);
@@ -445,6 +457,9 @@ function viewPlanit(id) {
     appvars.planit = planits.planits[0];
     appvars.planit.startDate = formatDateLong(appvars.planit.start_date);
     appvars.planit.endDate = formatDateLong(appvars.planit.end_date);
+    planits.tasks.forEach(function(task) {
+      task.formattedTime = formatDateTimeShort(task.start_time);
+    });
     data = {
       planit: appvars.planit,
       tasks: planits.tasks,
