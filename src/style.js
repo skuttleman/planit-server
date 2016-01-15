@@ -17,10 +17,10 @@ $(".createplanit").click(function() {
 
 // $('btn-xs').hover(function() {
 // 	// conditions if have not navigated yet
-// 	// if() {
-// 	// 	$('btn-xs').removeClass('.history-button:hover')
-// 	// }
-// 	// else{
-// 	// 	$('btn-xs').addClass('.history-button:hover')
-// 	// }
+// 	if() {
+// 		$('btn-xs').toggleClass('.no-history-button:hover')
+// 	}
+// 	else{
+// 		$('btn-xs').toggleClass('.history-button:hover')
+// 	}
 // })

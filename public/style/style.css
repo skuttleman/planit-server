@@ -89,7 +89,6 @@ nav img {
 }
 
 .history-button {
-  background-color: #2C2D31;
   color: white;
   border-color: black;
 /*  margin-left: 10px;
@@ -97,14 +96,34 @@ nav img {
   font-weight: bolder;
   font-size: 16px;
   margin-left: 5px;
+  background-color: #232634;
+}
+
+.history-button:hover {
+  color: gray;
 }
 
 .history-back {
   margin-left: 20px;
+  background-color: #232634;
 }
 
-.history-button:hover {
-  background-color: #FBA267;
+.history-back:hover {
+  background-color: orange;
+}
+
+/*.no-history-back:hover {
+  background-color: gray;
+}*/
+
+
+.history-next:hover {
+  background-color: orange;
+
+}
+
+.no-history-next {
+  background-color: #232634;
 
 }
 

@@ -76,13 +76,21 @@ function historyLoad(position) {
 function updateHistoryButtons() {
   if (appvars.historyPosition == 0) {
     // back button disabled
+    $('#back-but').addClass('no-history-back')
+    $('#back-but').removeClass('history-back')
   } else {
     // back button enabled
+    $('#back-but').addClass('history-back')
+    $('#back-but').removeClass('no-history-back')
   }
   if (appvars.historyPosition < appvars.history.length - 1) {
     // next button enabled
+    $('#next-but').addClass('history-next')
+    $('#next-but').removeClass('no-history-next')
   } else {
     // next button disabled
+    $('#next-but').addClass('no-history-next')
+    $('#next-but').removeClass('history-back')
   }
 }
 
@@ -721,12 +729,12 @@ $(".createplanit").click(function() {
 
 // $('btn-xs').hover(function() {
 // 	// conditions if have not navigated yet
-// 	// if() {
-// 	// 	$('btn-xs').removeClass('.history-button:hover')
-// 	// }
-// 	// else{
-// 	// 	$('btn-xs').addClass('.history-button:hover')
-// 	// }
+// 	if() {
+// 		$('btn-xs').toggleClass('.no-history-button:hover')
+// 	}
+// 	else{
+// 		$('btn-xs').toggleClass('.history-button:hover')
+// 	}
 // })
 function createTask(planitId) {
   historyUpdate(createTask, arguments);

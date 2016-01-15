@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-static-top">
   <img class="pointer" onclick="pageLoaded()" src="../images/brand_logo_v2.png">
-   <button type="button" onclick="historyBack()" class="btn btn-xs history-button history-back"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
-  <button type="button" onclick="historyNext()" class="btn btn-xs history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
+   <button type="button" id="back-but" onclick="historyBack()" class="btn btn-xs history-button"><span class="glyphicon glyphicon-circle-arrow-left history-arrows"></span>BACK</button>
+  <button type="button" id="next-but" onclick="historyNext()" class="btn btn-xs history-button">NEXT<span class="glyphicon glyphicon-circle-arrow-right history-arrows"></span></button>
 
 
   {{#if user}}
