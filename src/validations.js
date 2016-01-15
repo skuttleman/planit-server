@@ -1,15 +1,17 @@
 function validatePlanitForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
-  } else {
-    then();
-  }
+  if([!highlightTitle(),
+      !highlightBudget(),
+      !highlightDate(),
+      !highlightPastDate(),
+      !highlightAddress(),
+      !highlightCity(),
+      !highlightZip(),
+      !highlightDescription].filter(function(item) {
+        return !item;
+      }).length) {
+    } else {
+      then();
+    }
 }
 
 function validateTaskForm(then) {
@@ -23,7 +25,10 @@ function validateTaskForm(then) {
 }
 
 function validateProposalForm(then) {
-  if(!highlightBudget()) {
+  if([!highlightDescription(),
+    !highlightBid()].filter(function(item) {
+    return !item;
+  }).length) {
   } else {
     then();
   }
@@ -240,7 +245,7 @@ function highlightBid() {
     return true;
   } else {
     $('span[class="bid-error error-text"]').remove();
-    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a whole number more than zero.</span>');
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a positive whole number or zero.</span>');
     $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
