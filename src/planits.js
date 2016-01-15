@@ -32,7 +32,7 @@ function createPlanitPost(event) {
       $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
