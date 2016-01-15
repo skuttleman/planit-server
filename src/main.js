@@ -86,12 +86,13 @@ function formatDateInput(date) {
 }
 
 function formatDateTime(date) {
-  var dateObject = new Date(date);
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
     padTwo(dateObject.getDate())
-  ].join('-') +
+  ].join('-') + ' ' +
   [
     padTwo(dateObject.getHours()),
     padTwo(dateObject.getMinutes())
@@ -99,8 +100,28 @@ function formatDateTime(date) {
   return returnDate;
 }
 
+function formatDateTimeLong(date) {
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
+  var returnDate = [
+    day()[dateObject.getDay()],
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+    [
+      dateObject.getHours() % 12 || 12,
+      padTwo(dateObject.getMinutes())
+    ].join(':'),
+    dateObject.getHours() >= 12 ? 'PM' : 'AM'
+  ].join(' ');
+  return returnDate;
+}
+
 function formatDateTimeInput(date) {
-  var dateObject = new Date(date);
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
@@ -141,5 +162,8 @@ function formatCurrency(budget) {
 }
 
 function realDate(date) {
-  return new Date((new Date(date).getTimezoneOffset() * 60000) + new Date(date).getTime());
+  return new Date(
+    (new Date(date).getTimezoneOffset() * 60000) +
+    new Date(date).getTime()
+  );
 }
