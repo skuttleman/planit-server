@@ -504,18 +504,20 @@ function updatePlanit(id) {
 
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  // console.log(formData);
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
-  });
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    // console.log(formData);
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewPlanit(id);
+    });
+  });  
 }
 
 function deletePlanit(id) {
@@ -549,8 +551,8 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId)
-    appvars.task = details.tasks[0]
+    console.log(taskId);
+    appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
       taskId: appvars.task.id,
@@ -558,7 +560,7 @@ function createProposal(planitId, taskId) {
       planitId: planitId
     };
     displayTemplate('main', 'proposalupdate', data);
-  })
+  });
 }
 
 function createProposalPost(event, planitId, taskId) {
@@ -575,7 +577,7 @@ function createProposalPost(event, planitId, taskId) {
     }).done(function(data) {
       viewTask(planitId, taskId);
     }).fail(function(err){
-      customAlert('All fields must be filled out to create a proposal')
+      customAlert('All fields must be filled out to create a proposal');
     });
   });
 }
@@ -882,17 +884,19 @@ function selectSkill(id) {
 }
 
 function validatePlanitForm(then) {
-  if(!highlightTitle() ||
-      !highlightBudget() ||
-      !highlightDate() ||
-      !highlightPastDate() ||
-      !highlightAddress() ||
-      !highlightCity() ||
-      !highlightZip() ||
-      !highlightDescription()) {
-  } else {
-    then();
-  }
+  if([!highlightTitle(),
+      !highlightBudget(),
+      !highlightDate(),
+      !highlightPastDate(),
+      !highlightAddress(),
+      !highlightCity(),
+      !highlightZip(),
+      !highlightDescription].filter(function(item) {
+        return !item;
+      }).length) {
+    } else {
+      then();
+    }
 }
 
 function validateTaskForm(then) {
@@ -906,7 +910,10 @@ function validateTaskForm(then) {
 }
 
 function validateProposalForm(then) {
-  if(!highlightBudget()) {
+  if([!highlightDescription(),
+    !highlightBid()].filter(function(item) {
+    return !item;
+  }).length) {
   } else {
     then();
   }
@@ -1123,7 +1130,7 @@ function highlightBid() {
     return true;
   } else {
     $('span[class="bid-error error-text"]').remove();
-    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a whole number more than zero.</span>');
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a positive whole number or zero.</span>');
     $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }

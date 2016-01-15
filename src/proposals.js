@@ -4,8 +4,8 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId)
-    appvars.task = details.tasks[0]
+    console.log(taskId);
+    appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
       taskId: appvars.task.id,
@@ -13,7 +13,7 @@ function createProposal(planitId, taskId) {
       planitId: planitId
     };
     displayTemplate('main', 'proposalupdate', data);
-  })
+  });
 }
 
 function createProposalPost(event, planitId, taskId) {
@@ -30,7 +30,7 @@ function createProposalPost(event, planitId, taskId) {
     }).done(function(data) {
       viewTask(planitId, taskId);
     }).fail(function(err){
-      customAlert('All fields must be filled out to create a proposal')
+      customAlert('All fields must be filled out to create a proposal');
     });
   });
 }
