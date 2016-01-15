@@ -23,6 +23,10 @@ app.use(cors({
 
 // AUTH
 var auth = require('./routes/auth');
+// app.use(function(request, response, next) {
+//   process.env.HOST = 'http://' + request.header.host;
+//   next();
+// });
 app.use(auth);
 
 
