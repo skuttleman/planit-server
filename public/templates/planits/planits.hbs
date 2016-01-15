@@ -1,6 +1,11 @@
 <h1>Upcoming planits</h1>
 <div class="main-container">
   <div class="inner-container-column">
+    {{#if user}}
+      <button type="button" class="btn btn-custom form-submit-btn btn-primary pull-right" onclick="createPlanit();">
+        Create a planit
+      </button>
+    {{/if}}
     <table class="table table-striped planits-table">
       <thead>
         <tr>
@@ -11,9 +16,9 @@
           <th class="col-md-1">STATE</th>
           <th class="col-md-1">DETAILS</th>
         </tr>
-      </thead>  
+      </thead>
       <tbody>
-        {{#planits}}
+        {{#each planits}}
           <tr>
             <td>{{startDate}}</td>
             <td>{{title}}</td>
@@ -22,7 +27,7 @@
             <td>{{state}}</td>
             <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>
           </tr>
-        {{/planits}}
+        {{/each}}
       </tbody>
     </table>
   </div>
