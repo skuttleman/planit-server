@@ -21,9 +21,7 @@ route.use('/:id/tasks', tasks);
 route.post('/', function(request, response, next) {
   if (request.user) {
     request.body.member_id = request.user.id;
-    console.log(request.body);
     knex('planits').returning('*').insert(request.body).then(function(planits) {
-      console.log(request.body);
       response.json({ success: true, planits: planits });
     }).catch(next);
   } else {
@@ -88,7 +86,6 @@ route.get('/', function(request, response, next) {
 });
 
 route.readOne = function(where) {
-  console.log(where);
   return Promise.all([
     knex('planits').select('planits.*', 'planit_types.name as planit_type_name')
     .innerJoin('planit_types', 'planits.planit_type_id', 'planit_types.id')

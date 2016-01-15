@@ -74,8 +74,6 @@ function historyLoad(position) {
 }
 
 function updateHistoryButtons() {
-  console.log(history);
-  console.log(appvars.historyPosition)
   if (appvars.historyPosition == 0) {
     // back button disabled
     $('#back-but').addClass('no-history-back')
@@ -597,7 +595,6 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId);
     appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
@@ -734,7 +731,6 @@ function setProposalStatus(id, status){
       withCredentials: true
     }
   }).done(function(data) {
-    console.log(data);
     viewTask(data.planitId, data.taskId);
   }).fail(customAlert);
 }
