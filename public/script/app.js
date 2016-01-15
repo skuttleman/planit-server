@@ -174,12 +174,13 @@ function formatDateInput(date) {
 }
 
 function formatDateTime(date) {
-  var dateObject = new Date(date);
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
     padTwo(dateObject.getDate())
-  ].join('-') +
+  ].join('-') + ' ' +
   [
     padTwo(dateObject.getHours()),
     padTwo(dateObject.getMinutes())
@@ -187,8 +188,28 @@ function formatDateTime(date) {
   return returnDate;
 }
 
+function formatDateTimeLong(date) {
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
+  var returnDate = [
+    day()[dateObject.getDay()],
+    month()[dateObject.getMonth()],
+    [
+      dateObject.getDate(),
+      dateObject.getYear() + 1900
+    ].join(', '),
+    [
+      dateObject.getHours() % 12 || 12,
+      padTwo(dateObject.getMinutes())
+    ].join(':'),
+    dateObject.getHours() >= 12 ? 'PM' : 'AM'
+  ].join(' ');
+  return returnDate;
+}
+
 function formatDateTimeInput(date) {
-  var dateObject = new Date(date);
+  // var dateObject = new Date(date);
+  var dateObject = realDate(date);
   var returnDate = [
     dateObject.getYear() + 1900,
     padTwo(dateObject.getMonth() + 1),
@@ -229,7 +250,10 @@ function formatCurrency(budget) {
 }
 
 function realDate(date) {
-  return new Date((new Date(date).getTimezoneOffset() * 60000) + new Date(date).getTime());
+  return new Date(
+    (new Date(date).getTimezoneOffset() * 60000) +
+    new Date(date).getTime()
+  );
 }
 
 function login() {
@@ -390,7 +414,7 @@ function createPlanitPost(event) {
       $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -748,10 +772,11 @@ function viewTask(planitId, id) {
       }),
       formattedCurrency: formatCurrency(appvars.task.budget),
       user: appvars.user,
+      startTime: formatDateTimeLong(appvars.task.start_time),
+      endTime: formatDateTimeLong(appvars.task.end_time),
       editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
       submittable: appvars.user && appvars.planit.member_id != appvars.user.id && appvars.task.positions_remaining
     };
-    console.log(data);
     displayTemplate('main', 'task', data);
   });
 }
@@ -837,18 +862,35 @@ function selectSkill(id) {
   }
 }
 
-function validateForm(then) {
-  // if(!highlightTitle() ||
-  //     !highlightBudget() ||
-  //     !highlightDate() ||
-  //     !highlightPastDate() ||
-  //     !highlightAddress() ||
-  //     !highlightCity() ||
-  //     !highlightZip() ||
-  //     !highlightDescription()) {
-  // } else {
+function validatePlanitForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
     then();
   // }
+}
+
+function validateTaskForm(then) {
+  if(!highlightBudget() ||
+      !highlightHeadCount() ||
+      !highlightTime() ||
+      !highlightPastTime()){
+  } else {
+    then();
+  }
+}
+
+function validateProposalForm(then) {
+  if(!highlightBudget()) {
+  } else {
+    then();
+  }
 }
 
 function highlightTitle(){
@@ -1010,38 +1052,42 @@ function highlightHeadCount() {
   }
 }
 
-// function timeErrorOn() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
-//   $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
-//   return true;
-// }
-//
-// function timeErrorOff() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"]').next().removeClass('error-highlight');
-//   $('label[for="end_time"]').next().removeClass('error-highlight');
-//   return false;
-// }
+function timeErrorOn() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
+  $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return true;
+}
 
-// function highlightTime() {
-//   console.log($('.end-time').val(),  $('.start-time').val());
-//   if($('.end-time').val() >= $('.start-time').val()){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function timeErrorOff() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"]').next().removeClass('error-highlight');
+  $('label[for="end_time"]').next().removeClass('error-highlight');
+  return false;
+}
 
-// function highlightPastTime(){
-//   console.log('.start-time').val(), realDate(Date.now());
-//   if($('.start-time').val() >= realDate(Date.now())){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function highlightTime() {
+  var endTime = Date.parse($('.end-time').val());
+  var startTime = Date.parse($('.start-time').val());
+  console.log('start time: ' + startTime);
+  console.log('end time: ' + endTime);
+  if(endTime > startTime){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}
+
+function highlightPastTime(){
+  var currentTime = Date.parse(realDate(Date.now()));
+  var startTime = Date.parse($('.start-time').val());
+  if(startTime >= currentTime){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}

@@ -147,7 +147,7 @@ nav p {
 .btn-main {
 	color: #FFFFFF;
   font-size: 2.5em;
-  padding: 10px 60px;
+  padding: 8px 45px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #BD411B;
 	*background-color: #BD411B;
@@ -209,8 +209,8 @@ nav p {
 /* Splash Page */
 
 h2 {
-  font-size: 3em;
-  letter-spacing: 2px;
+  font-size: 3.75em;
+  letter-spacing: -2px;
   margin-bottom: 30px;
 }
 
@@ -345,9 +345,9 @@ footer li {
   align-self: flex-start;
 }
 
-/* this should be a class with dash case */
+/*Error Messaging*/
 
-#errorMessage {
+.error-message {
   color: red;
   font-size: 24px;
 }

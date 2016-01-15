@@ -1,15 +1,32 @@
-function validateForm(then) {
-  // if(!highlightTitle() ||
-  //     !highlightBudget() ||
-  //     !highlightDate() ||
-  //     !highlightPastDate() ||
-  //     !highlightAddress() ||
-  //     !highlightCity() ||
-  //     !highlightZip() ||
-  //     !highlightDescription()) {
-  // } else {
+function validatePlanitForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
     then();
   // }
+}
+
+function validateTaskForm(then) {
+  if(!highlightBudget() ||
+      !highlightHeadCount() ||
+      !highlightTime() ||
+      !highlightPastTime()){
+  } else {
+    then();
+  }
+}
+
+function validateProposalForm(then) {
+  if(!highlightBudget()) {
+  } else {
+    then();
+  }
 }
 
 function highlightTitle(){
@@ -171,38 +188,42 @@ function highlightHeadCount() {
   }
 }
 
-// function timeErrorOn() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
-//   $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
-//   return true;
-// }
-//
-// function timeErrorOff() {
-//   $('span[class="time-error error-text"]').remove();
-//   $('label[for="start_time"]').next().removeClass('error-highlight');
-//   $('label[for="end_time"]').next().removeClass('error-highlight');
-//   return false;
-// }
+function timeErrorOn() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"], label[for="end_time"]').append('<span class="time-error error-text"> Cannot end earlier than start time or be in the past.</span>');
+  $('label[for="start_time"], label[for="end_time"]').next().removeClass('form-control').addClass('error-highlight').addClass('form-control');
+  return true;
+}
 
-// function highlightTime() {
-//   console.log($('.end-time').val(),  $('.start-time').val());
-//   if($('.end-time').val() >= $('.start-time').val()){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function timeErrorOff() {
+  $('span[class="time-error error-text"]').remove();
+  $('label[for="start_time"]').next().removeClass('error-highlight');
+  $('label[for="end_time"]').next().removeClass('error-highlight');
+  return false;
+}
 
-// function highlightPastTime(){
-//   console.log('.start-time').val(), realDate(Date.now());
-//   if($('.start-time').val() >= realDate(Date.now())){
-//     timeErrorOff();
-//     return true;
-//   } else {
-//     timeErrorOn();
-//     return false;
-//   }
-// }
+function highlightTime() {
+  var endTime = Date.parse($('.end-time').val());
+  var startTime = Date.parse($('.start-time').val());
+  console.log('start time: ' + startTime);
+  console.log('end time: ' + endTime);
+  if(endTime > startTime){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}
+
+function highlightPastTime(){
+  var currentTime = Date.parse(realDate(Date.now()));
+  var startTime = Date.parse($('.start-time').val());
+  if(startTime >= currentTime){
+    timeErrorOff();
+    return true;
+  } else {
+    timeErrorOn();
+    return false;
+  }
+}

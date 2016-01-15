@@ -22,11 +22,11 @@
     </div>
     <div class="task-details">
       <h4>Start Time:</h4>
-      <p>{{task.start_time}}</p>
+      <p>{{startTime}}</p>
     </div>
     <div class="task-details">
       <h4>End Time:</h4>
-      <p>{{task.end_time}}</p>
+      <p>{{endTime}}</p>
     </div>
     {{#if editable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="updateTask({{planit.id}}, {{task.id}});">
