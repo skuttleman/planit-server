@@ -119,8 +119,10 @@ nav .dropdown-menu {
 .dropdown {
 	float: right;
 	margin-top: 15px;
-	margin-right: 90px;
+	margin-right: 40px;
 	padding-bottom: 18px;
+  left: 0;
+
 }
 
 .dropdown .btn {
