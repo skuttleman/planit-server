@@ -68,12 +68,9 @@ function viewTask(planitId, id) {
       appvars.proposals = serverData[0].proposals;
       appvars.member = members.members[0];
       appvars.memberSkills = members.skills;
-      console.log(members);
       var skilled = appvars.memberSkills.filter(function(skill) {
         return skill.id == appvars.task.skill_id;
       });
-      console.log(skilled);
-      console.log(appvars.task.skill_id)
       var skillsMatch = appvars.task.skill_id ? skilled.length : true;
       data = {
         planit: appvars.planit,
@@ -134,7 +131,7 @@ function updateTask(planitId, id) {
 
 function updateTaskPut(event, planitId, id) {
   if (event) event.preventDefault();
-  validatePlanitForm(function() {
+  validateTaskForm(function() {
     var formData = getFormData('form');
     $.ajax({
       url: '/planits/' + planitId + '/tasks/' + id,

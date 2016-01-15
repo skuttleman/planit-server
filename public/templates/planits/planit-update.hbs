@@ -23,7 +23,7 @@
       </div>
       <input class="planit-type hidden pointer" type="text" name="planit_type_id" value="{{planit.planit_type_id}}" required/>
       <label for="budget">Budget ($):</label>
-      <input class="budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{formattedCurrency}}" required/>
+      <input class="budget form-control" type="number" min="0" name="budget" onblur="highlightBudget()" value="{{planit.budget}}" required/>
       <label for="date">Start Date:</label>
       <input class="start-date form-control" type="date" name="start_date" onblur="highlightPastDate()" value="{{startDate}}" required/>
       <label for="date">End Date:</label>
