@@ -1,4 +1,32 @@
-function validateForm(then) {
+function validatePlanitForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
+    then();
+  }
+}
+
+function validateTaskForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
+    then();
+  }
+}
+
+function validateProposalForm(then) {
   if(!highlightTitle() ||
       !highlightBudget() ||
       !highlightDate() ||

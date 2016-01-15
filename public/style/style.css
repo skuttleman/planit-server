@@ -344,7 +344,7 @@ footer li {
 
 /* this should be a class with dash case */
 
-#errorMessage {
+.error-message {
   color: red;
   font-size: 24px;
 }
