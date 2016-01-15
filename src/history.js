@@ -47,7 +47,7 @@ function updateHistoryButtons() {
     $('#back-but').addClass('history-back')
     $('#back-but').removeClass('no-history-back')
   }
-  if (appvars.historyPosition < appvars.history.length - 1) {
+  if (appvars.historyPosition < appvars.history.length - 1 && appvars.historyPosition == 0) {
     // next button enabled
     $('#next-but').addClass('history-next')
     $('#next-but').removeClass('no-history-next')
