@@ -6,9 +6,8 @@
     <p id="errorMessage"></p>
       <label for="title">Title:</label>
       <input class="form-control title" type="text" name="title" value="{{planit.title}}" onblur="highlightTitle()" required />
-      <label for="category">Category:</label>
-      <div class="planit-dropdown">
-        <button class="ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown" onblur=''>
+      <div class="drop-down-error planit-dropdown">
+        <button class="drop-down ben-will-murder-you-if-remove-this-class-category btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown">
         {{#if category}}
           {{category}}
         {{else}}
@@ -18,7 +17,7 @@
         </button>
         <ul class="dropdown-menu">
           {{#each planit_types}}
-            <li onclick="selectPlanitType({{id}});highlightCategory()">{{name}}</li>
+            <li onclick="selectPlanitType({{id}});">{{name}}</li>
           {{/each}}
         </ul>
       </div>
@@ -33,8 +32,8 @@
       <input class=" address form-control" type="text" name="street_address" onblur="highlightAddress()" value="{{planit.street_address}}">
       <label for="city">City:</label>
       <input class="city form-control" type="text" name="city" onblur="highlightCity()" value="{{planit.city}}" required/>
-      <div class="planit-dropdown">
-        <button class="ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown" required>
+      <div class="drop-down-error planit-dropdown">
+        <button class="drop-down ben-will-murder-you-if-remove-this-class-state btn btn-default edit-planit-btn dropdown-toggle" type="button" data-toggle="dropdown" required>
           {{#if planit.state}}
             {{planit.state}}
           {{else}}
@@ -54,9 +53,9 @@
       <label class="description-margin" for="description">Description:</label>
       <textarea class="description form-control" name="description" rows="8" cols="40" onblur="highlightDescription()" required>{{planit.description}}</textarea>
       {{#if update}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" required/>
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" required/>
       {{else}}
-        <input class="btn btn-custom form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);"/>
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);"/>
       {{/if}}
     </form>
   </div>

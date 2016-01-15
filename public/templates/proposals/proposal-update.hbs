@@ -7,9 +7,9 @@
       <label for="cost_estimate">Your bid ($):</label>
       <input type="number" class="bid form-control" name="cost_estimate" onblur="highlightBid()" value="$"+"{{proposal.cost_estimate}}" />
       {{#if update}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Update Proposal" onclick="updateProposalPut(event, {{planitId}}, {{taskId}}, {{proposal.id}});" />
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Update Proposal" onclick="updateProposalPut(event, {{planitId}}, {{taskId}}, {{proposal.id}});" />
       {{else}}
-        <input class="btn btn-custom form-submit-btn" type="submit" value="Submit Proposal" onclick="createProposalPost(event, {{planitId}}, {{taskId}});" />
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Submit Proposal" onclick="createProposalPost(event, {{planitId}}, {{taskId}});" />
       {{/if}}
     </form>
   </div>
