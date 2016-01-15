@@ -11,6 +11,7 @@
           </li>
         {{/each}}
       </ul>
+      <h3>My Upcoming planits</h3>
       <table class="table table-striped planits-table">
         <thead>
           <tr>
@@ -22,7 +23,7 @@
         <tbody>
           {{#each planits}}
             <tr>
-              <td>{{start_date}}</td>
+              <td>{{formattedDate}}</td>
               <td>{{title}}</td>
               <td>{{type}}</td>
               <td><button type="button" class="btn btn-custom" name="planit-details" onclick="viewPlanit({{id}});">View</button></td>

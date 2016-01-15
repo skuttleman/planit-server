@@ -317,6 +317,9 @@ function viewServiceRecord(id) {
   ]).then(function(serverData) {
     appvars.member = serverData[0].members[0];
     appvars.planits = serverData[1].planits;
+    appvars.planits.forEach(function(planit) {
+      planit.formattedDate = formatDateShort(planit.start_date);
+    });
     data = {
       member: appvars.member,
       planits: appvars.planits,
@@ -823,8 +826,9 @@ function viewTask(planitId, id) {
       method: 'get'
     })
   ]).then(function(serverData) {
+    var userId = (appvars.user && appvars.user.id) || 0;
     $.ajax({
-      url: '/members/' + serverData[1].planits[0].member_id,
+      url: '/members/' + userId,
       method: 'get'
     }).done(function(members) {
       appvars.planit = serverData[1].planits[0];
@@ -832,9 +836,12 @@ function viewTask(planitId, id) {
       appvars.proposals = serverData[0].proposals;
       appvars.member = members.members[0];
       appvars.memberSkills = members.skills;
+      console.log(members);
       var skilled = appvars.memberSkills.filter(function(skill) {
         return skill.id == appvars.task.skill_id;
       });
+      console.log(skilled);
+      console.log(appvars.task.skill_id)
       var skillsMatch = appvars.task.skill_id ? skilled.length : true;
       data = {
         planit: appvars.planit,
@@ -1134,7 +1141,7 @@ function highlightZip() {
 // Validations specifically for tasks form
 
 function highlightHeadCount() {
-  if(parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ){
+  if (parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ) {
     $('span[class="head-count-error error-text"]').remove();
     $('.head-count').removeClass('error-highlight');
     return true;
@@ -1163,7 +1170,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  if (endTime > startTime){
+  if (endTime > startTime) {
     timeErrorOff();
     return true;
   } else {

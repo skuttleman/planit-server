@@ -191,7 +191,7 @@ function highlightZip() {
 // Validations specifically for tasks form
 
 function highlightHeadCount() {
-  if(parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ){
+  if (parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ) {
     $('span[class="head-count-error error-text"]').remove();
     $('.head-count').removeClass('error-highlight');
     return true;
@@ -220,7 +220,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  if (endTime > startTime){
+  if (endTime > startTime) {
     timeErrorOff();
     return true;
   } else {
