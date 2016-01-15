@@ -426,7 +426,7 @@ function createPlanitPost(event) {
       $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('#errorMessage').text('Enter all fields. Empty fields or invalid')
+      $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -877,7 +877,35 @@ function selectSkill(id) {
   }
 }
 
-function validateForm(then) {
+function validatePlanitForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
+    then();
+  }
+}
+
+function validateTaskForm(then) {
+  if(!highlightTitle() ||
+      !highlightBudget() ||
+      !highlightDate() ||
+      !highlightPastDate() ||
+      !highlightAddress() ||
+      !highlightCity() ||
+      !highlightZip() ||
+      !highlightDescription()) {
+  } else {
+    then();
+  }
+}
+
+function validateProposalForm(then) {
   if(!highlightTitle() ||
       !highlightBudget() ||
       !highlightDate() ||
