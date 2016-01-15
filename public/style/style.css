@@ -136,6 +136,7 @@ nav img {
 
 nav .dropdown-menu {
   float: left;
+  width: 200px;
 }
 
 .dropdown-menu {
@@ -147,7 +148,7 @@ nav .dropdown-menu {
 }
 
 .dropdown-menu > li {
-  font-size: 17px;
+  font-size: 1.2em;
   font-weight: bolder;
 }
 
@@ -166,7 +167,7 @@ nav .dropdown-menu {
 	margin-top: 15px;
 	margin-right: 20px;
 	padding-bottom: 18px;
-  
+
 
 }
 
@@ -395,7 +396,7 @@ footer li {
   align-self: flex-start;
 }
 
-/*Error Messaging*/
+/* Error Messaging */
 
 .error-message {
   color: red;
@@ -408,4 +409,10 @@ footer li {
 
 .error-highlight {
   background-color: yellow;
+}
+
+/* Mission Control */
+
+.left-column {
+
 }
