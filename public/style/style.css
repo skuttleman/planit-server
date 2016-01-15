@@ -78,26 +78,59 @@ label {
 /* Nav */
 
 nav img {
-	margin: 20px 0px 10px 90px;
+	margin: 20px 0px 0px 10px;
 }
 
 #display_name {
 	float: right;
 	font-size: 18px;
 	margin-top: 20px;
-	margin-right: 20px;
+	margin-right: 50px;
 }
 
 .history-button {
-  background-color: #2C2D31;
   color: white;
   border-color: black;
-  margin-left: 15px;
+/*  margin-left: 10px;
+*/  margin-top: 15px;
+  font-weight: bolder;
+  font-size: 16px;
+  margin-left: 5px;
+  background-color: #232634;
+}
+
+.history-button:hover {
+  color: gray;
+}
+
+.history-back {
+  margin-left: 20px;
+  background-color: #232634;
+}
+
+.history-back:hover {
+  background-color: orange;
+}
+
+/*.no-history-back:hover {
+  background-color: gray;
+}*/
+
+
+.history-next:hover {
+  background-color: orange;
+
+}
+
+.no-history-next {
+  background-color: #232634;
+
 }
 
 .history-arrows {
   margin:7px;
 }
+
 
 /* Also used in other forms */
 
@@ -113,8 +146,15 @@ nav .dropdown-menu {
   cursor: pointer;
 }
 
+.dropdown-menu > li {
+  font-size: 17px;
+  font-weight: bolder;
+}
+
 .dropdown-menu > li:hover {
-  background-color: #383938;
+/*  background-color: #383938;
+*/
+  background-color: #D68958;
 }
 
 .dropdown-menu li {
@@ -124,8 +164,10 @@ nav .dropdown-menu {
 .dropdown {
 	float: right;
 	margin-top: 15px;
-	margin-right: 90px;
+	margin-right: 20px;
 	padding-bottom: 18px;
+  
+
 }
 
 .dropdown .btn {
@@ -283,6 +325,11 @@ footer ul{
 footer li {
   margin: 10px;
 }
+
+.footer-hover:hover {
+  color: orange;
+}
+
 
 /* List Members Styles */
 
