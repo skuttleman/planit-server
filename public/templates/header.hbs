@@ -10,19 +10,21 @@
   {{else}}
     <p class="pull-right pointer" name="login_button" onclick="login()">Login with LinkedIn</p>
   {{/if}}
-  <div class="dropdown pointer">
+  {{#if user}}
+    <div class="dropdown pointer">
       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-      <span class="glyphicon glyphicon-th-list"></span>
-      <span class="caret"></span>
-  	</button>
-    <ul class="dropdown-menu pointer">
-      <li onclick="listMembers()">Browse Members</li>
-      <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
-      <li onclick="updateMember({{user.id}})">Edit Service Record</li>
-      <li onclick="listPlanits({{user.id}})">Browse My planits</li>
-      <li onclick="listPlanits()">Browse All planits</li>
-      <li onclick="createPlanit()">Create a planit</li>
-      <li onclick="logout()">Logout</li>
-    </ul>
+        <span class="glyphicon glyphicon-th-list"></span>
+        <span class="caret"></span>
+    	</button>
+      <ul class="dropdown-menu pointer">
+        <li onclick="listMembers()">Browse Members</li>
+        <li onclick="viewServiceRecord({{user.id}})">Service Record</li>
+        <li onclick="updateMember({{user.id}})">Edit Service Record</li>
+        <li onclick="listPlanits({{user.id}})">Browse My planits</li>
+        <li onclick="listPlanits()">Browse All planits</li>
+        <li onclick="createPlanit()">Create a planit</li>
+        <li onclick="logout()">Logout</li>
+      </ul>
     </div>
+  {{/if}}
 </nav>
