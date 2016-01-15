@@ -9,7 +9,7 @@ function validatePlanitForm(then) {
       !highlightDescription()) {
   } else {
     then();
-  // }
+  }
 }
 
 function validateTaskForm(then) {

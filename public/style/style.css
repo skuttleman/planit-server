@@ -281,6 +281,11 @@ footer li {
   margin: 10px;
 }
 
+.footer-hover:hover {
+  color: orange;
+}
+
+
 /* List Members Styles */
 
 .inner-container-row figure {
