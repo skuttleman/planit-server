@@ -58,27 +58,38 @@ function viewTask(planitId, id) {
       method: 'get'
     })
   ]).then(function(serverData) {
-    appvars.planit = serverData[1].planits[0];
-    appvars.task = serverData[0].tasks[0];
-    appvars.proposals = serverData[0].proposals;
-    data = {
-      planit: appvars.planit,
-      task: appvars.task,
-      proposals: appvars.proposals,
-      approvedProposals: appvars.proposals.filter(function(proposal) {
-        return proposal.is_accepted;
-      }),
-      pendingProposals: appvars.proposals.filter(function(proposal) {
-        return proposal.is_accepted !== true && proposal.is_accepted !== false;
-      }),
-      formattedCurrency: formatCurrency(appvars.task.budget),
-      user: appvars.user,
-      startTime: formatDateTimeLong(appvars.task.start_time),
-      endTime: formatDateTimeLong(appvars.task.end_time),
-      editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
-      submittable: appvars.user && appvars.planit.member_id != appvars.user.id && appvars.task.positions_remaining
-    };
-    displayTemplate('main', 'task', data);
+    $.ajax({
+      url: '/members/' + serverData[1].planits[0].member_id,
+      method: 'get'
+    }).done(function(members) {
+      appvars.planit = serverData[1].planits[0];
+      appvars.task = serverData[0].tasks[0];
+      appvars.proposals = serverData[0].proposals;
+      appvars.member = members.members[0];
+      appvars.memberSkills = members.skills;
+      var skilled = appvars.memberSkills.filter(function(skill) {
+        return skill.id == appvars.task.skill_id;
+      });
+      var skillsMatch = appvars.task.skill_id ? skilled.length : true;
+      data = {
+        planit: appvars.planit,
+        task: appvars.task,
+        proposals: appvars.proposals,
+        approvedProposals: appvars.proposals.filter(function(proposal) {
+          return proposal.is_accepted;
+        }),
+        pendingProposals: appvars.proposals.filter(function(proposal) {
+          return proposal.is_accepted !== true && proposal.is_accepted !== false;
+        }),
+        formattedCurrency: formatCurrency(appvars.task.budget),
+        user: appvars.user,
+        startTime: formatDateTimeLong(appvars.task.start_time),
+        endTime: formatDateTimeLong(appvars.task.end_time),
+        editable: appvars.user && (appvars.planit.member_id == appvars.user.id || appvars.user.role_name == 'admin'),
+        submittable: appvars.user && appvars.planit.member_id != appvars.user.id && appvars.task.positions_remaining && skillsMatch
+      };
+      displayTemplate('main', 'task', data);
+    });
   });
 }
 
