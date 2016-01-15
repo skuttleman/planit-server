@@ -317,6 +317,9 @@ function viewServiceRecord(id) {
   ]).then(function(serverData) {
     appvars.member = serverData[0].members[0];
     appvars.planits = serverData[1].planits;
+    appvars.planits.forEach(function(planit) {
+      planit.formattedDate = formatDateShort(planit.start_date);
+    });
     data = {
       member: appvars.member,
       planits: appvars.planits,
@@ -1134,7 +1137,7 @@ function highlightZip() {
 // Validations specifically for tasks form
 
 function highlightHeadCount() {
-  if(parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ){
+  if (parseInt($('.head-count').val()) > 0 && parseInt($('.head-count').val()) < 100 ) {
     $('span[class="head-count-error error-text"]').remove();
     $('.head-count').removeClass('error-highlight');
     return true;
@@ -1163,7 +1166,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  if (endTime > startTime){
+  if (endTime > startTime) {
     timeErrorOff();
     return true;
   } else {

@@ -37,6 +37,9 @@ function viewServiceRecord(id) {
   ]).then(function(serverData) {
     appvars.member = serverData[0].members[0];
     appvars.planits = serverData[1].planits;
+    appvars.planits.forEach(function(planit) {
+      planit.formattedDate = formatDateShort(planit.start_date);
+    });
     data = {
       member: appvars.member,
       planits: appvars.planits,
