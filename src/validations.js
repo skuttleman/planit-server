@@ -34,8 +34,8 @@ function validateTaskForm(then) {
 
 function validateProposalForm(then) {
   var falses = [
-    highlightBudget(),
-    highlightDropDown()
+    highlightDescription(),
+    highlightBid()
   ].filter(function(item) {
     return !item;
   });
@@ -83,6 +83,8 @@ function highlightCity(){
   }
 }
 
+// Used in planit form and proposal form
+
 function highlightDescription(){
   if ($('.description').val()) {
     $('span[class="description-error error-text"]').remove();
@@ -90,7 +92,7 @@ function highlightDescription(){
     return true;
   } else {
     $('span[class="description-error error-text"]').remove();
-    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('label[for="description"], label[for="details"]').append('<span class="description-error error-text"> Description Required.</span>');
     $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
@@ -236,9 +238,7 @@ function timeErrorOff() {
 function highlightTime() {
   var endTime = Date.parse($('.end-time').val());
   var startTime = Date.parse($('.start-time').val());
-  console.log('start time: ' + startTime);
-  console.log('end time: ' + endTime);
-  if(endTime > startTime){
+  if (endTime > startTime){
     timeErrorOff();
     return true;
   } else {
@@ -255,6 +255,23 @@ function highlightPastTime(){
     return true;
   } else {
     timeErrorOn();
+    return false;
+  }
+}
+
+// Validations specific to proposals form
+
+function highlightBid() {
+  var digitsOnly = /^\d+(?:\d{1,2})?$/;
+  var decimal = /'.'/;
+  if(digitsOnly.test($('.bid').val())){
+    $('span[class="bid-error error-text"]').remove();
+    $('.bid').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="bid-error error-text"]').remove();
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Bid must be a positive whole number or zero.</span>');
+    $('.bid').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }

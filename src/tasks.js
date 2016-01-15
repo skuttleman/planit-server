@@ -28,8 +28,8 @@ function createTask(planitId) {
 
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
   validateTaskForm(function() {
+    var formData = getFormData('form');
     $.ajax({
       url: '/planits/' + planitId + '/tasks',
       method: 'post',

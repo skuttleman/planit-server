@@ -20,7 +20,6 @@ function createPlanit() {
 function createPlanitPost(event) {
   if (event) event.preventDefault();
   validatePlanitForm(function() {
-    console.log('this rans');
     var formData = getFormData('form');
     $.ajax({
       url: '/planits',
@@ -30,10 +29,10 @@ function createPlanitPost(event) {
         withCredentials: true
       }
     }).done(function(data) {
-      $('#errorMessage').hide();
+      // $('#errorMessage').hide();
       viewPlanit(data.planits[0].id);
     }).fail(function(err) {
-      $('.error-message').text('Enter all fields.')
+      // $('.error-message').text('Enter all fields.')
       // customAlert('All fields must be filled out in order to create a planit');
     });
   });
@@ -104,24 +103,25 @@ function updatePlanit(id) {
       endDate: formatDateInput(planit.end_date),
       formattedCurrency: Number(planit.budget).toFixed(2)
     };
-    console.log(appvars.budget);
     displayTemplate('main', 'planitupdate', data);
   });
 }
 
 function updatePlanitPut(event, id) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  // console.log(formData);
-  $.ajax({
-    url: '/planits/' + id,
-    method: 'put',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewPlanit(id);
+  validatePlanitForm(function() {
+    var formData = getFormData('form');
+    // console.log(formData);
+    $.ajax({
+      url: '/planits/' + id,
+      method: 'put',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewPlanit(id);
+    });
   });
 }
 

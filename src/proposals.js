@@ -4,8 +4,8 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId)
-    appvars.task = details.tasks[0]
+    console.log(taskId);
+    appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
       taskId: appvars.task.id,
@@ -13,23 +13,25 @@ function createProposal(planitId, taskId) {
       planitId: planitId
     };
     displayTemplate('main', 'proposalupdate', data);
-  })
+  });
 }
 
 function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, taskId);
-  }).fail(function(err){
-    customAlert('All fields must be filled out to create a proposal')
+  validateProposalForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, taskId);
+    }).fail(function(err){
+      customAlert('All fields must be filled out to create a proposal');
+    });
   });
 }
 
