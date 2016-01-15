@@ -548,18 +548,20 @@ function createProposal(planitId, taskId) {
 
 function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, taskId);
-  }).fail(function(err){
-    customAlert('All fields must be filled out to create a proposal')
+  validateProposalForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, taskId);
+    }).fail(function(err){
+      customAlert('All fields must be filled out to create a proposal')
+    });
   });
 }
 
@@ -729,19 +731,21 @@ function createTask(planitId) {
 
 function createTaskPost(event, planitId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    $('#errorMessage').hide();
-    viewTask(planitId, data.tasks[0].id);
-  }).fail(function(err) {
-    $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+  validateTaskForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      $('#errorMessage').hide();
+      viewTask(planitId, data.tasks[0].id);
+    }).fail(function(err) {
+      $('#errorMessage').text('Enter all fields. Empty fields or invalid');
+    });
   });
 }
 
@@ -932,6 +936,8 @@ function highlightCity(){
   }
 }
 
+// Used in planit form and proposal form
+
 function highlightDescription(){
   if ($('.description').val()) {
     $('span[class="description-error error-text"]').remove();
@@ -939,7 +945,7 @@ function highlightDescription(){
     return true;
   } else {
     $('span[class="description-error error-text"]').remove();
-    $('label[for="description"]').append('<span class="description-error error-text"> Description Required.</span>');
+    $('label[for="description"], label[for="details"],').append('<span class="description-error error-text"> Description Required.</span>');
     $('.description').removeClass('form-control').addClass('error-highlight').addClass('form-control');
   return false;
   }
@@ -1087,6 +1093,21 @@ function highlightPastTime(){
     return true;
   } else {
     timeErrorOn();
+    return false;
+  }
+}
+
+// Validations specific to proposals form
+
+function highlightBid() {
+  if(true){
+    $('span[class="bid-error error-text"]').remove();
+    $('.bid').removeClass('error-highlight');
+    return true;
+  } else {
+    $('span[class="bid-error error-text"]').remove();
+    $('label[for="cost_estimate"]').append('<span class="bid-error error-text"> Zip Code must be 5 digits.</span>');
+    $('.zip').removeClass('form-control').addClass('error-highlight').addClass('form-control');
     return false;
   }
 }

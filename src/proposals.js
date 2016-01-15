@@ -18,18 +18,20 @@ function createProposal(planitId, taskId) {
 
 function createProposalPost(event, planitId, taskId) {
   if (event) event.preventDefault();
-  var formData = getFormData('form');
-  $.ajax({
-    url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
-    method: 'post',
-    data: formData,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(function(data) {
-    viewTask(planitId, taskId);
-  }).fail(function(err){
-    customAlert('All fields must be filled out to create a proposal')
+  validateProposalForm(function() {
+    var formData = getFormData('form');
+    $.ajax({
+      url: '/planits/' + planitId + '/tasks/' + taskId + '/proposals/',
+      method: 'post',
+      data: formData,
+      xhrFields: {
+        withCredentials: true
+      }
+    }).done(function(data) {
+      viewTask(planitId, taskId);
+    }).fail(function(err){
+      customAlert('All fields must be filled out to create a proposal')
+    });
   });
 }
 
