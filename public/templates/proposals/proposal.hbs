@@ -5,15 +5,15 @@
       <img src="{{member.profile_image}}" alt="{{member.display_name}} image" />
       <p class="text-link" onclick="viewServiceRecord({{member.id}})">{{member.display_name}}</p>
 
-      <h4>Tell us about your qualifications:</h4>
+      <h4>Member Qualifications:</h4>
       <p>{{proposal.details}}</p>
     </div>
     <div class="proposal-detail">
-      <h4>Your bid:</h4>
+      <h4>Bid:</h4>
       <p>{{formattedCurrency}}</p>
     </div>
     <button type="button" class="btn btn-primary form-submit-btn" onclick="viewTask({{planit.id}}, {{taskId}});">
-      Return to Task View
+      Return to Orbit
     </button>
     {{#if respondable}}
       <button type="button" class="btn btn-success form-submit-btn" onclick="setProposalStatus({{proposal.id}}, true);">
@@ -25,7 +25,7 @@
     {{/if}}
     {{#if deletable}}
       <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deleteProposal({{planit.id}}, {{taskId}}, {{proposal.id}});">
-        Eject Proposal
+        Delete Proposal
       </button>
     {{/if}}
     {{#if editable}}

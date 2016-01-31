@@ -1,4 +1,4 @@
-<h1>planit Details</h1>
+<h1>Event Details</h1>
 <div class="main-container">
   <div class="inner-container-column">
     <div class="planit_details">
@@ -31,7 +31,7 @@
     </div>
     {{#if editable}}
     <button type="button" class="btn btn-custom" onclick="updatePlanit({{planit.id}});">
-      Edit planit Details
+      Edit Event
     </button>
     {{/if}}
     {{#if tasks.length}}
@@ -65,8 +65,11 @@
         </tbody>
       </table>
     {{else}}
-      <h1>No Tasks for this Planit</h1>
+      <h1>No Tasks for this Event</h1>
     {{/if}}
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="listPlanits();">
+      Return to Orbit
+    </button>
     {{#if editable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createTask({{planit.id}})">
         Add a Task
@@ -74,7 +77,7 @@
     {{/if}}
     {{#if deletable}}
       <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deletePlanit({{planit.id}});">
-        Eject planit
+        Delete Event
       </button>
     {{/if}}
   </div>
