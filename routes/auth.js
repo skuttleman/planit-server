@@ -26,7 +26,8 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LinkedIn({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-  callbackURL: process.env.HOST + "/auth/linkedin/callback",
+  // callbackURL: process.env.HOST + "/auth/linkedin/callback",
+  callbackURL: '/auth/linkedin/callback',
   scope: ['r_emailaddress', 'r_basicprofile'],
   state: true
 }, function(accessToken, refreshToken, profile, done) {
