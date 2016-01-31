@@ -1,7 +1,7 @@
 try {
   require('dotenv').load();
 } catch(error) {
-  console.error(error);
+  // console.error(error);
 }
 var express = require('express'), app = express();
 var bodyParser = require('body-parser');
@@ -56,7 +56,7 @@ app.get('/partials', function(request, response, next) {
 
 
 app.listen(process.env.PORT, function() {
-  console.log('The NSA is listening on PORT:', process.env.PORT);
+  // console.log('The NSA is listening on PORT:', process.env.PORT);
 });
 
 

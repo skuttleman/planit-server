@@ -4,7 +4,6 @@ function createProposal(planitId, taskId) {
     url: '/planits/' + planitId + '/tasks/' + taskId,
     method: 'get'
   }).done(function(details){
-    console.log(taskId);
     appvars.task = details.tasks[0];
     var data = {
       task: appvars.task,
@@ -141,7 +140,6 @@ function setProposalStatus(id, status){
       withCredentials: true
     }
   }).done(function(data) {
-    console.log(data);
     viewTask(data.planitId, data.taskId);
   }).fail(customAlert);
 }
