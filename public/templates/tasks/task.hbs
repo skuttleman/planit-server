@@ -33,12 +33,12 @@
         Edit Task
       </button>
       <button type="button" class="btn btn-danger form-submit-btn upper-right-btn" onclick="deleteTask({{planit.id}}, {{task.id}});">
-        Eject Task
+        Delete Task
       </button>
     {{/if}}
     {{#if submittable}}
       <button type="button" class="btn btn-custom form-submit-btn" onclick="createProposal({{planit.id}}, {{task.id}});">
-        Create Proposal
+        Add a Proposal
       </button>
     {{/if}}
     <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">

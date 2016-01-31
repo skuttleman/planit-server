@@ -53,9 +53,9 @@
       <label class="description-margin" for="description">Description:</label>
       <textarea class="description form-control" name="description" rows="8" cols="40" onblur="highlightDescription()" required>{{planit.description}}</textarea>
       {{#if update}}
-        <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Update" onclick="updatePlanitPut(event, {{planit.id}});" required/>
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn" type="submit" value="Plan It" onclick="updatePlanitPut(event, {{planit.id}});" required/>
       {{else}}
-        <input class="btn btn-custom form-submit-btn-validation form-submit-btn createplanit" type="submit" value="Create" onclick="createPlanitPost(event);"/>
+        <input class="btn btn-custom form-submit-btn-validation form-submit-btn createplanit" type="submit" value="Plan It" onclick="createPlanitPost(event);"/>
       {{/if}}
     </form>
   </div>
