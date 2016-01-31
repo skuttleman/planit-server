@@ -49,7 +49,7 @@ route.get('/received', function(request, response, next) {
       .select('members.*', 'message_recipients.message_id', 'message_recipients.read_date')
       .innerJoin('members', 'message_recipients.recipient_id', 'members.id')
       .where({ 'message_recipients.recipient_id': request.user.id }),
-      knex('messages').select('messages.*')
+      knex('messages').select('messages.*', 'message_recipients.read_date as read_date')
       .innerJoin('message_recipients', 'message_recipients.message_id', 'messages.id')
       .where({ 'message_recipients.recipient_id': request.user.id }).whereNotNull('sent_date')
       .where(function() {
