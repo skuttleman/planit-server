@@ -13,6 +13,9 @@ route.get('/sent', function(request, response, next) {
       .innerJoin('messages', 'message_recipients.message_id', 'messages.id')
       .where({ 'messages.sender_id': request.user.id }),
       knex('messages').where({ sender_id: request.user.id }).whereNotNull('sent_date')
+      .where(function() {
+        this.where('messages.deleted', false).orWhereNull('messages.deleted');
+      })
     ]).then(linkMembers).then(function(messages) {
       response.json({ messages: messages });
     }).catch(next);
@@ -50,7 +53,7 @@ route.get('/received', function(request, response, next) {
       .innerJoin('message_recipients', 'message_recipients.message_id', 'messages.id')
       .where({ 'message_recipients.recipient_id': request.user.id }).whereNotNull('sent_date')
       .where(function() {
-        this.where('message_recipients.deleted', false).orWhereNull('message_recipients.deleted')
+        this.where('message_recipients.deleted', false).orWhereNull('message_recipients.deleted');
       })
     ]).then(linkMembers).then(function(messages) {
       response.json({ messages: messages });
@@ -100,7 +103,11 @@ route.delete('/:id', function(request, response, next) {
     knex('messages').where({ id: request.params.id }).then(function(messages) {
       var sent = messages[0];
       if (request.user.id == sent.sender_id) {
-        return knex('messages').where({ id: request.params.id }).whereNull('sent_date').del();
+        if (sent.sent_date) {
+          return knex('messages').update({ deleted: true }).where({ id: request.params.id });
+        } else {
+          return knex('messages').where({ id: request.params.id }).whereNull('sent_date').del();
+        }
       } else {
         return knex('message_recipients').update({ deleted: true })
         .where({ recipient_id: request.user.id, message_id: request.params.id });
