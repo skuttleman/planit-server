@@ -41,9 +41,6 @@
         Add a Proposal
       </button>
     {{/if}}
-    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
-      Return to Orbit
-    </button>
     {{#if approvedProposals.length}}
       <h1>Approved Proposals</h1>
       <table class="table table-striped planits-table">
@@ -93,5 +90,8 @@
         <h1>No Proposals for this Task</h1>
       {{/unless}}
     {{/unless}}
+    <button type="button" class="btn btn-primary form-submit-btn" onclick="viewPlanit({{planit.id}});">
+      Return to Orbit
+    </button>
   </div>
 </div>
